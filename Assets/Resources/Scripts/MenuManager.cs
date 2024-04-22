@@ -1,18 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public Sprite cardBackside;
+
+    public GameObject cardLeft;
+    public GameObject cardRight;
+
     void Start()
     {
-        
+        if (true)
+        {
+            CoverCard(cardLeft);
+            CoverCard(cardRight);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    void CoverCard(GameObject card)
     {
-        
+        card.GetComponent<Image>().sprite = cardBackside;
+        card.transform.GetChild(0).gameObject.SetActive(false);
     }
 }

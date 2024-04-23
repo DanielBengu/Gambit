@@ -364,3 +364,6 @@ FodyWeavers.xsd
 /Library
 /ProjectSettings
 /Temp
+
+# Ignore player saves
+Assets/Resources/saves/

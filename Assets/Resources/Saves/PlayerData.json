@@ -1,7 +1,5 @@
 {
   "CurrentRun": {
-    "IsOngoing": true,
-    "Class": "Warrior",
-    "CurrentFloor": "3"
+    "IsOngoing": false
   }
 }

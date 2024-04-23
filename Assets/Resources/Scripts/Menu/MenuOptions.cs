@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -56,12 +57,24 @@ public class MenuOptions : MonoBehaviour
         Vector3 direction = (destination.position - source.position).normalized;
 
         // Move towards the destination
-        source.Translate(direction * cardMovementSpeed * Time.deltaTime);
+        source.Translate(cardMovementSpeed * Time.deltaTime * direction);
 
         // Check if the object reached the destination
-        reachedDestination = Vector3.Distance(source.position, destination.position) < 0.01f;
+        reachedDestination = Vector3.Distance(source.position, destination.position) < 0.1f;
     }
 
+    public void LoadRunInfo(PlayerData data)
+    {
+       LoadLeftCard(data);
+    }
+
+    void LoadLeftCard(PlayerData data)
+    {
+        Transform runContent = cardLeft.transform.GetChild(0);
+        TextMeshProUGUI playerData = runContent.Find("RunInfo").GetComponent<TextMeshProUGUI>();
+
+        playerData.text = $"{data.CurrentRun.Class} - {data.CurrentRun.CurrentFloor}F";
+    }
     public void StartCardAnimation()
     {
         isMovingLeft = true;

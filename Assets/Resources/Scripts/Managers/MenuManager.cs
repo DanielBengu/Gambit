@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using static PlayerPrefsManager;
 
 public class MenuManager : MonoBehaviour
 {
@@ -9,12 +7,43 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
-        if (true)
-        {
-            menuOptions.CoverCard(MenuOptions.CardPosition.Left);
-            menuOptions.CoverCard(MenuOptions.CardPosition.Right);
-        }
+        FirstGameStart();
 
         menuOptions.StartCardAnimation();
+
+        HandleSaves();
+    }
+
+    void HandleSaves()
+    {
+        PlayerData playerData = SaveManager.LoadPlayerData();
+
+        if (playerData == null || playerData.CurrentRun == null)
+        {
+            menuOptions.CoverCard(MenuOptions.CardPosition.Left);
+            return;
+        }
+
+        HandleCards(playerData);
+    }
+
+    void HandleCards(PlayerData data)
+    {
+        if (GetPref<int>(PlayerPrefsEnum.HasWonAnyRun) != 1)
+            menuOptions.CoverCard(MenuOptions.CardPosition.Right);
+
+        if (!data.CurrentRun.IsOngoing)
+            menuOptions.CoverCard(MenuOptions.CardPosition.Left);
+        else
+            menuOptions.LoadRunInfo(data);
+    }
+
+    void FirstGameStart()
+    {
+        if (!DoesPrefExists(PlayerPrefsEnum.AlreadyLaunchedGame))
+        {
+            SetPref(PlayerPrefsEnum.HasWonAnyRun, 0);
+            SetPref(PlayerPrefsEnum.AlreadyLaunchedGame, 1);
+        }
     }
 }

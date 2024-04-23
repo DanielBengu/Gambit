@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static PlayerPrefsManager;
 
 public class MenuManager : MonoBehaviour
@@ -44,6 +45,18 @@ public class MenuManager : MonoBehaviour
         {
             SetPref(PlayerPrefsEnum.HasWonAnyRun, 0);
             SetPref(PlayerPrefsEnum.AlreadyLaunchedGame, 1);
+            SaveManager.SavePlayerData(new()
+            {
+                CurrentRun = new()
+                {
+                    IsOngoing = false
+                }
+            });
         }
+    }
+
+    public void StartNewGameButtonClick()
+    {
+        SceneManager.LoadScene("Game");
     }
 }

@@ -7,13 +7,11 @@ public static class SaveManager
 
     public static void SavePlayerData(PlayerData playerData)
     {
-        // Serialize playerData to JSON
         string jsonData = JsonUtility.ToJson(playerData);
 
-        // Write JSON data to file
         File.WriteAllText(_playerDataFilePath, jsonData);
 
-        Debug.Log("Player data saved to: " + _playerDataFilePath);
+        Debug.Log($"Player data saved to: {_playerDataFilePath}");
     }
 
     public static PlayerData LoadPlayerData()
@@ -26,12 +24,12 @@ public static class SaveManager
             // Deserialize JSON data to PlayerData object
             PlayerData playerData = JsonUtility.FromJson<PlayerData>(jsonData);
 
-            Debug.Log("Player data loaded from: " + _playerDataFilePath);
+            Debug.Log($"Player data loaded from: {_playerDataFilePath}");
             return playerData;
         }
         else
         {
-            Debug.LogWarning("No save file found at: " + _playerDataFilePath);
+            Debug.LogWarning($"No save file found at: {_playerDataFilePath}");
             return null;
         }
     }

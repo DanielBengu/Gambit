@@ -1,0 +1,16 @@
+{
+    "Classes": [
+      {
+        "Id": 0,
+        "Name": "Warrior"
+      },
+      {
+        "Id": 1,
+        "Name": "Berserk"
+      },
+      {
+        "Id": 2,
+        "Name": "Trickster"
+      }
+    ]
+}

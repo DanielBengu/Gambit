@@ -1,0 +1,31 @@
+{
+    "Maps": [
+      {
+        "Id": 0,
+        "Name": "Tutorial",
+        "EnemiesListId": [
+          0,
+          1,
+          2
+        ]
+      },
+      {
+        "Id": 1,
+        "Name": "Forest",
+        "EnemiesListId": [
+          0,
+          1,
+          2
+        ]
+      },
+      {
+        "Id": 2,
+        "Name": "Ocean",
+        "EnemiesListId": [
+          0,
+          1,
+          2
+        ]
+      }
+    ]
+}

@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
+
 [System.Serializable]
 public class PlayerData
 {
@@ -8,6 +11,8 @@ public class PlayerData
 public class CurrentRun
 {
     public bool IsOngoing;
-    public string Class;
+    public int MapId;
+    public int ClassId;
     public int CurrentFloor;
+    public List<GameCard> CardList;
 }

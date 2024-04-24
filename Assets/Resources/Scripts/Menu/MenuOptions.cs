@@ -72,8 +72,8 @@ public class MenuOptions : MonoBehaviour
     {
         Transform runContent = cardLeft.transform.GetChild(0);
         TextMeshProUGUI playerData = runContent.Find("RunInfo").GetComponent<TextMeshProUGUI>();
-
-        playerData.text = $"{data.CurrentRun.Class} - {data.CurrentRun.CurrentFloor}F";
+        string className = GetClassNameFromId(data.CurrentRun.ClassId);
+        playerData.text = $"{className} - {data.CurrentRun.CurrentFloor}F";
     }
     public void StartCardAnimation()
     {
@@ -101,6 +101,12 @@ public class MenuOptions : MonoBehaviour
 
         cardToCover.GetComponent<Image>().sprite = cardBackside;
         cardToCover.transform.GetChild(0).gameObject.SetActive(false);
+    }
+
+    string GetClassNameFromId(int id)
+    {
+        ClassData classes = JSONManager.GetFileFromJSON<ClassData>(JSONManager.CLASSES_PATH);
+        return classes.Classes[id].Name;
     }
 
     public enum CardPosition

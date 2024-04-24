@@ -1,0 +1,74 @@
+{
+  "StartingCardList": [
+    {
+      "Id": 0,
+      "Name": "Ace",
+      "Quantities": 2
+    },
+    {
+      "Id": 1,
+      "Name": "One",
+      "Quantities": 4
+    },
+    {
+      "Id": 2,
+      "Name": "Two",
+      "Quantities": 4
+    },
+    {
+      "Id": 3,
+      "Name": "Three",
+      "Quantities": 4
+    },
+    {
+      "Id": 4,
+      "Name": "Four",
+      "Quantities": 4
+    },
+    {
+      "Id": 5,
+      "Name": "Five",
+      "Quantities": 4
+    },
+    {
+      "Id": 6,
+      "Name": "Six",
+      "Quantities": 4
+    },
+    {
+      "Id": 7,
+      "Name": "Seven",
+      "Quantities": 4
+    },
+    {
+      "Id": 8,
+      "Name": "Eight",
+      "Quantities": 4
+    },
+    {
+      "Id": 9,
+      "Name": "Nine",
+      "Quantities": 4
+    },
+    {
+      "Id": 10,
+      "Name": "Ten",
+      "Quantities": 4
+    },
+    {
+      "Id": 11,
+      "Name": "Jack",
+      "Quantities": 4
+    },
+    {
+      "Id": 12,
+      "Name": "Queen",
+      "Quantities": 4
+    },
+    {
+      "Id": 13,
+      "Name": "King",
+      "Quantities": 4
+    }
+  ]
+}

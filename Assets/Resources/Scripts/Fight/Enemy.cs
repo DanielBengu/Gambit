@@ -6,8 +6,11 @@ namespace Assets.Resources.Scripts.Fight
     [Serializable]
     public class Enemy
     {
-        public string Name { get; set; }
-        public List<GameCard> BaseDecklist { get; set; }
-        public List<Reward> Rewards { get; set; }
+        public string Name;
+        public List<GameCard> BaseDecklist;
+        public List<Reward> Rewards;
+
+        public int HP;
+        public int Armor;
     }
 }

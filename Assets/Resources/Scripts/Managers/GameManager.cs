@@ -30,11 +30,13 @@ public class GameManager : MonoBehaviour
                     rewardId = 0,
                     amount = 500
                 }
-            }
+            },
+            HP = 10,
+            Armor = 2
         },playerData.CurrentRun.CardList);
 
         int bustAmount = fightManager.GetCardsBustAmount(Character.Player);
-        gameUIManager.SetupUI(fightManager.Enemy.Name, playerData.CurrentRun.CardList.Count, bustAmount);
+        gameUIManager.SetupUI(fightManager.Enemy, playerData.CurrentRun.CardList.Count, bustAmount);
     }
 
     public static List<GameCard> GetStartingDeck(int classOfDeck)

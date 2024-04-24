@@ -1,3 +1,4 @@
+using Assets.Resources.Scripts.Fight;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -20,6 +21,8 @@ public class GameUIManager : MonoBehaviour
     public Image cardImage;
 
     public TextMeshProUGUI enemyTitleText;
+    public TextMeshProUGUI enemyHPText;
+    public Slider enemyHPBar;
 
     public Button standButton;
 
@@ -32,11 +35,19 @@ public class GameUIManager : MonoBehaviour
         enemySlider.value = 0;
     }
 
-    public void SetupUI(string enemyTitle, int playerDeckCount, int bustAmount)
+    public void SetupUI(Enemy enemy, int playerDeckCount, int bustAmount)
     {
-        enemyTitleText.text = enemyTitle;
+        enemyTitleText.text = enemy.Name;
         ChangeDeckCount(playerDeckCount);
         UpdateBustChance(bustAmount, playerDeckCount, CharacterStatus.Playing);
+        SetEnemyMaxHP(enemy.HP);
+    }
+
+    public void SetEnemyMaxHP(int hpValue)
+    {
+        enemyHPBar.maxValue = hpValue;
+        enemyHPBar.value = hpValue;
+        enemyHPText.text = hpValue.ToString();
     }
 
     public void UpdateUI(Character slide, int newScore, int maxScore, int currentDeckCount, int bustAmount, CharacterStatus status)
@@ -53,8 +64,16 @@ public class GameUIManager : MonoBehaviour
             bustChance.gameObject.SetActive(false);
             return;
         }
+        int bustChanceValue = bustChanceAmount * 100 / deckCount;
 
-        bustChance.text = $"Cards that busts: {bustChanceAmount}/{deckCount} ({bustChanceAmount * 100 / deckCount}%)";
+        if (bustChanceValue <= 30)
+            bustChance.color = Color.green;
+        else if (bustChanceValue <= 60)
+            bustChance.color = Color.yellow;
+        else
+            bustChance.color= Color.red;
+
+        bustChance.text = $"Bust chance: {bustChanceAmount}/{deckCount} ({bustChanceValue}%)";
     }
 
     public void ChangeSlideValue(Character slide, int newValue, int maxScore)
@@ -66,7 +85,6 @@ public class GameUIManager : MonoBehaviour
                     playerSlider.value = newValue;
 
                 playerScoreText.text = isBust ? "BUST!" : newValue.ToString();
-                playerScoreText.color = newValue == maxScore ? Color.yellow : Color.cyan;
 
                 playerSliderColor.color = newValue == maxScore ? Color.yellow : Color.cyan;
                 break;
@@ -75,7 +93,6 @@ public class GameUIManager : MonoBehaviour
                     enemySlider.value = newValue;
 
                 enemyScoreText.text = isBust ? "BUST!" : newValue.ToString();
-                enemyScoreText.color = newValue == maxScore ? Color.yellow : Color.red;
 
                 enemySliderColor.color = newValue == maxScore ? Color.yellow : Color.red;
                 break;
@@ -84,7 +101,7 @@ public class GameUIManager : MonoBehaviour
 
     public void ChangeDeckCount(int newValue)
     {
-        deckCount.text = newValue.ToString();
+        deckCount.text = $"Cards in deck: {newValue}";
     }
 
     public void ShowCardDrawn(GameCard card)

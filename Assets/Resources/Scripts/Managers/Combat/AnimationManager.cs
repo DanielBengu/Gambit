@@ -1,71 +1,42 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static AnimationManager.MovingObject;
 
-public class AnimationManager : MonoBehaviour
+public static class AnimationManager
 {
-    public List<MovingObject> movingObjects = new();
+    static readonly string unitIdleName = "Idle";
 
-    private void Update()
+    public static void PlayAnimation(GameObject unit, SpriteAnimation animation, Action callback, EffectsManager effectsManager)
     {
-        float arrivalThreshold = 1f; // Distance threshold to consider the object has reached its destination
+        Animator animator = unit.GetComponent<Animator>();
+        string animationToPlay = string.Empty;
 
-        for (int i = 0; i < movingObjects.Count; i++)
+        switch (animation)
         {
-            MovingObject movingObject = movingObjects[i];
-
-            Vector3 direction = (movingObject.destination.position - movingObject.objectMoving.position).normalized;
-            movingObject.objectMoving.Translate(movingObject.speed * Time.deltaTime * direction);
-
-            // Calculate the remaining distance to the destination
-            float remainingDistance = Vector3.Distance(movingObject.objectMoving.position, movingObject.destination.position);
-
-            // If the remaining distance is less than the arrival threshold, consider the object has reached its destination
-            if (remainingDistance < arrivalThreshold)
-            {
-                movingObject.objectMoving.gameObject.SetActive(false);
-                movingObject.objectMoving.position = movingObject.startingPosition;
-
-                movingObject.callback();
-
-                movingObjects.RemoveAt(i);
-                i--;
-            }
+            case SpriteAnimation.UnitDealingDamage:
+                animationToPlay = "DealDamage";
+                break;
+            case SpriteAnimation.UnitTakingDamage:
+                animationToPlay = "TakeDamage";
+                break;
+            case SpriteAnimation.UnitIdle:
+                animationToPlay = unitIdleName;
+                break;
         }
+
+        animator.Play(animationToPlay);
+        effectsManager.animatingSprites.Add(new(animator, animation, callback));
     }
 
-
-    public void StartMovement(Transform source, Transform destination, int speed, TypeOfObject type, Action callback)
+    public static string GetIdleAnimationName()
     {
-        movingObjects.Add(new(source, destination, type, speed, callback));
+        return unitIdleName;
     }
 
-    public struct MovingObject
+    public enum SpriteAnimation
     {
-        public Transform objectMoving;
-        public Vector3 startingPosition;
-        public Transform destination;
-        public int speed;
-        public float timeElapsed;
-        public TypeOfObject type;
-        public Action callback;
-
-        public MovingObject(Transform objectMoving, Transform destination, TypeOfObject type, int speed, Action callback)
-        {
-            this.objectMoving = objectMoving;
-            startingPosition = objectMoving.position;
-            this.destination = destination;
-            this.speed = speed;
-            timeElapsed = 0;
-            this.type = type;
-            this.callback = callback;
-        }
-
-        public enum TypeOfObject
-        {
-            CardDrawnPlayer,
-            CardDrawnEnemy
-        }
+        UnitIdle,
+        UnitTakingDamage,
+        UnitDealingDamage
     }
 }

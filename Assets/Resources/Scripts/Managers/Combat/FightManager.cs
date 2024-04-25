@@ -2,16 +2,25 @@ using Assets.Resources.Scripts.Fight;
 using System.Collections.Generic;
 using UnityEngine;
 using static EnemyManager;
+using static AnimationManager;
 
 public class FightManager
 {
     readonly GameUIManager gameUIManager;
-    readonly AnimationManager animationManager;
+    readonly EffectsManager effectsManager;
     readonly EnemyManager enemyManager;
 
     public int BUST_PENALITY = 2;
 
+    public GameObject playerObj;
+    public GameObject enemyObj;
+
+    public List<int> spritesAnimating = new();
+
     #region Player data
+    public int PlayerMaxHP { get; set; }
+    public int PlayerHP { get; set; }
+    public int PlayerArmor { get; set; }
     public List<GameCard> PlayerCurrentDeck { get; set; }
     public List<GameCard> PlayerBaseDeck { get; set; }
 
@@ -27,8 +36,11 @@ public class FightManager
 
     public TurnStatus CurrentTurn { get; set; }
 
-    public FightManager(EnemyData enemy, List<GameCard> playerStartingDeck, UnitData unit, GameUIManager gameUIManager, AnimationManager animationManager, EnemyManager enemyManager)
+    public FightManager(EnemyData enemy, List<GameCard> playerStartingDeck, UnitData unit, GameUIManager gameUIManager, EffectsManager effectsManager, EnemyManager enemyManager, GameObject player, GameObject enemyObj)
     {
+        PlayerMaxHP = unit.MaxHP;
+        PlayerHP = unit.CurrentHP;
+        PlayerArmor = unit.Armor;
         PlayerBaseDeck = playerStartingDeck;
         PlayerCurrentDeck = playerStartingDeck;
         PlayerScore = 0;
@@ -37,12 +49,99 @@ public class FightManager
         CurrentTurn = TurnStatus.PlayerTurn;
 
         this.gameUIManager = gameUIManager;
-        this.animationManager = animationManager;
+        this.effectsManager = effectsManager;
 
         this.enemyManager = enemyManager;
         this.enemyManager.fightManager = this;
 
         Enemy = new(enemy);
+
+        playerObj = player;
+        this.enemyObj = enemyObj;
+    }
+
+    public void HandleEndTurn()
+    {
+        Character loser = PlayerScore > Enemy.CurrentScore ? Character.Enemy : Character.Player;
+        Character winner = loser == Character.Enemy ? Character.Player : Character.Enemy;
+
+        int damageAmount = Mathf.Abs(PlayerScore - Enemy.CurrentScore);
+
+        DealDamage(loser, damageAmount);
+
+        MakeUnitDealDamage(winner);
+
+        ResetTurn();
+    }
+
+    public Character GetCharacterFromGameObjectID(int gameObjectID)
+    {
+        if (gameObjectID == playerObj.GetInstanceID())
+            return Character.Player;
+
+        if(gameObjectID == enemyObj.GetInstanceID())
+            return Character.Enemy;
+
+        return Character.Default;
+    }
+
+    void DealDamage(Character unitTakingDamage, int amount)
+    {
+        switch (unitTakingDamage)
+        {
+            case Character.Player:
+                int playerDamage = amount - PlayerArmor;
+                if(playerDamage > 0)
+                    PlayerHP -= amount;
+                break;
+            case Character.Enemy:
+                int enemyDamage = amount - Enemy.Armor;
+                if (enemyDamage > 0)
+                    Enemy.CurrentHP -= amount;
+                break;
+        }
+    }
+
+    public void MakeUnitTakeDamage(Character character)
+    {
+        switch (character)
+        {
+            case Character.Player:
+                PlayAnimation(playerObj, SpriteAnimation.UnitTakingDamage, EmptyMethod, effectsManager);
+                break;
+            case Character.Enemy:
+                PlayAnimation(enemyObj, SpriteAnimation.UnitTakingDamage, EmptyMethod, effectsManager);
+                break;
+        }
+    }
+
+    void MakeUnitDealDamage(Character character)
+    {
+        switch (character)
+        {
+            case Character.Player:
+                PlayAnimation(playerObj, SpriteAnimation.UnitDealingDamage, EmptyMethod, effectsManager);
+                break;
+            case Character.Enemy:
+                PlayAnimation(enemyObj, SpriteAnimation.UnitDealingDamage, EmptyMethod, effectsManager);
+                break;
+        }
+    }
+
+    void EmptyMethod()
+    {
+
+    }
+
+    void ResetTurn()
+    {
+        PlayerScore = 0;
+        PlayerStatus = CharacterStatus.Playing;
+
+        Enemy.Status = CharacterStatus.Playing;
+        Enemy.CurrentScore = 0;
+
+        CurrentTurn = TurnStatus.PlayerTurn;
     }
 
     public GameCard DrawAndPlayRandomCard(Character character)
@@ -202,13 +301,13 @@ public class FightManager
                 GameCard cardDrawn = DrawAndPlayRandomCard(Character.Player);
                 if (PlayerStatus != CharacterStatus.Playing)
                     gameUIManager.DisableStandClick();
-                gameUIManager.ShowCardDrawn(Character.Player, cardDrawn, animationManager, PlayerCardAnimationCallback);
+                gameUIManager.ShowCardDrawn(Character.Player, cardDrawn, effectsManager, PlayerCardAnimationCallback);
                 gameUIManager.UpdateStandUI(character, PlayerStatus, PlayerScore, PlayerMaxScore);
                 gameUIManager.UpdatePlayerInfo(PlayerCurrentDeck.Count, GetCardsBustAmount(character));
                 break;
             case Character.Enemy:
                 GameCard enemyCardDrawn = DrawAndPlayRandomCard(Character.Enemy);
-                gameUIManager.ShowCardDrawn(Character.Enemy, enemyCardDrawn, animationManager, EnemyCardAnimationCallback);
+                gameUIManager.ShowCardDrawn(Character.Enemy, enemyCardDrawn, effectsManager, EnemyCardAnimationCallback);
                 gameUIManager.UpdateStandUI(character, Enemy.Status, Enemy.CurrentScore,Enemy.MaxScore);
                 break;
         }
@@ -217,7 +316,7 @@ public class FightManager
     public bool IsGameOnStandby()
     {
         bool isUserOnStandby = PlayerStatus != CharacterStatus.Playing;
-        bool isPlayerCardAnimating = animationManager.movingObjects.Exists(a => a.type == AnimationManager.MovingObject.TypeOfObject.CardDrawnPlayer);
+        bool isPlayerCardAnimating = effectsManager.movingObjects.Exists(a => a.type == EffectsManager.MovingObject.TypeOfObject.CardDrawnPlayer);
 
         return isUserOnStandby || isPlayerCardAnimating || CurrentTurn == TurnStatus.EnemyTurn;
     }
@@ -259,7 +358,8 @@ public class FightManager
     public enum Character
     {
         Player,
-        Enemy
+        Enemy,
+        Default
     }
 
     public enum CharacterStatus

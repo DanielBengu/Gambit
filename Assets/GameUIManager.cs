@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static AnimationManager.MovingObject;
+using static EffectsManager.MovingObject;
 using static EnemyManager;
 using static FightManager;
 
@@ -63,7 +63,7 @@ public class GameUIManager : MonoBehaviour
         SetMaxSliderValue(Character.Player, player.MaxScore);
         SetMaxSliderValue(Character.Enemy, enemy.MaxScore);
         SetUnitMaxHP(Character.Player, player.MaxHP);
-        SetUnitMaxHP(Character.Enemy, enemy.HP);
+        SetUnitMaxHP(Character.Enemy, enemy.CurrentHP);
     }
 
     public void SetMaxSliderValue(Character character, int value)
@@ -159,7 +159,7 @@ public class GameUIManager : MonoBehaviour
         deckCount.text = $"Cards in deck: {newValue}";
     }
 
-    public void ShowCardDrawn(Character character, GameCard card, AnimationManager animationManager, Action callback)
+    public void ShowCardDrawn(Character character, GameCard card, EffectsManager animationManager, Action callback)
     {
         switch (character)
         {
@@ -172,7 +172,7 @@ public class GameUIManager : MonoBehaviour
         }
     }
 
-    void HandleCardAnimation(AnimationManager manager, Transform cardSource, Transform cardDestination, TypeOfObject type, Image card, int folderId, int cardId, Action callback)
+    void HandleCardAnimation(EffectsManager manager, Transform cardSource, Transform cardDestination, TypeOfObject type, Image card, int folderId, int cardId, Action callback)
     {
         card.gameObject.SetActive(true);
         card.sprite = Resources.Load<Sprite>($"Sprites/Cards/{folderId}/card_{cardId}");

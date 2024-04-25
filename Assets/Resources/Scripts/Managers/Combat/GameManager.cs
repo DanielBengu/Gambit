@@ -8,7 +8,10 @@ public class GameManager : MonoBehaviour
     public GameUIManager gameUIManager;
     public FightManager fightManager;
     public EnemyManager enemyManager;
-    public AnimationManager animationManager;
+    public EffectsManager animationManager;
+
+    public GameObject player;
+    public GameObject enemyObj;
 
     PlayerData playerData;
     Map currentMap;
@@ -36,10 +39,16 @@ public class GameManager : MonoBehaviour
             BaseMaxScore = 12,
             BaseStandThreshold = 8
         };
-        fightManager = new(enemy, playerData.CurrentRun.CardList, playerData.UnitData, gameUIManager, animationManager, enemyManager);
+        fightManager = new(enemy, playerData.CurrentRun.CardList, playerData.UnitData, gameUIManager, animationManager, enemyManager, player, enemyObj);
 
         int bustAmount = fightManager.GetCardsBustAmount(Character.Player);
         gameUIManager.SetupUI(fightManager.Enemy, playerData.UnitData, playerData.CurrentRun.CardList.Count, bustAmount);
+    }
+
+    private void Update()
+    {
+        if (fightManager.PlayerStatus != CharacterStatus.Playing && fightManager.Enemy.Status != CharacterStatus.Playing)
+            fightManager.HandleEndTurn();
     }
 
     public static List<GameCard> GetStartingDeck(int classOfDeck)

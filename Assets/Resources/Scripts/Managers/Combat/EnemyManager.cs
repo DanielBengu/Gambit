@@ -35,7 +35,8 @@ public class EnemyManager : MonoBehaviour
         public string Name { get; set; }
 
         public int Armor { get; set; }
-        public int HP { get; set; }
+        public int MaxHP { get; set; }
+        public int CurrentHP { get; set; }
 
         public List<GameCard> CurrentDeck { get; set; }
         public List<GameCard> BaseDeck { get; set; }
@@ -50,7 +51,8 @@ public class EnemyManager : MonoBehaviour
             Name = enemy.Name;
 
             Armor = enemy.Armor;
-            HP = enemy.HP;
+            MaxHP = enemy.HP;
+            CurrentHP = enemy.HP;
 
             BaseDeck = enemy.BaseDecklist;
             CurrentDeck = enemy.BaseDecklist;

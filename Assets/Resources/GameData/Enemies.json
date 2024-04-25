@@ -1,0 +1,12 @@
+{
+  "Enemies": [
+    {
+      "Id": 0,
+      "Name": "Skeleton"
+    },
+    {
+      "Id": 1,
+      "Name": "Medusa"
+    }
+  ]
+}

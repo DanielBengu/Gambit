@@ -10,7 +10,7 @@ public class UnitAnimationManager : MonoBehaviour
         //should be improved but putting it in start breaks because it's loaded after, should add manual valorization from gamemanager
         FightManager fightManager = GameObject.Find("GameManager").GetComponent<GameManager>().fightManager;
 
-        Character enemy = fightManager.GetCharacterFromGameObjectID(GetInstanceID()) == Character.Player ? Character.Enemy : Character.Player;
+        Character enemy = fightManager.GetCharacterFromGameObjectID(gameObject.GetInstanceID()) == Character.Player ? Character.Enemy : Character.Player;
         
         fightManager.MakeUnitTakeDamage(enemy);
     }

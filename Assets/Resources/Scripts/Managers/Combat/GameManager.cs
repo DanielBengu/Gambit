@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
         EnemyData enemy = new()
         {
             Name = "Medusa",
-            BaseDecklist = playerData.CurrentRun.CardList,
+            BaseDecklist = GetStartingDeck(0),
             Rewards = new()
             {
                 new()

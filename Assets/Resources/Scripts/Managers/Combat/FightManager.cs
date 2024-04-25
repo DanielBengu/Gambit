@@ -161,6 +161,9 @@ public class FightManager
     {
         List<GameCard> deck = new();
 
+        if (deck.Count == 0)
+            ResetDeck(character);
+
         switch (character)
         {
             case Character.Player:
@@ -268,6 +271,19 @@ public class FightManager
         }
 
         return bustAmount;
+    }
+
+    public void ResetDeck(Character character)
+    {
+        switch (character)
+        {
+            case Character.Player:
+                PlayerCurrentDeck = PlayerBaseDeck;
+                break;
+            case Character.Enemy:
+                Enemy.CurrentDeck = Enemy.BaseDeck;
+                break;
+        }
     }
 
     int CalculateBustAmount(List<GameCard> deck, int charCurrentScore, int charMaxScore)

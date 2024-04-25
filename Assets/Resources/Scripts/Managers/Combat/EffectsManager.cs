@@ -61,7 +61,7 @@ public class EffectsManager : MonoBehaviour
 
     public void TriggerCallback(int sourceId)
     {
-        AnimatingSpriteStruct anim = animatingSprites.Find(a => a.objectToAnimate.GetInstanceID() ==  sourceId);
+        AnimatingSpriteStruct anim = animatingSprites.Find(a => a.objectToAnimate.gameObject.GetInstanceID() ==  sourceId);
 
         anim.callback();
     }

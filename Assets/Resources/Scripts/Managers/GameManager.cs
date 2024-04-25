@@ -36,7 +36,8 @@ public class GameManager : MonoBehaviour
             },
             HP = 10,
             Armor = 2,
-            BaseMaxScore = 21
+            BaseMaxScore = 21,
+            BaseStandThreshold = 16
         },playerData.CurrentRun.CardList);
 
         int bustAmount = fightManager.GetCardsBustAmount(Character.Player);
@@ -112,15 +113,40 @@ public class GameManager : MonoBehaviour
     //Called after player drew their card
     void PlayerCardAnimationCallback()
     {
-        isEnemyTurn = true;
+        if (fightManager.EnemyStatus != CharacterStatus.Playing)
+            return;
 
-        PlayEnemyTurn();
+        isEnemyTurn = true;
+        HandleEnemyTurn();
     }
 
     //Called after player drew their card
     void EnemyCardAnimationCallback()
     {
-        isEnemyTurn = false;
+        if(fightManager.PlayerStatus == CharacterStatus.Playing)
+        {
+            isEnemyTurn = false;
+            return;
+        }
+
+        HandleEnemyTurn();
+    }
+
+    void HandleEnemyTurn()
+    {
+        if (fightManager.EnemyStatus != CharacterStatus.Playing)
+            return;
+
+        //Player is bust or is standing, enemy keeps playing the turn until end
+        PlayEnemyTurn();
+
+        if (fightManager.EnemyStatus == CharacterStatus.Playing && fightManager.EnemyScore >= fightManager.EnemyThreshold)
+        {
+            fightManager.EnemyStatus = CharacterStatus.Standing;
+        }
+
+        if (fightManager.EnemyStatus != CharacterStatus.Playing)
+            isEnemyTurn = false;
     }
 
     //Called by stand icon click in game
@@ -131,6 +157,9 @@ public class GameManager : MonoBehaviour
 
         fightManager.PlayerStatus = CharacterStatus.Standing;
         gameUIManager.DisableStandClick();
+
+        if (fightManager.EnemyStatus == CharacterStatus.Playing)
+            PlayEnemyTurn();
     }
 
     static CardType GetCardType(int cardId)

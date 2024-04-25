@@ -106,16 +106,16 @@ public class GameUIManager : MonoBehaviour
 
     public void UpdateBustChance(int bustChanceAmount, int deckCount)
     {
-        int bustChanceValue = bustChanceAmount * 100 / deckCount;
+        int successChanceValue = 100 - bustChanceAmount * 100 / deckCount;
 
-        if (bustChanceValue <= 30)
-            bustChance.color = Color.green;
-        else if (bustChanceValue <= 60)
+        if (successChanceValue <= 30)
+            bustChance.color = Color.red;
+        else if (successChanceValue <= 60)
             bustChance.color = Color.yellow;
         else
-            bustChance.color= Color.red;
+            bustChance.color= Color.green;
 
-        bustChance.text = $"Bust chance: {bustChanceAmount}/{deckCount} ({bustChanceValue}%)";
+        bustChance.text = $"Success: {successChanceValue}% ({bustChanceAmount}/{deckCount})";
     }
 
     public void ChangeSlideValue(Character slide, int newValue, int maxScore)

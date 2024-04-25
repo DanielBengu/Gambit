@@ -14,5 +14,7 @@ namespace Assets.Resources.Scripts.Fight
         public int Armor;
 
         public int BaseMaxScore;
+
+        public int BaseStandThreshold;
     }
 }

@@ -49,7 +49,7 @@ public class AnimationManager : MonoBehaviour
         public int speed;
         public float timeElapsed;
         public TypeOfObject type;
-        public System.Action callback;
+        public Action callback;
 
         public MovingObject(Transform objectMoving, Transform destination, TypeOfObject type, int speed, Action callback)
         {

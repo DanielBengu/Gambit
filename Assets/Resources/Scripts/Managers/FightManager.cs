@@ -21,6 +21,7 @@ public class FightManager
 
     public int EnemyScore { get; set; }
     public int EnemyMaxScore { get; set; }
+    public int EnemyThreshold { get; set; }
     public CharacterStatus EnemyStatus { get; set; } = CharacterStatus.Playing;
     #endregion
 
@@ -39,6 +40,7 @@ public class FightManager
         EnemyCurrentDeck = enemy.BaseDecklist;
         EnemyScore = 0;
         EnemyMaxScore = 21;
+        EnemyThreshold = enemy.BaseStandThreshold;
 
         CurrentTurn = TurnStatus.PlayerTurn;
     }

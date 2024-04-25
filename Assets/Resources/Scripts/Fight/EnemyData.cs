@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Assets.Resources.Scripts.Fight
 {
     [Serializable]
-    public class Enemy
+    public class EnemyData
     {
         public string Name;
         public List<GameCard> BaseDecklist;

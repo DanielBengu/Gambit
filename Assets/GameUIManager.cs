@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static AnimationManager.MovingObject;
+using static EnemyManager;
 using static FightManager;
 
 public class GameUIManager : MonoBehaviour
@@ -51,16 +52,16 @@ public class GameUIManager : MonoBehaviour
         enemySlider.value = 0;
     }
 
-    public void SetupUI(Enemy enemy, UnitData player, int playerDeckCount, int bustAmount)
+    public void SetupUI(EnemyCurrent enemy, UnitData player, int playerDeckCount, int bustAmount)
     {
         enemyTitleText.text = enemy.Name;
         playerTitleText.text = player.Name;
         ChangeDeckCount(playerDeckCount);
         UpdateBustChance(bustAmount, playerDeckCount);
         UpdateMaxScore(Character.Player, player.MaxScore);
-        UpdateMaxScore(Character.Enemy, enemy.BaseMaxScore);
+        UpdateMaxScore(Character.Enemy, enemy.MaxScore);
         SetMaxSliderValue(Character.Player, player.MaxScore);
-        SetMaxSliderValue(Character.Enemy, enemy.BaseMaxScore);
+        SetMaxSliderValue(Character.Enemy, enemy.MaxScore);
         SetUnitMaxHP(Character.Player, player.MaxHP);
         SetUnitMaxHP(Character.Enemy, enemy.HP);
     }

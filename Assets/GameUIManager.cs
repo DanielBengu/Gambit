@@ -62,8 +62,8 @@ public class GameUIManager : MonoBehaviour
         UpdateMaxScore(Character.Enemy, enemy.MaxScore);
         SetMaxSliderValue(Character.Player, player.MaxScore);
         SetMaxSliderValue(Character.Enemy, enemy.MaxScore);
-        SetUnitMaxHP(Character.Player, player.MaxHP);
-        SetUnitMaxHP(Character.Enemy, enemy.CurrentHP);
+        SetUnitHP(Character.Player, player.CurrentHP, player.MaxHP);
+        SetUnitHP(Character.Enemy, enemy.CurrentHP, enemy.MaxHP);
     }
 
     public void SetMaxSliderValue(Character character, int value)
@@ -79,23 +79,22 @@ public class GameUIManager : MonoBehaviour
         }
     }
 
-    public void SetUnitMaxHP(Character unit, int hpValue)
+    public void SetUnitHP(Character unit, int hpValue, int maxHpValue)
     {
         switch (unit)
         {
             case Character.Player:
-                playerHPBar.maxValue = hpValue;
+                playerHPBar.maxValue = maxHpValue;
                 playerHPBar.value = hpValue;
                 playerHPText.text = hpValue.ToString();
                 break;
             case Character.Enemy:
-                enemyHPBar.maxValue = hpValue;
+                enemyHPBar.maxValue = maxHpValue;
                 enemyHPBar.value = hpValue;
                 enemyHPText.text = hpValue.ToString();
                 break;
         }
     }
-
     public void UpdateStandUI(Character slide, CharacterStatus status, int newScore, int maxScore)
     {
         ChangeSlideValue(slide, status, newScore, maxScore);
@@ -180,8 +179,8 @@ public class GameUIManager : MonoBehaviour
         manager.StartMovement(cardSource, cardDestination, 5, type, callback);
     }
 
-    public void DisableStandClick()
+    public void SetStandButtonInteractable(bool interactable)
     {
-        standButton.interactable = false;
+        standButton.interactable = interactable;
     }
 }

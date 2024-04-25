@@ -62,14 +62,17 @@ public class FightManager
 
     public void HandleEndTurn()
     {
-        Character loser = PlayerScore > Enemy.CurrentScore ? Character.Enemy : Character.Player;
-        Character winner = loser == Character.Enemy ? Character.Player : Character.Enemy;
-
         int damageAmount = Mathf.Abs(PlayerScore - Enemy.CurrentScore);
 
-        DealDamage(loser, damageAmount);
-
-        MakeUnitDealDamage(winner);
+        if (PlayerScore > Enemy.CurrentScore)
+        {
+            DealDamage(Character.Enemy, damageAmount);
+            MakeUnitDealDamage(Character.Player);
+        } else if(PlayerScore < Enemy.CurrentScore)
+        {
+            DealDamage(Character.Player, damageAmount);
+            MakeUnitDealDamage(Character.Enemy);
+        }      
 
         ResetTurn();
     }
@@ -142,6 +145,16 @@ public class FightManager
         Enemy.CurrentScore = 0;
 
         CurrentTurn = TurnStatus.PlayerTurn;
+
+        gameUIManager.UpdateStandUI(Character.Enemy, Enemy.Status, 0, Enemy.MaxScore);
+        gameUIManager.UpdateStandUI(Character.Player, PlayerStatus, 0, PlayerMaxScore);
+
+        gameUIManager.UpdatePlayerInfo(PlayerCurrentDeck.Count, GetCardsBustAmount(Character.Player));
+
+        gameUIManager.SetUnitHP(Character.Player, PlayerHP, PlayerMaxHP);
+        gameUIManager.SetUnitHP(Character.Enemy, Enemy.CurrentHP, Enemy.MaxHP);
+
+        gameUIManager.SetStandButtonInteractable(true);
     }
 
     public GameCard DrawAndPlayRandomCard(Character character)
@@ -300,7 +313,7 @@ public class FightManager
             case Character.Player:
                 GameCard cardDrawn = DrawAndPlayRandomCard(Character.Player);
                 if (PlayerStatus != CharacterStatus.Playing)
-                    gameUIManager.DisableStandClick();
+                    gameUIManager.SetStandButtonInteractable(false);
                 gameUIManager.ShowCardDrawn(Character.Player, cardDrawn, effectsManager, PlayerCardAnimationCallback);
                 gameUIManager.UpdateStandUI(character, PlayerStatus, PlayerScore, PlayerMaxScore);
                 gameUIManager.UpdatePlayerInfo(PlayerCurrentDeck.Count, GetCardsBustAmount(character));
@@ -327,7 +340,7 @@ public class FightManager
             return;
 
         PlayerStatus = CharacterStatus.Standing;
-        gameUIManager.DisableStandClick();
+        gameUIManager.SetStandButtonInteractable(false);
 
         if (Enemy.Status == CharacterStatus.Playing)
             enemyManager.PlayEnemyTurn();

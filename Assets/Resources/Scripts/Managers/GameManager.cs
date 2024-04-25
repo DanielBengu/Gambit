@@ -20,8 +20,7 @@ public class GameManager : MonoBehaviour
     {
         playerData = SaveManager.LoadPlayerData();
         currentMap = JSONManager.GetFileFromJSON<MapData>(JSONManager.MAPS_PATH).Maps.Find(m => m.Id == playerData.CurrentRun.MapId);
-
-        fightManager = new(new()
+        Enemy enemy = new()
         {
             Name = "Medusa",
             BaseDecklist = playerData.CurrentRun.CardList,
@@ -36,9 +35,10 @@ public class GameManager : MonoBehaviour
             },
             HP = 10,
             Armor = 2,
-            BaseMaxScore = 21,
-            BaseStandThreshold = 16
-        },playerData.CurrentRun.CardList);
+            BaseMaxScore = 12,
+            BaseStandThreshold = 8
+        };
+        fightManager = new(enemy, playerData.CurrentRun.CardList, playerData.UnitData);
 
         int bustAmount = fightManager.GetCardsBustAmount(Character.Player);
         gameUIManager.SetupUI(fightManager.Enemy, playerData.UnitData, playerData.CurrentRun.CardList.Count, bustAmount);
@@ -141,9 +141,7 @@ public class GameManager : MonoBehaviour
         PlayEnemyTurn();
 
         if (fightManager.EnemyStatus == CharacterStatus.Playing && fightManager.EnemyScore >= fightManager.EnemyThreshold)
-        {
             fightManager.EnemyStatus = CharacterStatus.Standing;
-        }
 
         if (fightManager.EnemyStatus != CharacterStatus.Playing)
             isEnemyTurn = false;

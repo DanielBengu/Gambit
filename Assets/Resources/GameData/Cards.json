@@ -3,6 +3,59 @@
     {
       "Id": 0,
       "Name": "Ace",
+      "Quantities": 1
+    },
+    {
+      "Id": 1,
+      "Name": "One",
+      "Quantities": 4
+    },
+    {
+      "Id": 2,
+      "Name": "Two",
+      "Quantities": 4
+    },
+    {
+      "Id": 3,
+      "Name": "Three",
+      "Quantities": 4
+    },
+    {
+      "Id": 4,
+      "Name": "Four",
+      "Quantities": 4
+    },
+    {
+      "Id": 5,
+      "Name": "Five",
+      "Quantities": 4
+    },
+    {
+      "Id": 6,
+      "Name": "Six",
+      "Quantities": 4
+    },
+    {
+      "Id": 11,
+      "Name": "Jack",
+      "Quantities": 2
+    },
+    {
+      "Id": 12,
+      "Name": "Queen",
+      "Quantities": 2
+    },
+    {
+      "Id": 13,
+      "Name": "King",
+      "Quantities": 2
+    }
+  ],
+
+  "TestCardList": [
+    {
+      "Id": 0,
+      "Name": "Ace",
       "Quantities": 4
     },
     {

@@ -59,8 +59,23 @@ public class GameUIManager : MonoBehaviour
         UpdateBustChance(bustAmount, playerDeckCount);
         UpdateMaxScore(Character.Player, player.MaxScore);
         UpdateMaxScore(Character.Enemy, enemy.BaseMaxScore);
+        SetMaxSliderValue(Character.Player, player.MaxScore);
+        SetMaxSliderValue(Character.Enemy, enemy.BaseMaxScore);
         SetUnitMaxHP(Character.Player, player.MaxHP);
         SetUnitMaxHP(Character.Enemy, enemy.HP);
+    }
+
+    public void SetMaxSliderValue(Character character, int value)
+    {
+        switch (character)
+        {
+            case Character.Player:
+                playerSlider.maxValue = value;
+                break;
+            case Character.Enemy:
+                enemySlider.maxValue = value;
+                break;
+        }
     }
 
     public void SetUnitMaxHP(Character unit, int hpValue)

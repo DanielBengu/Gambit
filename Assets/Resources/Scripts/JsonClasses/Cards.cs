@@ -14,6 +14,7 @@ public class Card
 public class CardListData
 {
     public List<Card> StartingCardList;
+    public List<Card> TestCardList;
 }
 
 [Serializable]

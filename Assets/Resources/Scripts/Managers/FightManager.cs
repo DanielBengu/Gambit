@@ -27,19 +27,19 @@ public class FightManager
 
     public TurnStatus CurrentTurn { get; set; }
 
-    public FightManager(Enemy enemy, List<GameCard> playerStartingDeck)
+    public FightManager(Enemy enemy, List<GameCard> playerStartingDeck, UnitData unit)
     {
         Enemy = enemy;
 
         PlayerBaseDeck = playerStartingDeck;
         PlayerCurrentDeck = playerStartingDeck;
         PlayerScore = 0;
-        PlayerMaxScore = 21;
+        PlayerMaxScore = unit.MaxScore;
 
         EnemyBaseDeck = enemy.BaseDecklist;
         EnemyCurrentDeck = enemy.BaseDecklist;
         EnemyScore = 0;
-        EnemyMaxScore = 21;
+        EnemyMaxScore = enemy.BaseMaxScore;
         EnemyThreshold = enemy.BaseStandThreshold;
 
         CurrentTurn = TurnStatus.PlayerTurn;
@@ -132,16 +132,13 @@ public class FightManager
         switch (card.cardType)
         {
             case CardType.Ace:
-                if (characterCurrentScore + 11 <= characterMaximumScore)
-                    valueToAdd = 11;
-                else
-                    valueToAdd = 1;
+                valueToAdd = 0;
                 break;
             case CardType.Number:
                 valueToAdd = card.value;
                 break;
             case CardType.Figure:
-                valueToAdd = 10;
+                valueToAdd = 0;
                 break;
             case CardType.Special:
                 break;

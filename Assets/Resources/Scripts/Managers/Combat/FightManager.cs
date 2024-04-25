@@ -9,6 +9,8 @@ public class FightManager
     readonly AnimationManager animationManager;
     readonly EnemyManager enemyManager;
 
+    public int BUST_PENALITY = 2;
+
     #region Player data
     public List<GameCard> PlayerCurrentDeck { get; set; }
     public List<GameCard> PlayerBaseDeck { get; set; }
@@ -71,14 +73,41 @@ public class FightManager
         switch (character)
         {
             case Character.Player:
-                PlayerScore += GetCardValue(card);
-                PlayerStatus = UpdateStatus(PlayerScore, PlayerMaxScore);
+                int playerCardValue = GetCardValue(card);
+
+                if (IsBust(PlayerScore, playerCardValue, PlayerMaxScore))
+                {
+                    PlayerStatus = CharacterStatus.Bust;
+                    HandleBust(character, PlayerStatus);
+                }
+                else
+                {
+                    PlayerScore += playerCardValue;
+                    PlayerStatus = UpdateStatus(PlayerScore, PlayerMaxScore);
+                }
+
                 break;
             case Character.Enemy:
-                Enemy.CurrentScore += GetCardValue(card);
-                Enemy.Status = UpdateStatus(Enemy.CurrentScore, Enemy.MaxScore);
+                int enemyCardValue = GetCardValue(card);
+
+                if(IsBust(Enemy.CurrentScore, enemyCardValue, Enemy.MaxScore))
+                {
+                    Enemy.Status = CharacterStatus.Bust;
+                    HandleBust(character, Enemy.Status);
+                }
+                else
+                {
+                    Enemy.CurrentScore += enemyCardValue;
+                    Enemy.Status = UpdateStatus(Enemy.CurrentScore, Enemy.MaxScore);
+                }
+
                 break;
         }
+    }
+
+    public bool IsBust(int currentScore, int valueToAdd, int unitMaxScore)
+    {
+        return currentScore + valueToAdd > unitMaxScore;
     }
 
     CharacterStatus UpdateStatus(int score, int maximumScore)
@@ -90,6 +119,26 @@ public class FightManager
             return CharacterStatus.Bust;
 
         return CharacterStatus.Playing;
+    }
+
+    public void HandleBust(Character character, CharacterStatus status)
+    {
+        if (status != CharacterStatus.Bust)
+            return;
+
+        switch(character)
+        {
+            case Character.Player:
+                PlayerScore -= BUST_PENALITY;
+                if(PlayerScore < 0) 
+                    PlayerScore = 0;
+                break;
+            case Character.Enemy:
+                Enemy.CurrentScore -= BUST_PENALITY;
+                if (Enemy.CurrentScore < 0)
+                    Enemy.CurrentScore = 0;
+                break;
+        }
     }
 
     public int GetCardsBustAmount(Character character)
@@ -154,13 +203,13 @@ public class FightManager
                 if (PlayerStatus != CharacterStatus.Playing)
                     gameUIManager.DisableStandClick();
                 gameUIManager.ShowCardDrawn(Character.Player, cardDrawn, animationManager, PlayerCardAnimationCallback);
-                gameUIManager.UpdateStandUI(character, PlayerScore, PlayerMaxScore);
+                gameUIManager.UpdateStandUI(character, PlayerStatus, PlayerScore, PlayerMaxScore);
                 gameUIManager.UpdatePlayerInfo(PlayerCurrentDeck.Count, GetCardsBustAmount(character));
                 break;
             case Character.Enemy:
                 GameCard enemyCardDrawn = DrawAndPlayRandomCard(Character.Enemy);
                 gameUIManager.ShowCardDrawn(Character.Enemy, enemyCardDrawn, animationManager, EnemyCardAnimationCallback);
-                gameUIManager.UpdateStandUI(character, Enemy.CurrentScore,Enemy.MaxScore);
+                gameUIManager.UpdateStandUI(character, Enemy.Status, Enemy.CurrentScore,Enemy.MaxScore);
                 break;
         }
     }

@@ -96,9 +96,9 @@ public class GameUIManager : MonoBehaviour
         }
     }
 
-    public void UpdateStandUI(Character slide, int newScore, int maxScore)
+    public void UpdateStandUI(Character slide, CharacterStatus status, int newScore, int maxScore)
     {
-        ChangeSlideValue(slide, newScore, maxScore);
+        ChangeSlideValue(slide, status, newScore, maxScore);
     }
 
     public void UpdatePlayerInfo(int deckCount, int bustAmount)
@@ -134,23 +134,20 @@ public class GameUIManager : MonoBehaviour
         bustChance.text = $"Success: {successChanceValue}% ({bustChanceAmount}/{deckCount})";
     }
 
-    public void ChangeSlideValue(Character slide, int newValue, int maxScore)
+    public void ChangeSlideValue(Character slide, CharacterStatus status, int newValue, int maxScore)
     {
-        bool isBust = newValue > maxScore;
         switch (slide) {
             case Character.Player:
-                if (!isBust)
-                    playerSlider.value = newValue;
 
-                playerScoreText.text = isBust ? "BUST!" : newValue.ToString();
+                playerSlider.value = newValue;
+                playerScoreText.text = status == CharacterStatus.Bust ? $"{newValue}\nBUST!" : newValue.ToString();
                 playerScoreText.color = newValue == maxScore ? Color.yellow : Color.cyan;
                 playerSliderColor.color = newValue == maxScore ? Color.yellow : Color.cyan;
                 break;
             case Character.Enemy:
-                if(!isBust)
-                    enemySlider.value = newValue;
 
-                enemyScoreText.text = isBust ? "BUST!" : newValue.ToString();
+                enemySlider.value = newValue;
+                enemyScoreText.text = status == CharacterStatus.Bust ? $"{newValue}\nBUST!" : newValue.ToString();
                 enemyScoreText.color = newValue == maxScore ? Color.yellow : Color.red;
                 enemySliderColor.color = newValue == maxScore ? Color.yellow : Color.red;
                 break;

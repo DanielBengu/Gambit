@@ -1,30 +1,46 @@
 using Assets.Resources.Scripts.Fight;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static AnimationManager.MovingObject;
 using static FightManager;
 
 public class GameUIManager : MonoBehaviour
 {
+    #region Player UI
     public Slider playerSlider;
     public Image playerSliderColor;
     public TextMeshProUGUI playerScoreText;
+    public TextMeshProUGUI playerMaxScoreText;
+    public TextMeshProUGUI playerTitleText;
+    public TextMeshProUGUI playerHPText;
+    public Slider playerHPBar;
 
+    public Transform playerCardDestination;
+    public Image playerCardImage;
+    #endregion
+
+    #region Enemy UI
     public Slider enemySlider;
     public Image enemySliderColor;
     public TextMeshProUGUI enemyScoreText;
-
-    public TextMeshProUGUI deckCount;
-    public TextMeshProUGUI bustChance;
-
-    public Image cardImage;
-
+    public TextMeshProUGUI enemyMaxScoreText;
     public TextMeshProUGUI enemyTitleText;
     public TextMeshProUGUI enemyHPText;
     public Slider enemyHPBar;
 
+    public Transform enemyCardDestination;
+    public Image enemyCardImage;
+    #endregion
+
+    #region Game UI
+    public TextMeshProUGUI deckCount;
+    public TextMeshProUGUI bustChance;
+
     public Button standButton;
+    #endregion
 
     void Start()
     {
@@ -35,35 +51,61 @@ public class GameUIManager : MonoBehaviour
         enemySlider.value = 0;
     }
 
-    public void SetupUI(Enemy enemy, int playerDeckCount, int bustAmount)
+    public void SetupUI(Enemy enemy, UnitData player, int playerDeckCount, int bustAmount)
     {
         enemyTitleText.text = enemy.Name;
+        playerTitleText.text = player.Name;
         ChangeDeckCount(playerDeckCount);
-        UpdateBustChance(bustAmount, playerDeckCount, CharacterStatus.Playing);
-        SetEnemyMaxHP(enemy.HP);
+        UpdateBustChance(bustAmount, playerDeckCount);
+        UpdateMaxScore(Character.Player, player.MaxScore);
+        UpdateMaxScore(Character.Enemy, enemy.BaseMaxScore);
+        SetUnitMaxHP(Character.Player, player.MaxHP);
+        SetUnitMaxHP(Character.Enemy, enemy.HP);
     }
 
-    public void SetEnemyMaxHP(int hpValue)
+    public void SetUnitMaxHP(Character unit, int hpValue)
     {
-        enemyHPBar.maxValue = hpValue;
-        enemyHPBar.value = hpValue;
-        enemyHPText.text = hpValue.ToString();
+        switch (unit)
+        {
+            case Character.Player:
+                playerHPBar.maxValue = hpValue;
+                playerHPBar.value = hpValue;
+                playerHPText.text = hpValue.ToString();
+                break;
+            case Character.Enemy:
+                enemyHPBar.maxValue = hpValue;
+                enemyHPBar.value = hpValue;
+                enemyHPText.text = hpValue.ToString();
+                break;
+        }
     }
 
-    public void UpdateUI(Character slide, int newScore, int maxScore, int currentDeckCount, int bustAmount, CharacterStatus status)
+    public void UpdateStandUI(Character slide, int newScore, int maxScore)
     {
         ChangeSlideValue(slide, newScore, maxScore);
-        ChangeDeckCount(currentDeckCount);
-        UpdateBustChance(bustAmount, currentDeckCount, status);
     }
 
-    public void UpdateBustChance(int bustChanceAmount, int deckCount, CharacterStatus status)
+    public void UpdatePlayerInfo(int deckCount, int bustAmount)
     {
-        if(status != CharacterStatus.Playing)
+        ChangeDeckCount(deckCount);
+        UpdateBustChance(bustAmount, deckCount);
+    }
+
+    public void UpdateMaxScore(Character unit, int newValue)
+    {
+        switch (unit)
         {
-            bustChance.gameObject.SetActive(false);
-            return;
+            case Character.Player:
+                playerMaxScoreText.text = newValue.ToString();
+                break;
+            case Character.Enemy:
+                enemyMaxScoreText.text = newValue.ToString();
+                break;
         }
+    }
+
+    public void UpdateBustChance(int bustChanceAmount, int deckCount)
+    {
         int bustChanceValue = bustChanceAmount * 100 / deckCount;
 
         if (bustChanceValue <= 30)
@@ -85,7 +127,7 @@ public class GameUIManager : MonoBehaviour
                     playerSlider.value = newValue;
 
                 playerScoreText.text = isBust ? "BUST!" : newValue.ToString();
-
+                playerScoreText.color = newValue == maxScore ? Color.yellow : Color.cyan;
                 playerSliderColor.color = newValue == maxScore ? Color.yellow : Color.cyan;
                 break;
             case Character.Enemy:
@@ -93,7 +135,7 @@ public class GameUIManager : MonoBehaviour
                     enemySlider.value = newValue;
 
                 enemyScoreText.text = isBust ? "BUST!" : newValue.ToString();
-
+                enemyScoreText.color = newValue == maxScore ? Color.yellow : Color.red;
                 enemySliderColor.color = newValue == maxScore ? Color.yellow : Color.red;
                 break;
         }
@@ -104,12 +146,25 @@ public class GameUIManager : MonoBehaviour
         deckCount.text = $"Cards in deck: {newValue}";
     }
 
-    public void ShowCardDrawn(GameCard card)
+    public void ShowCardDrawn(Character character, GameCard card, AnimationManager animationManager, Action callback)
     {
-        cardImage.gameObject.SetActive(true);
+        switch (character)
+        {
+            case Character.Player:
+                HandleCardAnimation(animationManager, playerCardImage.transform, playerCardDestination, TypeOfObject.CardDrawnPlayer, playerCardImage, card.classId, card.id, callback);
+                break;
+            case Character.Enemy:
+                HandleCardAnimation(animationManager, enemyCardImage.transform, enemyCardDestination, TypeOfObject.CardDrawnEnemy, enemyCardImage, card.classId, card.id, callback);
+                break;
+        }
+    }
 
-        //Should be improved and pre-loaded
-        cardImage.sprite = Resources.Load<Sprite>($"Sprites/Cards/{card.classId}/card_{card.id}");
+    void HandleCardAnimation(AnimationManager manager, Transform cardSource, Transform cardDestination, TypeOfObject type, Image card, int folderId, int cardId, Action callback)
+    {
+        card.gameObject.SetActive(true);
+        card.sprite = Resources.Load<Sprite>($"Sprites/Cards/{folderId}/card_{cardId}");
+
+        manager.StartMovement(cardSource, cardDestination, 5, type, callback);
     }
 
     public void DisableStandClick()

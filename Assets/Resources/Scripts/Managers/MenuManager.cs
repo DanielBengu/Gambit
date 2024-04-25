@@ -76,6 +76,14 @@ public class MenuManager : MonoBehaviour
 
         SaveManager.SavePlayerData(new()
         {
+            UnitData = new()
+            {
+                Name = "TEMP",
+                Armor = 2,
+                MaxHP = 10,
+                CurrentHP = 10,
+                MaxScore = 21
+            },
             CurrentRun = new()
             {
                 IsOngoing = true,

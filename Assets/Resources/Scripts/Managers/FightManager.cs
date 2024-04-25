@@ -45,9 +45,21 @@ public class FightManager
 
     public GameCard DrawAndPlayRandomCard(Character character)
     {
-        int cardIndex = Random.Range(0, PlayerCurrentDeck.Count);
-        GameCard card = PlayerCurrentDeck[cardIndex];
-        PlayerCurrentDeck.Remove(card);
+        List<GameCard> deck = new();
+
+        switch (character)
+        {
+            case Character.Player:
+                deck = PlayerCurrentDeck;
+                break;
+            case Character.Enemy:
+                deck = EnemyCurrentDeck;
+                break;
+        }
+
+        int cardIndex = Random.Range(0, deck.Count);
+        GameCard card = deck[cardIndex];
+        deck.Remove(card);
 
         PlayCard(card, character);
 

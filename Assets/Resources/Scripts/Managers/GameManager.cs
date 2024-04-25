@@ -8,9 +8,12 @@ public class GameManager : MonoBehaviour
 {
     public GameUIManager gameUIManager;
     public FightManager fightManager;
+    public AnimationManager animationManager;
 
     PlayerData playerData;
     Map currentMap;
+
+    bool isEnemyTurn;
 
     // Start is called before the first frame update
     void Start()
@@ -32,11 +35,22 @@ public class GameManager : MonoBehaviour
                 }
             },
             HP = 10,
-            Armor = 2
+            Armor = 2,
+            BaseMaxScore = 21
         },playerData.CurrentRun.CardList);
 
         int bustAmount = fightManager.GetCardsBustAmount(Character.Player);
-        gameUIManager.SetupUI(fightManager.Enemy, playerData.CurrentRun.CardList.Count, bustAmount);
+        gameUIManager.SetupUI(fightManager.Enemy, playerData.UnitData, playerData.CurrentRun.CardList.Count, bustAmount);
+
+        isEnemyTurn = false;
+    }
+
+    public bool IsGameOnStandby()
+    {
+        bool isUserOnStandby = fightManager.PlayerStatus != CharacterStatus.Playing;
+        bool isPlayerCardAnimating = animationManager.movingObjects.Exists(a => a.type == AnimationManager.MovingObject.TypeOfObject.CardDrawnPlayer);
+
+        return isUserOnStandby || isPlayerCardAnimating || isEnemyTurn;
     }
 
     public static List<GameCard> GetStartingDeck(int classOfDeck)
@@ -64,23 +78,55 @@ public class GameManager : MonoBehaviour
     //Called by deck click in game
     public void PlayCard()
     {
-        if (fightManager.PlayerStatus != CharacterStatus.Playing)
+        if (IsGameOnStandby())
             return;
 
-        GameCard cardDrawn = fightManager.DrawAndPlayRandomCard(Character.Player);
+        PlayUnitCard(Character.Player);
+    }
 
-        if (fightManager.PlayerStatus != CharacterStatus.Playing)
-            gameUIManager.DisableStandClick();
+    public void PlayEnemyTurn()
+    {
+        PlayUnitCard(Character.Enemy);
+    }
 
-        int updatedBustAmount = fightManager.GetCardsBustAmount(Character.Player);
-        gameUIManager.ShowCardDrawn(cardDrawn);
-        gameUIManager.UpdateUI(Character.Player, fightManager.PlayerScore, fightManager.PlayerMaxScore, fightManager.PlayerCurrentDeck.Count, updatedBustAmount, fightManager.PlayerStatus);
+    public void PlayUnitCard(Character character)
+    {
+        switch (character)
+        {
+            case Character.Player:
+                GameCard cardDrawn = fightManager.DrawAndPlayRandomCard(Character.Player);
+                if (fightManager.PlayerStatus != CharacterStatus.Playing)
+                    gameUIManager.DisableStandClick();
+                gameUIManager.ShowCardDrawn(Character.Player, cardDrawn, animationManager, PlayerCardAnimationCallback);
+                gameUIManager.UpdateStandUI(character, fightManager.PlayerScore, fightManager.PlayerMaxScore);
+                gameUIManager.UpdatePlayerInfo(fightManager.PlayerCurrentDeck.Count, fightManager.GetCardsBustAmount(character));
+                break;
+            case Character.Enemy:
+                GameCard enemyCardDrawn = fightManager.DrawAndPlayRandomCard(Character.Enemy);
+                gameUIManager.ShowCardDrawn(Character.Enemy, enemyCardDrawn, animationManager, EnemyCardAnimationCallback);
+                gameUIManager.UpdateStandUI(character, fightManager.EnemyScore, fightManager.EnemyMaxScore);
+                break;
+        }
+    }
+
+    //Called after player drew their card
+    void PlayerCardAnimationCallback()
+    {
+        isEnemyTurn = true;
+
+        PlayEnemyTurn();
+    }
+
+    //Called after player drew their card
+    void EnemyCardAnimationCallback()
+    {
+        isEnemyTurn = false;
     }
 
     //Called by stand icon click in game
     public void Stand()
     {
-        if (fightManager.PlayerStatus != CharacterStatus.Playing)
+        if (IsGameOnStandby())
             return;
 
         fightManager.PlayerStatus = CharacterStatus.Standing;

@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Resources\Scripts\Fight\Enemy.cs" />
+    <Compile Include="Assets\Resources\Scripts\Managers\AnimationManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\IntroManager.cs" />
     <Compile Include="Assets\Resources\Scripts\JsonClasses\Maps.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\Reward.cs" />

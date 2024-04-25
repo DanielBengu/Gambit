@@ -12,5 +12,7 @@ namespace Assets.Resources.Scripts.Fight
 
         public int HP;
         public int Armor;
+
+        public int BaseMaxScore;
     }
 }

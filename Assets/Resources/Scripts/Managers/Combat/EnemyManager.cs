@@ -54,8 +54,8 @@ public class EnemyManager : MonoBehaviour
             MaxHP = enemy.HP;
             CurrentHP = enemy.HP;
 
-            BaseDeck = enemy.BaseDecklist;
-            CurrentDeck = enemy.BaseDecklist;
+            BaseDeck = GameManager.CopyDeck(enemy.BaseDecklist);
+            CurrentDeck = GameManager.CopyDeck(enemy.BaseDecklist);
 
             CurrentScore = 0;
             MaxScore = enemy.BaseMaxScore;

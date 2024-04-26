@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using static EnemyManager;
 using static AnimationManager;
-
+using System;
 public class FightManager
 {
+    readonly GameManager gameManager;
     readonly GameUIManager gameUIManager;
     readonly EffectsManager effectsManager;
     readonly EnemyManager enemyManager;
@@ -36,17 +37,17 @@ public class FightManager
 
     public TurnStatus CurrentTurn { get; set; }
 
-    public FightManager(EnemyData enemy, List<GameCard> playerStartingDeck, UnitData unit, GameUIManager gameUIManager, EffectsManager effectsManager, EnemyManager enemyManager, GameObject player, GameObject enemyObj)
+    public FightManager(EnemyData enemy, List<GameCard> playerStartingDeck, UnitData unit, GameUIManager gameUIManager, EffectsManager effectsManager, EnemyManager enemyManager, GameObject player, GameObject enemyObj, GameManager gameManager)
     {
         PlayerMaxHP = unit.MaxHP;
         PlayerHP = unit.CurrentHP;
         PlayerArmor = unit.Armor;
-        PlayerBaseDeck = playerStartingDeck;
-        PlayerCurrentDeck = playerStartingDeck;
+        PlayerBaseDeck = GameManager.CopyDeck(playerStartingDeck);
+        PlayerCurrentDeck = GameManager.CopyDeck(playerStartingDeck);
         PlayerScore = 0;
         PlayerMaxScore = unit.MaxScore;
 
-        CurrentTurn = TurnStatus.PlayerTurn;
+        CurrentTurn = TurnStatus.IntermediaryEffects;
 
         this.gameUIManager = gameUIManager;
         this.effectsManager = effectsManager;
@@ -58,6 +59,8 @@ public class FightManager
 
         playerObj = player;
         this.enemyObj = enemyObj;
+
+        this.gameManager = gameManager;
     }
 
     public void HandleEndTurn()
@@ -67,11 +70,11 @@ public class FightManager
         if (PlayerScore > Enemy.CurrentScore)
         {
             DealDamage(Character.Enemy, damageAmount);
-            MakeUnitDealDamage(Character.Player);
+            MakeUnitPerformAnimation(Character.Player, SpriteAnimation.UnitDealingDamage);
         } else if(PlayerScore < Enemy.CurrentScore)
         {
             DealDamage(Character.Player, damageAmount);
-            MakeUnitDealDamage(Character.Enemy);
+            MakeUnitPerformAnimation(Character.Enemy, SpriteAnimation.UnitDealingDamage);
         }      
 
         ResetTurn();
@@ -105,30 +108,61 @@ public class FightManager
         }
     }
 
-    public void MakeUnitTakeDamage(Character character)
+    public Action GetAnimationCallback(SpriteAnimation animation)
     {
+        return animation switch
+        {
+            SpriteAnimation.UnitTakingDamage => EmptyMethod,
+            SpriteAnimation.UnitDealingDamage => EmptyMethod,
+            SpriteAnimation.UnitIdle => EmptyMethod,
+            SpriteAnimation.UnitDeath => EmptyMethod,
+            _ => EmptyMethod,
+        };
+    }
+
+    public SpriteAnimation GetDamageAnimation(Character character)
+    {
+        int unitHp = character == Character.Player ? PlayerHP : Enemy.CurrentHP;
+
+        if (unitHp <= 0)
+            return SpriteAnimation.UnitDeath;
+        else
+            return SpriteAnimation.UnitTakingDamage;
+    }
+
+    public void MakeUnitPerformAnimation(Character character, SpriteAnimation animation)
+    {
+        Action callback = GetAnimationCallback(animation);
+
         switch (character)
         {
             case Character.Player:
-                PlayAnimation(playerObj, SpriteAnimation.UnitTakingDamage, EmptyMethod, effectsManager);
+                PlayAnimation(playerObj, animation, callback, effectsManager);
                 break;
             case Character.Enemy:
-                PlayAnimation(enemyObj, SpriteAnimation.UnitTakingDamage, EmptyMethod, effectsManager);
+                PlayAnimation(enemyObj, animation, callback, effectsManager);
                 break;
         }
     }
 
-    void MakeUnitDealDamage(Character character)
+    public void HandleUnitDeath(Character character)
     {
         switch (character)
         {
-            case Character.Player:
-                PlayAnimation(playerObj, SpriteAnimation.UnitDealingDamage, EmptyMethod, effectsManager);
-                break;
             case Character.Enemy:
-                PlayAnimation(enemyObj, SpriteAnimation.UnitDealingDamage, EmptyMethod, effectsManager);
+                MakeUnitDisappear(enemyObj);
+                gameUIManager.TurnOfFightUI();
+                gameManager.HandleFightVictory();
+                break;
+            case Character.Player:
+                gameManager.HandleFightDefeat();
                 break;
         }
+    }
+
+    void MakeUnitDisappear(GameObject obj)
+    {
+        obj.SetActive(false);
     }
 
     void EmptyMethod()
@@ -157,30 +191,38 @@ public class FightManager
         gameUIManager.SetStandButtonInteractable(true);
     }
 
+    public void RemoveObjFromAnimationList(GameObject obj)
+    {
+        effectsManager.RemoveFromLists(obj);
+    }
+
     public GameCard DrawAndPlayRandomCard(Character character)
     {
         List<GameCard> deck = new();
-
-        if (deck.Count == 0)
-            ResetDeck(character);
-
         switch (character)
         {
             case Character.Player:
+                if (PlayerCurrentDeck.Count == 0)
+                    ResetDeck(character);
                 deck = PlayerCurrentDeck;
                 break;
             case Character.Enemy:
+                if (Enemy.CurrentDeck.Count == 0)
+                    ResetDeck(character);
                 deck = Enemy.CurrentDeck;
                 break;
         }
 
-        int cardIndex = Random.Range(0, deck.Count);
-        GameCard card = deck[cardIndex];
-        deck.Remove(card);
+        GameCard cardPlayed = GetRandomCard(deck);
+        PlayCard(cardPlayed, character);
 
-        PlayCard(card, character);
+        return cardPlayed;
+    }
 
-        return card;
+    public GameCard GetRandomCard(List<GameCard> deck)
+    {
+        int cardIndex = UnityEngine.Random.Range(0, deck.Count);
+        return deck[cardIndex];
     }
 
     void PlayCard(GameCard card, Character character)
@@ -201,6 +243,8 @@ public class FightManager
                     PlayerStatus = UpdateStatus(PlayerScore, PlayerMaxScore);
                 }
 
+                PlayerCurrentDeck.Remove(card);
+
                 break;
             case Character.Enemy:
                 int enemyCardValue = GetCardValue(card);
@@ -216,6 +260,7 @@ public class FightManager
                     Enemy.Status = UpdateStatus(Enemy.CurrentScore, Enemy.MaxScore);
                 }
 
+                Enemy.CurrentDeck.Remove(card);
                 break;
         }
     }
@@ -278,10 +323,10 @@ public class FightManager
         switch (character)
         {
             case Character.Player:
-                PlayerCurrentDeck = PlayerBaseDeck;
+                PlayerCurrentDeck = GameManager.CopyDeck(PlayerBaseDeck);
                 break;
             case Character.Enemy:
-                Enemy.CurrentDeck = Enemy.BaseDeck;
+                Enemy.CurrentDeck = GameManager.CopyDeck(Enemy.BaseDeck);
                 break;
         }
     }
@@ -401,6 +446,7 @@ public class FightManager
     public enum TurnStatus
     {
         PlayerTurn,
-        EnemyTurn
+        EnemyTurn,
+        IntermediaryEffects
     }
 }

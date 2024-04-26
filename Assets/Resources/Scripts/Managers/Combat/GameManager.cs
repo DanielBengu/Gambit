@@ -1,5 +1,6 @@
 using Assets.Resources.Scripts.Fight;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static FightManager;
 
@@ -8,7 +9,7 @@ public class GameManager : MonoBehaviour
     public GameUIManager gameUIManager;
     public FightManager fightManager;
     public EnemyManager enemyManager;
-    public EffectsManager animationManager;
+    public EffectsManager effectsManager;
 
     public GameObject player;
     public GameObject enemyObj;
@@ -23,7 +24,7 @@ public class GameManager : MonoBehaviour
         currentMap = JSONManager.GetFileFromJSON<MapData>(JSONManager.MAPS_PATH).Maps.Find(m => m.Id == playerData.CurrentRun.MapId);
         EnemyData enemy = new()
         {
-            Name = "Medusa",
+            Name = "Skeleton",
             BaseDecklist = GetStartingDeck(0),
             Rewards = new()
             {
@@ -34,15 +35,22 @@ public class GameManager : MonoBehaviour
                     amount = 500
                 }
             },
-            HP = 10,
-            Armor = 2,
+            HP = 1,
+            Armor = 1,
             BaseMaxScore = 12,
             BaseStandThreshold = 8
         };
-        fightManager = new(enemy, playerData.CurrentRun.CardList, playerData.UnitData, gameUIManager, animationManager, enemyManager, player, enemyObj);
+        fightManager = new(enemy, playerData.CurrentRun.CardList, playerData.UnitData, gameUIManager, effectsManager, enemyManager, player, enemyObj, this);
 
         int bustAmount = fightManager.GetCardsBustAmount(Character.Player);
         gameUIManager.SetupUI(fightManager.Enemy, playerData.UnitData, playerData.CurrentRun.CardList.Count, bustAmount);
+
+        SetupBlackScreen();
+    }
+
+    void SetupBlackScreen()
+    {
+        gameUIManager.SetupBlackScreen(true, effectsManager);
     }
 
     private void Update()
@@ -71,6 +79,32 @@ public class GameManager : MonoBehaviour
         }
 
         return startingDeck;
+    }
+
+    public static List<GameCard> CopyDeck(List<GameCard> deck)
+    {
+        return deck.Select(c => CopyCard(c)).ToList();
+    }
+
+    public static GameCard CopyCard(GameCard card)
+    {
+        return new GameCard()
+        {
+            cardType = card.cardType,
+            classId = card.classId,
+            id = card.id,
+            value = card.value
+        };
+    }
+
+    public void HandleFightDefeat()
+    {
+
+    }
+
+    public void HandleFightVictory()
+    {
+
     }
 
     //Called by deck click in game

@@ -41,6 +41,10 @@ public class GameUIManager : MonoBehaviour
     public TextMeshProUGUI bustChance;
 
     public Button standButton;
+
+    public GameObject enemyInfoUI;
+
+    public Image blackScreen;
     #endregion
 
     void Start()
@@ -50,6 +54,23 @@ public class GameUIManager : MonoBehaviour
 
         playerSlider.value = 0;
         enemySlider.value = 0;
+    }
+
+    public void SetupBlackScreen(bool active, EffectsManager effectsManager)
+    {
+        blackScreen.gameObject.SetActive(active);
+
+        Color resetColor = blackScreen.color;
+        resetColor.a = 1f; // Reset alpha to fully opaque
+        blackScreen.color = resetColor;
+
+        if (active)
+            effectsManager.effects.Add(new()
+            {
+                obj = blackScreen.gameObject,
+                effect = EffectsManager.Effects.GameStartup,
+                callback = () => { }
+            });
     }
 
     public void SetupUI(EnemyCurrent enemy, UnitData player, int playerDeckCount, int bustAmount)
@@ -95,6 +116,7 @@ public class GameUIManager : MonoBehaviour
                 break;
         }
     }
+
     public void UpdateStandUI(Character slide, CharacterStatus status, int newScore, int maxScore)
     {
         ChangeSlideValue(slide, status, newScore, maxScore);
@@ -121,6 +143,12 @@ public class GameUIManager : MonoBehaviour
 
     public void UpdateBustChance(int bustChanceAmount, int deckCount)
     {
+        if(deckCount == 0)
+        {
+            bustChance.text = "Success: ???";
+            return;
+        }
+
         int successChanceValue = 100 - bustChanceAmount * 100 / deckCount;
 
         if (successChanceValue <= 30)
@@ -131,6 +159,11 @@ public class GameUIManager : MonoBehaviour
             bustChance.color= Color.green;
 
         bustChance.text = $"Success: {successChanceValue}% ({bustChanceAmount}/{deckCount})";
+    }
+
+    public void TurnOfFightUI()
+    {
+        enemyInfoUI.SetActive(false);
     }
 
     public void ChangeSlideValue(Character slide, CharacterStatus status, int newValue, int maxScore)

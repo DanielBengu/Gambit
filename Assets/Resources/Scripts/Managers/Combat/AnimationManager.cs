@@ -4,39 +4,32 @@ using UnityEngine;
 
 public static class AnimationManager
 {
-    static readonly string unitIdleName = "Idle";
-
     public static void PlayAnimation(GameObject unit, SpriteAnimation animation, Action callback, EffectsManager effectsManager)
     {
         Animator animator = unit.GetComponent<Animator>();
-        string animationToPlay = string.Empty;
-
-        switch (animation)
-        {
-            case SpriteAnimation.UnitDealingDamage:
-                animationToPlay = "DealDamage";
-                break;
-            case SpriteAnimation.UnitTakingDamage:
-                animationToPlay = "TakeDamage";
-                break;
-            case SpriteAnimation.UnitIdle:
-                animationToPlay = unitIdleName;
-                break;
-        }
+        string animationToPlay = GetAnimationName(animation);
 
         animator.Play(animationToPlay);
         effectsManager.animatingSprites.Add(new(animator, animation, callback));
     }
 
-    public static string GetIdleAnimationName()
+    public static string GetAnimationName(SpriteAnimation animation)
     {
-        return unitIdleName;
+        return animation switch
+        {
+            SpriteAnimation.UnitDealingDamage => "DealDamage",
+            SpriteAnimation.UnitTakingDamage => "TakeDamage",
+            SpriteAnimation.UnitIdle => "Idle",
+            SpriteAnimation.UnitDeath => "Death",
+            _ => string.Empty,
+        };
     }
 
     public enum SpriteAnimation
     {
         UnitIdle,
         UnitTakingDamage,
-        UnitDealingDamage
+        UnitDealingDamage,
+        UnitDeath
     }
 }

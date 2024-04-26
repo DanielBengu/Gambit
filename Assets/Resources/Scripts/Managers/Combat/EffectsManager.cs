@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using static AnimationManager;
 using static EffectsManager.MovingObject;
 
@@ -11,10 +12,13 @@ public class EffectsManager : MonoBehaviour
 
     public List<AnimatingSpriteStruct> animatingSprites = new();
 
+    public List<EffectsStruct> effects = new();
+
     private void Update()
     {
         HandleMovement();
         HandleSpriteAnimation();
+        HandleEffects();
     }
 
     void HandleMovement()
@@ -51,7 +55,7 @@ public class EffectsManager : MonoBehaviour
 
             string currentAnimationName = anim.objectToAnimate.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
-            if (currentAnimationName == GetIdleAnimationName())
+            if (currentAnimationName == GetAnimationName(SpriteAnimation.UnitIdle))
             {
                 animatingSprites.RemoveAt(i);
                 i--;
@@ -59,16 +63,44 @@ public class EffectsManager : MonoBehaviour
         }
     }
 
-    public void TriggerCallback(int sourceId)
+    void HandleEffects()
     {
-        AnimatingSpriteStruct anim = animatingSprites.Find(a => a.objectToAnimate.gameObject.GetInstanceID() ==  sourceId);
+        for (int i = 0; i < effects.Count;i++)
+        {
+            EffectsStruct effect = effects[i];
+            switch (effect.effect)
+            {
+                case Effects.GameStartup:
+                    Image startupBlackoutImage = effect.obj.GetComponent<Image>();
+                    Color currentColor = startupBlackoutImage.color;
+                    currentColor.a -= Time.deltaTime * 0.5f; // Adjust the rate of transparency loss as needed
+                    startupBlackoutImage.color = currentColor;
+                    if (currentColor.a <= 0.1f)
+                    {
+                        startupBlackoutImage.gameObject.SetActive(false);
+                        effects.RemoveAt(i);
+                        i--;
+                    }
+                    break;
+            }
+        }
+    }
 
-        anim.callback();
+    public void RemoveFromLists(GameObject obj)
+    {
+        Animator anim = obj.GetComponent<Animator>();
+        movingObjects.RemoveAll(o => o.objectMoving == obj.transform);
+        animatingSprites.RemoveAll(s => s.objectToAnimate == anim);
     }
 
     public void StartMovement(Transform source, Transform destination, int speed, TypeOfObject type, Action callback)
     {
         movingObjects.Add(new(source, destination, type, speed, callback));
+    }
+
+    public enum Effects
+    {
+        GameStartup
     }
 
     public struct MovingObject
@@ -110,6 +142,20 @@ public class EffectsManager : MonoBehaviour
             objectToAnimate = obj;
             this.callback = callback;
             this.animation = animation;
+        }
+    }
+
+    public struct EffectsStruct
+    {
+        public Effects effect;
+        public GameObject obj;
+        public Action callback;
+
+        public EffectsStruct(Effects effect, GameObject obj, Action action)
+        {
+            this.effect = effect;
+            this.obj = obj;
+            callback = action;
         }
     }
 }

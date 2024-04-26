@@ -2,11 +2,51 @@
   "Enemies": [
     {
       "Id": 0,
-      "Name": "Skeleton"
+      "Name": "Skeleton",
+      "Armor": 2,
+      "HP": 1,
+      "BaseMaxScore": 12,
+      "BaseStandThreshold": 8,
+      "IsCustomDecklist": false,
+      "Rewards": [
+        {
+          "reward": 0,
+          "rewardId": 0,
+          "amount": 100
+        }
+      ]
     },
     {
       "Id": 1,
-      "Name": "Medusa"
+      "Name": "Medusa",
+      "Armor": 2,
+      "HP": 1,
+      "BaseMaxScore": 12,
+      "BaseStandThreshold": 8,
+      "IsCustomDecklist": false,
+      "Rewards": [
+        {
+          "reward": 0,
+          "rewardId": 0,
+          "amount": 200
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "Name": "Wraith",
+      "Armor": 2,
+      "HP": 1,
+      "BaseMaxScore": 12,
+      "BaseStandThreshold": 8,
+      "IsCustomDecklist": false,
+      "Rewards": [
+        {
+          "reward": 0,
+          "rewardId": 0,
+          "amount": 300
+        }
+      ]
     }
   ]
 }

@@ -1918,6 +1918,8 @@ MonoBehaviour:
   bustChance: {fileID: 953147727}
   standButton: {fileID: 1235821890}
   enemyInfoUI: {fileID: 1338249777}
+  hitOrStandUI: {fileID: 1942598765}
+  scoreUI: {fileID: 145935882}
   blackScreen: {fileID: 978560793}
 --- !u!1 &1087587940
 GameObject:

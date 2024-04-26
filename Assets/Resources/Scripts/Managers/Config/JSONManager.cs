@@ -8,6 +8,7 @@ public static class JSONManager
     public static string GAMEDATA_PATH = "Assets\\Resources\\GameData";
     public static string MAPS_PATH = $"{GAMEDATA_PATH}\\Maps.json";
     public static string CLASSES_PATH = $"{GAMEDATA_PATH}\\Classes.json";
+    public static string ENEMIES_PATH = $"{GAMEDATA_PATH}\\Enemies.json";
     public static string CARDS_PATH = $"{GAMEDATA_PATH}\\Cards.json";
     public static T GetFileFromJSON<T>(string path)
     {

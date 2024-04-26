@@ -22,30 +22,23 @@ public class GameManager : MonoBehaviour
     {
         playerData = SaveManager.LoadPlayerData();
         currentMap = JSONManager.GetFileFromJSON<MapData>(JSONManager.MAPS_PATH).Maps.Find(m => m.Id == playerData.CurrentRun.MapId);
-        EnemyData enemy = new()
-        {
-            Name = "Skeleton",
-            BaseDecklist = GetStartingDeck(0),
-            Rewards = new()
-            {
-                new()
-                {
-                    reward = TypeOfReward.Gold,
-                    rewardId = 0,
-                    amount = 500
-                }
-            },
-            HP = 1,
-            Armor = 1,
-            BaseMaxScore = 12,
-            BaseStandThreshold = 8
-        };
+        EnemyList enemyList = JSONManager.GetFileFromJSON<EnemyList>(JSONManager.ENEMIES_PATH);
+        EnemyData enemy = GetRandomEnemy(currentMap, enemyList);
+        enemy.BaseDecklist = enemy.IsCustomDecklist ? GetStartingDeck(0) : GetStartingDeck(0);
         fightManager = new(enemy, playerData.CurrentRun.CardList, playerData.UnitData, gameUIManager, effectsManager, enemyManager, player, enemyObj, this);
 
         int bustAmount = fightManager.GetCardsBustAmount(Character.Player);
         gameUIManager.SetupUI(fightManager.Enemy, playerData.UnitData, playerData.CurrentRun.CardList.Count, bustAmount);
 
         SetupBlackScreen();
+    }
+
+    EnemyData GetRandomEnemy(Map currentMap, EnemyList enemyList)
+    {
+        int enemyIndexSelected = Random.Range(0, currentMap.EnemiesListId.Count);
+        int enemyId = currentMap.EnemiesListId[enemyIndexSelected];
+
+        return enemyList.Enemies.Find(e => e.Id == enemyId);
     }
 
     void SetupBlackScreen()

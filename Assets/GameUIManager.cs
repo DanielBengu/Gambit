@@ -43,6 +43,8 @@ public class GameUIManager : MonoBehaviour
     public Button standButton;
 
     public GameObject enemyInfoUI;
+    public GameObject hitOrStandUI;
+    public GameObject scoreUI;
 
     public Image blackScreen;
     #endregion
@@ -68,7 +70,7 @@ public class GameUIManager : MonoBehaviour
             effectsManager.effects.Add(new()
             {
                 obj = blackScreen.gameObject,
-                effect = EffectsManager.Effects.GameStartup,
+                effect = EffectsManager.Effects.FightStartup,
                 callback = () => { }
             });
     }
@@ -164,6 +166,8 @@ public class GameUIManager : MonoBehaviour
     public void TurnOfFightUI()
     {
         enemyInfoUI.SetActive(false);
+        hitOrStandUI.SetActive(false);
+        scoreUI.SetActive(false);
     }
 
     public void ChangeSlideValue(Character slide, CharacterStatus status, int newValue, int maxScore)

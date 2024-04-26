@@ -8,6 +8,9 @@ public class MenuManager : MonoBehaviour
 {
     public bool forceTutorial = false;
     public MenuOptions menuOptions;
+    public EffectsManager effectsManager;
+
+    public GameObject blackScreen;
 
     void Start()
     {
@@ -95,6 +98,17 @@ public class MenuManager : MonoBehaviour
         });
 
         Debug.Log($"Launching world {mapToPlay.Name} (id: {mapToPlay.Id})");
+        effectsManager.effects.Add(new()
+        {
+            obj = blackScreen,
+            callback = LoadSceneGame,
+            effect = EffectsManager.Effects.MenuStartGame
+        });
+        blackScreen.SetActive(true);
+    }
+
+    public void LoadSceneGame()
+    {
         SceneManager.LoadScene("Game");
     }
 

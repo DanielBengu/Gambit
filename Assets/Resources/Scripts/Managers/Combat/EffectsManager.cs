@@ -70,7 +70,7 @@ public class EffectsManager : MonoBehaviour
             EffectsStruct effect = effects[i];
             switch (effect.effect)
             {
-                case Effects.GameStartup:
+                case Effects.FightStartup:
                     Image startupBlackoutImage = effect.obj.GetComponent<Image>();
                     Color currentColor = startupBlackoutImage.color;
                     currentColor.a -= Time.deltaTime * 0.5f; // Adjust the rate of transparency loss as needed
@@ -82,7 +82,20 @@ public class EffectsManager : MonoBehaviour
                         i--;
                     }
                     break;
+                case Effects.MenuStartGame:
+                    startupBlackoutImage = effect.obj.GetComponent<Image>();
+                    Color currentColor2 = startupBlackoutImage.color;
+                    currentColor2.a += Time.deltaTime * 0.9f; // Adjust the rate of transparency loss as needed
+                    startupBlackoutImage.color = currentColor2;
+                    if (currentColor2.a >= 1f)
+                    {
+                        effect.callback();
+                        effects.RemoveAt(i);
+                        i--;
+                    }
+                    break;
             }
+
         }
     }
 
@@ -100,7 +113,8 @@ public class EffectsManager : MonoBehaviour
 
     public enum Effects
     {
-        GameStartup
+        FightStartup,
+        MenuStartGame
     }
 
     public struct MovingObject

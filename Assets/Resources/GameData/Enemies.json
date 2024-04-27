@@ -3,7 +3,7 @@
     {
       "Id": 0,
       "Name": "Skeleton",
-      "Armor": 2,
+      "Armor": 0,
       "HP": 1,
       "BaseMaxScore": 12,
       "BaseStandThreshold": 8,
@@ -19,7 +19,7 @@
     {
       "Id": 1,
       "Name": "Medusa",
-      "Armor": 2,
+      "Armor": 0,
       "HP": 1,
       "BaseMaxScore": 12,
       "BaseStandThreshold": 8,
@@ -35,7 +35,7 @@
     {
       "Id": 2,
       "Name": "Wraith",
-      "Armor": 2,
+      "Armor": 0,
       "HP": 1,
       "BaseMaxScore": 12,
       "BaseStandThreshold": 8,

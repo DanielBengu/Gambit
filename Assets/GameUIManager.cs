@@ -17,6 +17,7 @@ public class GameUIManager : MonoBehaviour
     public TextMeshProUGUI playerMaxScoreText;
     public TextMeshProUGUI playerTitleText;
     public TextMeshProUGUI playerHPText;
+    public TextMeshProUGUI playerArmorText;
     public Slider playerHPBar;
 
     public Transform playerCardDestination;
@@ -30,6 +31,7 @@ public class GameUIManager : MonoBehaviour
     public TextMeshProUGUI enemyMaxScoreText;
     public TextMeshProUGUI enemyTitleText;
     public TextMeshProUGUI enemyHPText;
+    public TextMeshProUGUI enemyArmorText;
     public Slider enemyHPBar;
 
     public Transform enemyCardDestination;
@@ -81,12 +83,29 @@ public class GameUIManager : MonoBehaviour
         playerTitleText.text = player.Name;
         ChangeDeckCount(playerDeckCount);
         UpdateBustChance(bustAmount, playerDeckCount);
+
         UpdateMaxScore(Character.Player, player.MaxScore);
-        UpdateMaxScore(Character.Enemy, enemy.MaxScore);
         SetMaxSliderValue(Character.Player, player.MaxScore);
-        SetMaxSliderValue(Character.Enemy, enemy.MaxScore);
         SetUnitHP(Character.Player, player.CurrentHP, player.MaxHP);
+        UpdateArmor(Character.Player, player.Armor);
+
         SetUnitHP(Character.Enemy, enemy.CurrentHP, enemy.MaxHP);
+        UpdateArmor(Character.Enemy, enemy.Armor);
+        SetMaxSliderValue(Character.Enemy, enemy.MaxScore);
+        UpdateMaxScore(Character.Enemy, enemy.MaxScore);
+    }
+
+    public void UpdateArmor(Character character, int newValue)
+    {
+        switch (character)
+        {
+            case Character.Enemy:
+                enemyArmorText.text = newValue.ToString();
+                break;
+            case Character.Player:
+                playerArmorText.text = newValue.ToString();
+                break;
+        }
     }
 
     public void SetMaxSliderValue(Character character, int value)
@@ -104,19 +123,26 @@ public class GameUIManager : MonoBehaviour
 
     public void SetUnitHP(Character unit, int hpValue, int maxHpValue)
     {
+        string hpString = GetHPString(hpValue, maxHpValue);
+
         switch (unit)
         {
             case Character.Player:
                 playerHPBar.maxValue = maxHpValue;
                 playerHPBar.value = hpValue;
-                playerHPText.text = hpValue.ToString();
+                playerHPText.text = hpString;
                 break;
             case Character.Enemy:
                 enemyHPBar.maxValue = maxHpValue;
                 enemyHPBar.value = hpValue;
-                enemyHPText.text = hpValue.ToString();
+                enemyHPText.text = hpString;
                 break;
         }
+    }
+
+    string GetHPString(int currentHp, int maxHp)
+    {
+        return $"health {currentHp}/{maxHp}"; 
     }
 
     public void UpdateStandUI(Character slide, CharacterStatus status, int newScore, int maxScore)
@@ -177,15 +203,15 @@ public class GameUIManager : MonoBehaviour
 
                 playerSlider.value = newValue;
                 playerScoreText.text = status == CharacterStatus.Bust ? $"{newValue}\nBUST!" : newValue.ToString();
-                playerScoreText.color = newValue == maxScore ? Color.yellow : Color.cyan;
-                playerSliderColor.color = newValue == maxScore ? Color.yellow : Color.cyan;
+                playerScoreText.color = newValue == maxScore ? Color.yellow : Color.white;
+                playerSliderColor.color = newValue == maxScore ? Color.yellow : Color.white;
                 break;
             case Character.Enemy:
 
                 enemySlider.value = newValue;
                 enemyScoreText.text = status == CharacterStatus.Bust ? $"{newValue}\nBUST!" : newValue.ToString();
-                enemyScoreText.color = newValue == maxScore ? Color.yellow : Color.red;
-                enemySliderColor.color = newValue == maxScore ? Color.yellow : Color.red;
+                enemyScoreText.color = newValue == maxScore ? Color.yellow : Color.white;
+                enemySliderColor.color = newValue == maxScore ? Color.yellow : Color.white;
                 break;
         }
     }

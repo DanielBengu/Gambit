@@ -2,20 +2,25 @@ using Assets.Resources.Scripts.Fight;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using static FightManager;
 
 public class GameManager : MonoBehaviour
 {
+    public FightManager FightManager { get; set; }
+    public EventManager EventManager { get; set; }
+    public DialogueManager DialogueManager { get; set; } = new();
+
     public GameUIManager gameUIManager;
-    public FightManager fightManager;
-    public EventManager eventManager;
     public EnemyManager enemyManager;
     public EffectsManager effectsManager;
 
     public GameObject player;
     public GameObject enemyObj;
+
+    public TextMeshProUGUI textBubble;
 
     PlayerData playerData;
     Map currentMap;
@@ -31,6 +36,14 @@ public class GameManager : MonoBehaviour
 
         EncounterData encounter = GetEncounter(CurrentEncounterCount);
         PlayEncounter(encounter);
+    }
+
+    private void Update()
+    {
+        if (FightManager != null && (FightManager.PlayerStatus != CharacterStatus.Playing && FightManager.Enemy.Status != CharacterStatus.Playing))
+            FightManager.HandleEndTurn();
+
+        EventManager?.Update();
     }
 
     EncounterData GetEncounter(int encounterCount)
@@ -63,7 +76,7 @@ public class GameManager : MonoBehaviour
                 EventData eventData = eventList.Events.Find(e => e.Id == encounter.Id);
                 PlayEvent(eventData);
 
-                SetupBlackScreen(eventManager.CharacterTalk);
+                SetupBlackScreen(EventManager.CharacterTalk);
                 break;
         }
     }
@@ -71,17 +84,17 @@ public class GameManager : MonoBehaviour
     void PlayCombat(EnemyData enemy)
     {
         enemy.BaseDecklist = enemy.IsCustomDecklist ? GetStartingDeck(0) : GetStartingDeck(0);
-        fightManager = new(enemy, playerData.CurrentRun.CardList, playerData.UnitData, gameUIManager, effectsManager, enemyManager, player, enemyObj, this);
+        FightManager = new(enemy, playerData.CurrentRun.CardList, playerData.UnitData, gameUIManager, effectsManager, enemyManager, player, enemyObj, this);
 
-        int bustAmount = fightManager.GetCardsBustAmount(Character.Player);
-        gameUIManager.SetupFightUI(fightManager.Enemy, playerData.UnitData, playerData.CurrentRun.CardList.Count, bustAmount);
+        int bustAmount = FightManager.GetCardsBustAmount(Character.Player);
+        gameUIManager.SetupFightUI(FightManager.Enemy, playerData.UnitData, playerData.CurrentRun.CardList.Count, bustAmount);
 
         Status = GameStatus.Fight;
     }
 
     void PlayEvent(EventData eventData){
 
-        eventManager = new(eventData, enemyObj, effectsManager);
+        EventManager = new(eventData, enemyObj, effectsManager, textBubble);
 
         gameUIManager.SetupEventUI();
 
@@ -100,12 +113,6 @@ public class GameManager : MonoBehaviour
     void SetupBlackScreen(Action callback)
     {
         gameUIManager.SetupBlackScreen(true, effectsManager, callback);
-    }
-
-    private void Update()
-    {
-        if (fightManager != null && (fightManager.PlayerStatus != CharacterStatus.Playing && fightManager.Enemy.Status != CharacterStatus.Playing))
-            fightManager.HandleEndTurn();
     }
 
     public static List<GameCard> GetStartingDeck(int classOfDeck)
@@ -159,16 +166,16 @@ public class GameManager : MonoBehaviour
     //Called by deck click in game
     public void PlayCard()
     {
-        if (fightManager.IsGameOnStandby())
+        if (FightManager.IsGameOnStandby())
             return;
 
-        fightManager.PlayUnitCard(Character.Player);
+        FightManager.PlayUnitCard(Character.Player);
     }
 
     //Called by stand icon click in game
     public void Stand()
     {
-        fightManager.HandlePlayerStand();
+        FightManager.HandlePlayerStand();
     }
 
     static CardType GetCardType(int cardId)

@@ -11,6 +11,8 @@ public static class JSONManager
     public static string ENEMIES_PATH = $"{GAMEDATA_PATH}\\Enemies.json";
     public static string EVENTS_PATH = $"{GAMEDATA_PATH}\\Events.json";
     public static string CARDS_PATH = $"{GAMEDATA_PATH}\\Cards.json";
+    public static string DIALOGUES_PATH = $"{GAMEDATA_PATH}\\Dialogues.json";
+
     public static T GetFileFromJSON<T>(string path)
     {
         string data = File.ReadAllText(path);

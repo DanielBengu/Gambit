@@ -36,7 +36,7 @@ public class UnitAnimationManager : MonoBehaviour
         if (_fightManager != null)
             return _fightManager;
 
-        _fightManager = GameObject.Find("GameManager").GetComponent<GameManager>().fightManager;
+        _fightManager = GameObject.Find("GameManager").GetComponent<GameManager>().FightManager;
 
         return _fightManager;
     }

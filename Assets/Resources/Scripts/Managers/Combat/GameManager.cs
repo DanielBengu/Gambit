@@ -1,6 +1,8 @@
 using Assets.Resources.Scripts.Fight;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using static FightManager;
 
@@ -8,6 +10,7 @@ public class GameManager : MonoBehaviour
 {
     public GameUIManager gameUIManager;
     public FightManager fightManager;
+    public EventManager eventManager;
     public EnemyManager enemyManager;
     public EffectsManager effectsManager;
 
@@ -17,38 +20,91 @@ public class GameManager : MonoBehaviour
     PlayerData playerData;
     Map currentMap;
 
+    public GameStatus Status { get; set; }
+    public int CurrentEncounterCount { get; set; } = 0;
+
     // Start is called before the first frame update
     void Start()
     {
         playerData = SaveManager.LoadPlayerData();
         currentMap = JSONManager.GetFileFromJSON<MapData>(JSONManager.MAPS_PATH).Maps.Find(m => m.Id == playerData.CurrentRun.MapId);
-        EnemyList enemyList = JSONManager.GetFileFromJSON<EnemyList>(JSONManager.ENEMIES_PATH);
-        EnemyData enemy = GetRandomEnemy(currentMap, enemyList);
+
+        EncounterData encounter = GetEncounter(CurrentEncounterCount);
+        PlayEncounter(encounter);
+    }
+
+    EncounterData GetEncounter(int encounterCount)
+    {
+        EncounterData encounter = currentMap.CustomEncounters.Find(e => e.PositionOnMap == encounterCount) ?? DrawRandomEncounter();
+        return encounter;
+    }
+
+    EncounterData DrawRandomEncounter()
+    {
+        int index = UnityEngine.Random.Range(0, currentMap.EncounterList.Count);
+        return currentMap.EncounterList[index];
+    }
+
+    void PlayEncounter(EncounterData encounter)
+    {
+        switch (encounter.Type)
+        {
+
+            case Map.TypeOfEncounter.Combat:
+                EnemyList enemyList = JSONManager.GetFileFromJSON<EnemyList>(JSONManager.ENEMIES_PATH);
+                EnemyData enemy = enemyList.Enemies.Find(e => e.Id == encounter.Id);
+                PlayCombat(enemy);
+
+                SetupBlackScreen(() => { });
+                break;
+
+            case Map.TypeOfEncounter.Event:
+                EventList eventList = JSONManager.GetFileFromJSON<EventList>(JSONManager.EVENTS_PATH);
+                EventData eventData = eventList.Events.Find(e => e.Id == encounter.Id);
+                PlayEvent(eventData);
+
+                SetupBlackScreen(eventManager.CharacterTalk);
+                break;
+        }
+    }
+
+    void PlayCombat(EnemyData enemy)
+    {
         enemy.BaseDecklist = enemy.IsCustomDecklist ? GetStartingDeck(0) : GetStartingDeck(0);
         fightManager = new(enemy, playerData.CurrentRun.CardList, playerData.UnitData, gameUIManager, effectsManager, enemyManager, player, enemyObj, this);
 
         int bustAmount = fightManager.GetCardsBustAmount(Character.Player);
-        gameUIManager.SetupUI(fightManager.Enemy, playerData.UnitData, playerData.CurrentRun.CardList.Count, bustAmount);
+        gameUIManager.SetupFightUI(fightManager.Enemy, playerData.UnitData, playerData.CurrentRun.CardList.Count, bustAmount);
 
-        SetupBlackScreen();
+        Status = GameStatus.Fight;
+    }
+
+    void PlayEvent(EventData eventData){
+
+        eventManager = new(eventData, enemyObj, effectsManager);
+
+        gameUIManager.SetupEventUI();
+
+        Status = GameStatus.Event;
     }
 
     EnemyData GetRandomEnemy(Map currentMap, EnemyList enemyList)
     {
-        int enemyIndexSelected = Random.Range(0, currentMap.EnemiesListId.Count);
-        int enemyId = currentMap.EnemiesListId[enemyIndexSelected];
+        List<int> listOfEncounters = currentMap.EncounterList.Where(w => w.Type == Map.TypeOfEncounter.Combat).Select(e => e.Id).ToList();
+        int enemyIndexSelected = UnityEngine.Random.Range(0, listOfEncounters.Count);
+        int enemyId = listOfEncounters[enemyIndexSelected];
 
         return enemyList.Enemies.Find(e => e.Id == enemyId);
     }
 
-    void SetupBlackScreen()
+    void SetupBlackScreen(Action callback)
     {
-        gameUIManager.SetupBlackScreen(true, effectsManager);
+        gameUIManager.SetupBlackScreen(true, effectsManager, callback);
     }
 
     private void Update()
     {
-        if (fightManager.PlayerStatus != CharacterStatus.Playing && fightManager.Enemy.Status != CharacterStatus.Playing)
+        if (fightManager != null && (fightManager.PlayerStatus != CharacterStatus.Playing && fightManager.Enemy.Status != CharacterStatus.Playing))
             fightManager.HandleEndTurn();
     }
 
@@ -131,5 +187,12 @@ public class GameManager : MonoBehaviour
 
         Debug.LogError($"Incorrect card id: {cardId}");
         return CardType.Default;
+    }
+
+    public enum GameStatus
+    {
+        Default,
+        Fight,
+        Event
     }
 }

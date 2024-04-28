@@ -24,6 +24,10 @@ public class GameUIManager : MonoBehaviour
     public Image playerCardImage;
     #endregion
 
+    #region Fight UI
+
+    public GameObject fightUI;
+
     #region Enemy UI
     public Slider enemySlider;
     public Image enemySliderColor;
@@ -51,6 +55,14 @@ public class GameUIManager : MonoBehaviour
     public Image blackScreen;
     #endregion
 
+    #endregion
+
+    #region Event UI
+
+    public GameObject eventUI;
+
+    #endregion
+
     void Start()
     {
         playerScoreText.text = "0";
@@ -60,7 +72,7 @@ public class GameUIManager : MonoBehaviour
         enemySlider.value = 0;
     }
 
-    public void SetupBlackScreen(bool active, EffectsManager effectsManager)
+    public void SetupBlackScreen(bool active, EffectsManager effectsManager, Action callback)
     {
         blackScreen.gameObject.SetActive(active);
 
@@ -73,12 +85,14 @@ public class GameUIManager : MonoBehaviour
             {
                 obj = blackScreen.gameObject,
                 effect = EffectsManager.Effects.FightStartup,
-                callback = () => { }
+                callback = callback
             });
     }
 
-    public void SetupUI(EnemyCurrent enemy, UnitData player, int playerDeckCount, int bustAmount)
+    public void SetupFightUI(EnemyCurrent enemy, UnitData player, int playerDeckCount, int bustAmount)
     {
+        fightUI.SetActive(true);
+
         enemyTitleText.text = enemy.Name;
         playerTitleText.text = player.Name;
         ChangeDeckCount(playerDeckCount);
@@ -93,6 +107,11 @@ public class GameUIManager : MonoBehaviour
         UpdateArmor(Character.Enemy, enemy.Armor);
         SetMaxSliderValue(Character.Enemy, enemy.MaxScore);
         UpdateMaxScore(Character.Enemy, enemy.MaxScore);
+    }
+
+    public void SetupEventUI()
+    {
+        eventUI.SetActive(true);
     }
 
     public void UpdateArmor(Character character, int newValue)
@@ -142,6 +161,9 @@ public class GameUIManager : MonoBehaviour
 
     string GetHPString(int currentHp, int maxHp)
     {
+        if (currentHp <= 0)
+            return $"DEAD";
+
         return $"health {currentHp}/{maxHp}"; 
     }
 
@@ -194,6 +216,11 @@ public class GameUIManager : MonoBehaviour
         enemyInfoUI.SetActive(false);
         hitOrStandUI.SetActive(false);
         scoreUI.SetActive(false);
+    }
+
+    public void TurnOffEventUI()
+    {
+        eventUI.SetActive(false);
     }
 
     public void ChangeSlideValue(Character slide, CharacterStatus status, int newValue, int maxScore)

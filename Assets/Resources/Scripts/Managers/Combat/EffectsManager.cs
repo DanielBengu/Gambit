@@ -77,6 +77,8 @@ public class EffectsManager : MonoBehaviour
                     startupBlackoutImage.color = currentColor;
                     if (currentColor.a <= 0.1f)
                     {
+                        effect.callback();
+
                         startupBlackoutImage.gameObject.SetActive(false);
                         effects.RemoveAt(i);
                         i--;
@@ -85,7 +87,7 @@ public class EffectsManager : MonoBehaviour
                 case Effects.MenuStartGame:
                     startupBlackoutImage = effect.obj.GetComponent<Image>();
                     Color currentColor2 = startupBlackoutImage.color;
-                    currentColor2.a += Time.deltaTime * 0.9f; // Adjust the rate of transparency loss as needed
+                    currentColor2.a += Time.deltaTime * 1.2f; // Adjust the rate of transparency loss as needed
                     startupBlackoutImage.color = currentColor2;
                     if (currentColor2.a >= 1f)
                     {

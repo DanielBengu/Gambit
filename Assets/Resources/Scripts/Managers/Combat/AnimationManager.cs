@@ -21,6 +21,7 @@ public static class AnimationManager
             SpriteAnimation.UnitTakingDamage => "TakeDamage",
             SpriteAnimation.UnitIdle => "Idle",
             SpriteAnimation.UnitDeath => "Death",
+            SpriteAnimation.UnitTalk => "Talk_Start",
             _ => string.Empty,
         };
     }
@@ -30,6 +31,7 @@ public static class AnimationManager
         UnitIdle,
         UnitTakingDamage,
         UnitDealingDamage,
-        UnitDeath
+        UnitDeath,
+        UnitTalk
     }
 }

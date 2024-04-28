@@ -1,0 +1,46 @@
+{
+  "Events": [
+    {
+      "Id": 0,
+      "Description": "Tutorial Guy",
+      "EventOptions": [
+        {
+          "EncounterEvents": 0,
+          "Description": "Increase armor"
+        },
+        {
+          "EncounterEvents": 1,
+          "Description": "Increase hp"
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "Description": "Forest Event 1",
+      "EventOptions": [
+        {
+          "EncounterEvents": 0,
+          "Description": "Increase armor"
+        },
+        {
+          "EncounterEvents": 1,
+          "Description": "Increase hp"
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "Description": "Ocean Event 1",
+      "EventOptions": [
+        {
+          "EncounterEvents": 0,
+          "Description": "Increase armor"
+        },
+        {
+          "EncounterEvents": 1,
+          "Description": "Increase hp"
+        }
+      ]
+    }
+  ]
+}

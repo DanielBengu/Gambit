@@ -19,6 +19,7 @@ public class FightManager
     public List<int> spritesAnimating = new();
 
     #region Player data
+    public UnitData Unit { get; set; }
     public int PlayerMaxHP { get; set; }
     public int PlayerHP { get; set; }
     public int PlayerArmor { get; set; }
@@ -39,6 +40,12 @@ public class FightManager
 
     public FightManager(EnemyData enemy, List<GameCard> playerStartingDeck, UnitData unit, GameUIManager gameUIManager, EffectsManager effectsManager, EnemyManager enemyManager, GameObject player, GameObject enemyObj, GameManager gameManager)
     {
+        this.enemyManager = enemyManager;
+        this.enemyManager.fightManager = this;
+
+        Unit = unit;
+        Enemy = new(enemy);
+
         PlayerMaxHP = unit.MaxHP;
         PlayerHP = unit.CurrentHP;
         PlayerArmor = unit.Armor;
@@ -52,15 +59,19 @@ public class FightManager
         this.gameUIManager = gameUIManager;
         this.effectsManager = effectsManager;
 
-        this.enemyManager = enemyManager;
-        this.enemyManager.fightManager = this;
-
-        Enemy = new(enemy);
-
         playerObj = player;
         this.enemyObj = enemyObj;
 
         this.gameManager = gameManager;
+
+        CharacterManager.LoadCharacter(enemy.Name, enemyObj);
+        PlayAnimation(enemyObj, SpriteAnimation.UnitIntro, SetupFightUI, effectsManager);
+    }
+
+    void SetupFightUI()
+    {
+        int bustAmount = GetCardsBustAmount(Character.Player);
+        gameUIManager.SetupFightUI(Enemy, Unit, PlayerCurrentDeck.Count, bustAmount);
     }
 
     public void HandleEndTurn()

@@ -40,7 +40,8 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (FightManager != null && (FightManager.PlayerStatus != CharacterStatus.Playing && FightManager.Enemy.Status != CharacterStatus.Playing))
+        if (FightManager != null && FightManager.PlayerStatus != CharacterStatus.Playing && FightManager.Enemy.Status != CharacterStatus.Playing &&
+            effectsManager.movingObjects.Count == 0)
             FightManager.HandleEndTurn();
 
         EventManager?.Update();
@@ -85,9 +86,6 @@ public class GameManager : MonoBehaviour
     {
         enemy.BaseDecklist = enemy.IsCustomDecklist ? GetStartingDeck(0) : GetStartingDeck(0);
         FightManager = new(enemy, playerData.CurrentRun.CardList, playerData.UnitData, gameUIManager, effectsManager, enemyManager, player, enemyObj, this);
-
-        int bustAmount = FightManager.GetCardsBustAmount(Character.Player);
-        gameUIManager.SetupFightUI(FightManager.Enemy, playerData.UnitData, playerData.CurrentRun.CardList.Count, bustAmount);
 
         Status = GameStatus.Fight;
     }

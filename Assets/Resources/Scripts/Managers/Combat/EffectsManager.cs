@@ -57,6 +57,7 @@ public class EffectsManager : MonoBehaviour
 
             if (currentAnimationName == GetAnimationName(SpriteAnimation.UnitIdle))
             {
+                anim.callback();
                 animatingSprites.RemoveAt(i);
                 i--;
             }

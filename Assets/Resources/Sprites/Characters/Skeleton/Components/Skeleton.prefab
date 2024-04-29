@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1376588433127517158}
   - component: {fileID: 8216408141839649907}
   - component: {fileID: 7554968565296824327}
+  - component: {fileID: 5470875751856871870}
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: Untagged
@@ -74,12 +75,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 723326962, guid: 33f0875233267354288433c9c9bd408c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 81a2f24ba6361384ead4a67d9f530337, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.21567766, y: 0.478125}
+  m_Size: {x: 5.2, y: 6.89}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -95,7 +96,7 @@ Animator:
   m_GameObject: {fileID: 5515252961475182823}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 625c8a2d2fb8c5845aeb4a1c9c195cbc, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6b39e5846ae924547a3adf7bb63450ff, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -106,3 +107,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5470875751856871870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5515252961475182823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e921700456fc4143884c3b944f1f351, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

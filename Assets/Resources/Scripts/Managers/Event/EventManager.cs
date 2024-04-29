@@ -22,12 +22,7 @@ public class EventManager
         this.character = character;
         this.effectsManager = effectsManager;
 
-        Animator animator = character.GetComponent<Animator>();
-        animator.runtimeAnimatorController = CharacterManager.LoadAnimator(eventData.Description);
-
-        SpriteRenderer charRenderer = character.GetComponent<SpriteRenderer>();
-        Sprite charPng = CharacterManager.LoadSprite(eventData.Description);
-        charRenderer.sprite = charPng;
+        CharacterManager.LoadCharacter(eventData.Description, character);
 
         bubbleText = textBubble;
     }
@@ -46,14 +41,11 @@ public class EventManager
 
         timer += Time.deltaTime;
 
-        // Check if it's time to display the next character
         if (timer >= textSpeed)
         {
-            // Add the next character to the text
             bubbleText.text += dialogue[currentIndex];
             currentIndex++;
 
-            // Reset the timer
             timer = 0f;
         }
     }

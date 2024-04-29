@@ -17,12 +17,12 @@
       "CustomEncounters": [
         {
           "PositionOnMap": 0,
-          "Type": 1,
-          "Id": 0
+          "Type": 0,
+          "Id": 1
         },
         {
           "PositionOnMap": 1,
-          "Type": 0,
+          "Type": 1,
           "Id": 0
         }
       ]

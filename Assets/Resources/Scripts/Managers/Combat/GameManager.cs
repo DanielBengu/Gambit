@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static FightManager;
 
 public class GameManager : MonoBehaviour
@@ -153,7 +154,7 @@ public class GameManager : MonoBehaviour
 
     public void HandleFightDefeat()
     {
-
+        SceneManager.LoadScene(0);
     }
 
     public void HandleFightVictory()

@@ -6,6 +6,7 @@ using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using static FightManager;
 
 public class GameManager : MonoBehaviour
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
     public GameObject enemyObj;
 
     public TextMeshProUGUI textBubble;
+    public Button nextSectionButton;
 
     PlayerData playerData;
     Map currentMap;
@@ -62,6 +64,8 @@ public class GameManager : MonoBehaviour
 
     void PlayEncounter(EncounterData encounter)
     {
+        nextSectionButton.gameObject.SetActive(false);
+
         switch (encounter.Type)
         {
 
@@ -152,6 +156,14 @@ public class GameManager : MonoBehaviour
         };
     }
 
+    //Next section button click
+    public void NextSectionButtonClick()
+    {
+        CurrentEncounterCount++;
+        EncounterData nextEncounter = GetEncounter(CurrentEncounterCount);
+        PlayEncounter(nextEncounter);
+    }
+
     public void HandleFightDefeat()
     {
         SceneManager.LoadScene(0);
@@ -159,7 +171,7 @@ public class GameManager : MonoBehaviour
 
     public void HandleFightVictory()
     {
-
+        nextSectionButton.gameObject.SetActive(true);
     }
 
     //Called by deck click in game

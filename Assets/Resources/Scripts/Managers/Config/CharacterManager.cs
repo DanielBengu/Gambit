@@ -18,4 +18,10 @@ static class CharacterManager
         characterObject.GetComponent<Animator>().runtimeAnimatorController = LoadAnimator(characterName);
         characterObject.GetComponent<SpriteRenderer>().sprite = LoadSprite(characterName);
     }
+
+    public static void ResetCharacter(GameObject characterObject)
+    {
+        characterObject.GetComponent<Animator>().runtimeAnimatorController = null;
+        characterObject.GetComponent<SpriteRenderer>().sprite = null;
+    }
 }

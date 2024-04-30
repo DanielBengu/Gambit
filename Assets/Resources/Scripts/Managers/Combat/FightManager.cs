@@ -161,7 +161,7 @@ public class FightManager
         switch (character)
         {
             case Character.Enemy:
-                MakeUnitDisappear(enemyObj);
+                CharacterManager.ResetCharacter(enemyObj);
                 gameUIManager.TurnOfFightUI();
                 gameManager.HandleFightVictory();
                 break;
@@ -169,11 +169,6 @@ public class FightManager
                 gameManager.HandleFightDefeat();
                 break;
         }
-    }
-
-    void MakeUnitDisappear(GameObject obj)
-    {
-        obj.SetActive(false);
     }
 
     void EmptyMethod()

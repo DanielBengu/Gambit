@@ -45,6 +45,7 @@ public class FightManager
         this.gameManager = gameManager;
 
         CharacterManager.LoadCharacter(enemy.Name, enemyObj);
+        CharacterManager.LoadCharacter(Player.Class.Class.ToString(), playerObj);
         PlayAnimation(enemyObj, SpriteAnimation.UnitIntro, SetupFightUI, effectsManager);
     }
 

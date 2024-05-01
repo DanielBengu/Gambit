@@ -1724,9 +1724,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 493382420}
     m_Modifications:
+    - target: {fileID: 911978030023627533, guid: 8caaa94531df4584aa32b7bd51a69e30, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1979572115142764997, guid: 8caaa94531df4584aa32b7bd51a69e30, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4981670990428712575, guid: 8caaa94531df4584aa32b7bd51a69e30, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4981670990428712575, guid: 8caaa94531df4584aa32b7bd51a69e30, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6160560176217049102, guid: 8caaa94531df4584aa32b7bd51a69e30, type: 3}
       propertyPath: m_LocalScale.x

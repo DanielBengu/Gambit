@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using static CardsManager;
 
 namespace Assets.Resources.Scripts.Fight
 {
@@ -7,6 +8,8 @@ namespace Assets.Resources.Scripts.Fight
     public class EnemyData
     {
         public int Id;
+
+        public Classes UnitClass;
 
         public string Name;
 

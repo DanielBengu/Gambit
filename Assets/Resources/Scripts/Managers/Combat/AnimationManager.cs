@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class AnimationManager
 {
-    public static void PlayAnimation(GameObject unit, SpriteAnimation animation, Action callback, EffectsManager effectsManager)
+    public static void PlayAnimation(GameObject unit, SpriteAnimation animation, Action callback, VisualEffectsManager effectsManager)
     {
         Animator animator = unit.GetComponent<Animator>();
         string animationToPlay = GetAnimationName(animation);

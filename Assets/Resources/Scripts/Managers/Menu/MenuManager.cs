@@ -2,13 +2,14 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static CardsManager;
 using static PlayerPrefsManager;
 
 public class MenuManager : MonoBehaviour
 {
     public bool forceTutorial = false;
     public MenuOptions menuOptions;
-    public EffectsManager effectsManager;
+    public VisualEffectsManager effectsManager;
 
     public GameObject blackScreen;
 
@@ -64,17 +65,17 @@ public class MenuManager : MonoBehaviour
     {
         MapData mapList = JSONManager.GetFileFromJSON<MapData>(JSONManager.MAPS_PATH);
         Map mapToPlay;
-        int classId = -1;
+        Classes playerClass = Classes.Basic;
         if (!DoesPrefExists(PlayerPrefsEnum.AlreadyLaunchedGame) || forceTutorial)
         {
             mapToPlay = mapList.Maps.Find(m => m.Id == 0); //Tutorial world
-            classId = 0; //Tutorial starts with warrior
+            playerClass = Classes.Warrior; //Tutorial starts with warrior
             SetPref(PlayerPrefsEnum.AlreadyLaunchedGame, 1);
         }
         else
         {
             mapToPlay = StartRandomMap(mapList);
-            classId = 0; //To change with class selected
+            playerClass = Classes.Basic; //To change with class selected
         }
 
         SaveManager.SavePlayerData(new()
@@ -91,9 +92,9 @@ public class MenuManager : MonoBehaviour
             {
                 IsOngoing = true,
                 MapId = mapToPlay.Id,
-                ClassId = classId,
+                ClassId = playerClass,
                 CurrentFloor = 1,
-                CardList = GameManager.GetStartingDeck(classId)
+                CardList = GameManager.GetStartingDeck(playerClass)
             }
         });
 
@@ -102,7 +103,7 @@ public class MenuManager : MonoBehaviour
         {
             obj = blackScreen,
             callback = LoadSceneGame,
-            effect = EffectsManager.Effects.MenuStartGame
+            effect = VisualEffectsManager.Effects.MenuStartGame
         });
         blackScreen.SetActive(true);
     }

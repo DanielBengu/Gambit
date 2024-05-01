@@ -4,11 +4,12 @@ using UnityEngine;
 using static EnemyManager;
 using static AnimationManager;
 using System;
+using static CardsManager;
 public class FightManager
 {
     readonly GameManager gameManager;
     readonly GameUIManager gameUIManager;
-    readonly EffectsManager effectsManager;
+    readonly VisualEffectsManager effectsManager;
     readonly EnemyManager enemyManager;
 
     public int BUST_PENALITY = 2;
@@ -18,41 +19,19 @@ public class FightManager
 
     public List<int> spritesAnimating = new();
 
-    #region Player data
-    public UnitData Unit { get; set; }
-    public int PlayerMaxHP { get; set; }
-    public int PlayerHP { get; set; }
-    public int PlayerArmor { get; set; }
-    public List<GameCard> PlayerCurrentDeck { get; set; }
-    public List<GameCard> PlayerBaseDeck { get; set; }
-
-    public int PlayerScore { get; set; }
-    public int PlayerMaxScore { get; set; }
-    public CharacterStatus PlayerStatus { get; set; } = CharacterStatus.Playing;
-    #endregion
-
-    #region Enemy data
-
-    public EnemyCurrent Enemy { get { return enemyManager.Enemy; } set { enemyManager.Enemy = value; } }
-    #endregion
+    public FightUnit Player { get; set; }
+    public FightUnit Enemy { get { return enemyManager.Enemy; } set { enemyManager.Enemy = value; } }
 
     public TurnStatus CurrentTurn { get; set; }
 
-    public FightManager(EnemyData enemy, List<GameCard> playerStartingDeck, UnitData unit, GameUIManager gameUIManager, EffectsManager effectsManager, EnemyManager enemyManager, GameObject player, GameObject enemyObj, GameManager gameManager)
+    public FightManager(EnemyData enemy, List<GameCard> playerStartingDeck, UnitData unit, Classes playerClass, GameUIManager gameUIManager, VisualEffectsManager effectsManager, EnemyManager enemyManager, GameObject player, GameObject enemyObj, GameManager gameManager)
     {
         this.enemyManager = enemyManager;
         this.enemyManager.fightManager = this;
 
-        Unit = unit;
-        Enemy = new(enemy);
+        Enemy = ConvertEnemyIntoUnit(enemy);
 
-        PlayerMaxHP = unit.MaxHP;
-        PlayerHP = unit.CurrentHP;
-        PlayerArmor = unit.Armor;
-        PlayerBaseDeck = GameManager.CopyDeck(playerStartingDeck);
-        PlayerCurrentDeck = GameManager.CopyDeck(playerStartingDeck);
-        PlayerScore = 0;
-        PlayerMaxScore = unit.MaxScore;
+        Player = new(unit, true, playerClass, GameManager.CopyDeck(playerStartingDeck), GameManager.CopyDeck(playerStartingDeck));
 
         CurrentTurn = TurnStatus.IntermediaryEffects;
 
@@ -70,25 +49,51 @@ public class FightManager
 
     void SetupFightUI()
     {
-        int bustAmount = GetCardsBustAmount(Character.Player);
-        gameUIManager.SetupFightUI(Enemy, Unit, PlayerCurrentDeck.Count, bustAmount);
+        int bustAmount = GetCardsBustAmount(Player.FightCurrentDeck, Player.currentScore, Player.MaxScore);
+        gameUIManager.SetupFightUI(Enemy, Player, Player.FightCurrentDeck.Count, bustAmount);
+    }
+
+    FightUnit ConvertEnemyIntoUnit(EnemyData enemy)
+    {
+        UnitData unit = new()
+        {
+            Name = enemy.Name,
+            Armor = enemy.Armor,
+            CurrentHP = enemy.HP,
+            MaxHP = enemy.HP,
+            MaxScore = enemy.BaseMaxScore
+        };
+
+        return new(unit, false, enemy.UnitClass, GameManager.CopyDeck(enemy.BaseDecklist), GameManager.CopyDeck(enemy.BaseDecklist), enemy.BaseStandThreshold);
     }
 
     public void HandleEndTurn()
     {
-        int damageAmount = Mathf.Abs(PlayerScore - Enemy.CurrentScore);
+        int pointDifference = Mathf.Abs(Player.currentScore - Enemy.currentScore);
 
-        if (PlayerScore > Enemy.CurrentScore)
+        if (Player.currentScore > Enemy.currentScore)
         {
-            DealDamage(Character.Enemy, damageAmount);
+
+            int playerDamage = CalculateDamage(Player, Enemy, pointDifference);
+            DealDamage(Enemy, playerDamage);
             MakeUnitPerformAnimation(Character.Player, SpriteAnimation.UnitDealingDamage);
-        } else if(PlayerScore < Enemy.CurrentScore)
+
+        } else if(Player.currentScore < Enemy.currentScore)
         {
-            DealDamage(Character.Player, damageAmount);
+            int enemyDamage = CalculateDamage(Enemy, Player, pointDifference);
+            DealDamage(Player, enemyDamage);
             MakeUnitPerformAnimation(Character.Enemy, SpriteAnimation.UnitDealingDamage);
         }      
 
         ResetTurn();
+    }
+
+    int CalculateDamage(FightUnit attacker, FightUnit defender, int baseDamage)
+    {
+        int attackerDamage = attacker.ApplyDamageModifiers(baseDamage);
+        int finalDamageAmount = defender.ApplyDefenceModifiers(attackerDamage);
+
+        return finalDamageAmount;
     }
 
     public Character GetCharacterFromGameObjectID(int gameObjectID)
@@ -102,21 +107,9 @@ public class FightManager
         return Character.Default;
     }
 
-    void DealDamage(Character unitTakingDamage, int amount)
+    void DealDamage(FightUnit unitTakingDamage, int amount)
     {
-        switch (unitTakingDamage)
-        {
-            case Character.Player:
-                int playerDamage = amount - PlayerArmor;
-                if(playerDamage > 0)
-                    PlayerHP -= amount;
-                break;
-            case Character.Enemy:
-                int enemyDamage = amount - Enemy.Armor;
-                if (enemyDamage > 0)
-                    Enemy.CurrentHP -= amount;
-                break;
-        }
+        unitTakingDamage.FightHP -= amount;
     }
 
     public Action GetAnimationCallback(SpriteAnimation animation)
@@ -133,7 +126,7 @@ public class FightManager
 
     public SpriteAnimation GetDamageAnimation(Character character)
     {
-        int unitHp = character == Character.Player ? PlayerHP : Enemy.CurrentHP;
+        int unitHp = character == Character.Player ? Player.FightHP : Enemy.FightHP;
 
         if (unitHp <= 0)
             return SpriteAnimation.UnitDeath;
@@ -178,23 +171,22 @@ public class FightManager
 
     void ResetTurn()
     {
-        PlayerScore = 0;
-        PlayerStatus = CharacterStatus.Playing;
-
-        Enemy.Status = CharacterStatus.Playing;
-        Enemy.CurrentScore = 0;
+        ResetUnitTurn(Player);
+        ResetUnitTurn(Enemy);
 
         CurrentTurn = TurnStatus.PlayerTurn;
 
-        gameUIManager.UpdateStandUI(Character.Enemy, Enemy.Status, 0, Enemy.MaxScore);
-        gameUIManager.UpdateStandUI(Character.Player, PlayerStatus, 0, PlayerMaxScore);
-
-        gameUIManager.UpdatePlayerInfo(PlayerCurrentDeck.Count, GetCardsBustAmount(Character.Player));
-
-        gameUIManager.SetUnitHP(Character.Player, PlayerHP, PlayerMaxHP);
-        gameUIManager.SetUnitHP(Character.Enemy, Enemy.CurrentHP, Enemy.MaxHP);
+        gameUIManager.UpdateUI(Character.Enemy, Enemy);
+        gameUIManager.UpdateUI(Character.Player, Player);
 
         gameUIManager.SetStandButtonInteractable(true);
+    }
+
+    void ResetUnitTurn(FightUnit unit)
+    {
+        unit.TickModifiers();
+        unit.currentScore = 0;
+        unit.status = CharacterStatus.Playing;
     }
 
     public void RemoveObjFromAnimationList(GameObject obj)
@@ -208,14 +200,14 @@ public class FightManager
         switch (character)
         {
             case Character.Player:
-                if (PlayerCurrentDeck.Count == 0)
+                if (Player.FightCurrentDeck.Count == 0)
                     ResetDeck(character);
-                deck = PlayerCurrentDeck;
+                deck = Player.FightCurrentDeck;
                 break;
             case Character.Enemy:
-                if (Enemy.CurrentDeck.Count == 0)
+                if (Enemy.FightCurrentDeck.Count == 0)
                     ResetDeck(character);
-                deck = Enemy.CurrentDeck;
+                deck = Enemy.FightCurrentDeck;
                 break;
         }
 
@@ -236,37 +228,46 @@ public class FightManager
         switch (character)
         {
             case Character.Player:
-                int playerCardValue = GetCardValue(card);
+                int playerCardValue = GetCardPointValue(card);
 
-                if (IsBust(PlayerScore, playerCardValue, PlayerMaxScore))
-                {
-                    PlayerStatus = CharacterStatus.Bust;
-                    HandleBust(character, PlayerStatus);
-                }
-                else
-                {
-                    PlayerScore += playerCardValue;
-                    PlayerStatus = UpdateStatus(PlayerScore, PlayerMaxScore);
-                }
-
-                PlayerCurrentDeck.Remove(card);
-
+                HandlePoints(ref Player.status, character, ref Player.currentScore, Player.CurrentMaxScore, playerCardValue);
+                HandleSideEffects(character, Player.Class, card);
+                Player.FightCurrentDeck.Remove(card);
                 break;
             case Character.Enemy:
-                int enemyCardValue = GetCardValue(card);
+                int enemyCardValue = GetCardPointValue(card);
 
-                if(IsBust(Enemy.CurrentScore, enemyCardValue, Enemy.MaxScore))
-                {
-                    Enemy.Status = CharacterStatus.Bust;
-                    HandleBust(character, Enemy.Status);
-                }
-                else
-                {
-                    Enemy.CurrentScore += enemyCardValue;
-                    Enemy.Status = UpdateStatus(Enemy.CurrentScore, Enemy.MaxScore);
-                }
+                HandlePoints(ref Enemy.status, character, ref Enemy.currentScore, Enemy.CurrentMaxScore, enemyCardValue);
+                HandleSideEffects(character, Enemy.Class, card);
 
-                Enemy.CurrentDeck.Remove(card);
+                Enemy.FightCurrentDeck.Remove(card);
+                break;
+        }
+    }
+
+    public void HandlePoints(ref CharacterStatus status, Character character, ref int unitScore, int unitMaxScore, int playerCardValue)
+    {
+        if (IsBust(unitScore, playerCardValue, unitMaxScore))
+        {
+            status = CharacterStatus.Bust;
+            HandleBust(character, status);
+        }
+        else
+        {
+            unitScore += playerCardValue;
+            status = UpdateStatus(unitScore, unitMaxScore);
+        }
+    }
+
+    public void HandleSideEffects(Character character, IClass unitClass, GameCard card)
+    {
+        switch (character)
+        {
+            case Character.Player:
+                unitClass.PlayCardEffect(card.cardType, Player, Enemy);
+                break;
+            case Character.Enemy:
+                unitClass.PlayCardEffect(card.cardType, Enemy, Player);
                 break;
         }
     }
@@ -295,31 +296,21 @@ public class FightManager
         switch(character)
         {
             case Character.Player:
-                PlayerScore -= BUST_PENALITY;
-                if(PlayerScore < 0) 
-                    PlayerScore = 0;
+                Player.currentScore -= BUST_PENALITY;
+                if(Player.currentScore < 0)
+                    Player.currentScore = 0;
                 break;
             case Character.Enemy:
-                Enemy.CurrentScore -= BUST_PENALITY;
-                if (Enemy.CurrentScore < 0)
-                    Enemy.CurrentScore = 0;
+                Enemy.currentScore -= BUST_PENALITY;
+                if (Enemy.currentScore < 0)
+                    Enemy.currentScore = 0;
                 break;
         }
     }
 
-    public int GetCardsBustAmount(Character character)
+    public static int GetCardsBustAmount(List<GameCard> deck, int currentScore, int maxScore)
     {
-        int bustAmount = 0;
-
-        switch(character)
-        {
-            case Character.Player:
-                bustAmount = CalculateBustAmount(PlayerCurrentDeck, PlayerScore, PlayerMaxScore);
-                break;
-            case Character.Enemy:
-                bustAmount = CalculateBustAmount(Enemy.CurrentDeck, Enemy.CurrentScore, Enemy.MaxScore);
-                break;
-        }
+        int bustAmount = CalculateBustAmount(deck, currentScore, maxScore);
 
         return bustAmount;
     }
@@ -329,21 +320,21 @@ public class FightManager
         switch (character)
         {
             case Character.Player:
-                PlayerCurrentDeck = GameManager.CopyDeck(PlayerBaseDeck);
+                Player.FightCurrentDeck = GameManager.CopyDeck(Player.FightBaseDeck);
                 break;
             case Character.Enemy:
-                Enemy.CurrentDeck = GameManager.CopyDeck(Enemy.BaseDeck);
+                Enemy.FightCurrentDeck = GameManager.CopyDeck(Enemy.FightBaseDeck);
                 break;
         }
     }
 
-    int CalculateBustAmount(List<GameCard> deck, int charCurrentScore, int charMaxScore)
+    static int CalculateBustAmount(List<GameCard> deck, int charCurrentScore, int charMaxScore)
     {
         int cardsBusting = 0;
 
         foreach (var card in deck)
         {
-            int cardValue = GetCardValue(card);
+            int cardValue = GetCardPointValue(card);
             if (charCurrentScore + cardValue > charMaxScore)
                 cardsBusting++;
         }
@@ -351,7 +342,7 @@ public class FightManager
         return cardsBusting;
     }
 
-    int GetCardValue(GameCard card)
+    static int GetCardPointValue(GameCard card)
     {
         int valueToAdd = 0;
 
@@ -360,13 +351,22 @@ public class FightManager
             case CardType.Ace:
                 valueToAdd = 0;
                 break;
-            case CardType.Number:
+            case CardType.One:
+            case CardType.Two:
+            case CardType.Three:
+            case CardType.Four:
+            case CardType.Five:
+            case CardType.Six:
                 valueToAdd = card.value;
                 break;
-            case CardType.Figure:
+            case CardType.Jack:
                 valueToAdd = 0;
                 break;
-            case CardType.Special:
+            case CardType.Queen:
+                valueToAdd = 0;
+                break;
+            case CardType.King:
+                valueToAdd = 0;
                 break;
         }
 
@@ -379,24 +379,27 @@ public class FightManager
         {
             case Character.Player:
                 GameCard cardDrawn = DrawAndPlayRandomCard(Character.Player);
-                if (PlayerStatus != CharacterStatus.Playing)
+                if (Player.status != CharacterStatus.Playing)
                     gameUIManager.SetStandButtonInteractable(false);
                 gameUIManager.ShowCardDrawn(Character.Player, cardDrawn, effectsManager, PlayerCardAnimationCallback);
-                gameUIManager.UpdateStandUI(character, PlayerStatus, PlayerScore, PlayerMaxScore);
-                gameUIManager.UpdatePlayerInfo(PlayerCurrentDeck.Count, GetCardsBustAmount(character));
+                gameUIManager.UpdateStandUI(character, Player.status, Player.currentScore, Player.CurrentMaxScore);
+                gameUIManager.UpdatePlayerInfo(Player.FightCurrentDeck.Count, GetCardsBustAmount(Player.FightCurrentDeck, Player.currentScore, Player.MaxScore));
                 break;
             case Character.Enemy:
                 GameCard enemyCardDrawn = DrawAndPlayRandomCard(Character.Enemy);
                 gameUIManager.ShowCardDrawn(Character.Enemy, enemyCardDrawn, effectsManager, EnemyCardAnimationCallback);
-                gameUIManager.UpdateStandUI(character, Enemy.Status, Enemy.CurrentScore,Enemy.MaxScore);
+                gameUIManager.UpdateStandUI(character, Enemy.status, Enemy.currentScore,Enemy.CurrentMaxScore);
                 break;
         }
+
+        gameUIManager.UpdateUI(Character.Enemy, Enemy);
+        gameUIManager.UpdateUI(Character.Player, Player);
     }
 
     public bool IsGameOnStandby()
     {
-        bool isUserOnStandby = PlayerStatus != CharacterStatus.Playing;
-        bool isPlayerCardAnimating = effectsManager.movingObjects.Exists(a => a.type == EffectsManager.MovingObject.TypeOfObject.CardDrawnPlayer);
+        bool isUserOnStandby = Player.status != CharacterStatus.Playing;
+        bool isPlayerCardAnimating = effectsManager.movingObjects.Exists(a => a.type == VisualEffectsManager.MovingObject.TypeOfObject.CardDrawnPlayer);
 
         return isUserOnStandby || isPlayerCardAnimating || CurrentTurn == TurnStatus.EnemyTurn;
     }
@@ -406,17 +409,17 @@ public class FightManager
         if (IsGameOnStandby())
             return;
 
-        PlayerStatus = CharacterStatus.Standing;
+        Player.status = CharacterStatus.Standing;
         gameUIManager.SetStandButtonInteractable(false);
 
-        if (Enemy.Status == CharacterStatus.Playing)
+        if (Enemy.status == CharacterStatus.Playing)
             enemyManager.PlayEnemyTurn();
     }
 
     //Called after player drew their card
     void PlayerCardAnimationCallback()
     {
-        if (Enemy.Status != CharacterStatus.Playing)
+        if (Enemy.status != CharacterStatus.Playing)
             return;
 
         CurrentTurn = TurnStatus.EnemyTurn;
@@ -426,7 +429,7 @@ public class FightManager
     //Called after player drew their card
     void EnemyCardAnimationCallback()
     {
-        if (PlayerStatus == CharacterStatus.Playing)
+        if (Player.status == CharacterStatus.Playing)
         {
             CurrentTurn = TurnStatus.PlayerTurn;
             return;

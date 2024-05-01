@@ -8,7 +8,7 @@ public class EventManager
     readonly GameObject character;
     readonly TextMeshProUGUI bubbleText;
 
-    readonly EffectsManager effectsManager;
+    readonly VisualEffectsManager effectsManager;
 
     string dialogue;
 
@@ -17,7 +17,7 @@ public class EventManager
     private float timer = 0f; // Timer to track the time since the last character was added
 
 
-    public EventManager(EventData eventData, GameObject character, EffectsManager effectsManager, TextMeshProUGUI textBubble)
+    public EventManager(EventData eventData, GameObject character, VisualEffectsManager effectsManager, TextMeshProUGUI textBubble)
     {
         this.character = character;
         this.effectsManager = effectsManager;

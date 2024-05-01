@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static CardsManager;
 using static FightManager;
 
 public class GameManager : MonoBehaviour
@@ -17,7 +18,7 @@ public class GameManager : MonoBehaviour
 
     public GameUIManager gameUIManager;
     public EnemyManager enemyManager;
-    public EffectsManager effectsManager;
+    public VisualEffectsManager effectsManager;
 
     public GameObject player;
     public GameObject enemyObj;
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (FightManager != null && FightManager.PlayerStatus != CharacterStatus.Playing && FightManager.Enemy.Status != CharacterStatus.Playing &&
+        if (FightManager != null && FightManager.Player.status != CharacterStatus.Playing && FightManager.Enemy.status != CharacterStatus.Playing &&
             effectsManager.movingObjects.Count == 0)
             FightManager.HandleEndTurn();
 
@@ -90,7 +91,7 @@ public class GameManager : MonoBehaviour
     void PlayCombat(EnemyData enemy)
     {
         enemy.BaseDecklist = enemy.IsCustomDecklist ? GetStartingDeck(0) : GetStartingDeck(0);
-        FightManager = new(enemy, playerData.CurrentRun.CardList, playerData.UnitData, gameUIManager, effectsManager, enemyManager, player, enemyObj, this);
+        FightManager = new(enemy, playerData.CurrentRun.CardList, playerData.UnitData, playerData.CurrentRun.ClassId, gameUIManager, effectsManager, enemyManager, player, enemyObj, this);
 
         Status = GameStatus.Fight;
     }
@@ -104,21 +105,21 @@ public class GameManager : MonoBehaviour
         Status = GameStatus.Event;
     }
 
-    EnemyData GetRandomEnemy(Map currentMap, EnemyList enemyList)
+    /*EnemyData GetRandomEnemy(Map currentMap, EnemyList enemyList)
     {
         List<int> listOfEncounters = currentMap.EncounterList.Where(w => w.Type == Map.TypeOfEncounter.Combat).Select(e => e.Id).ToList();
         int enemyIndexSelected = UnityEngine.Random.Range(0, listOfEncounters.Count);
         int enemyId = listOfEncounters[enemyIndexSelected];
 
         return enemyList.Enemies.Find(e => e.Id == enemyId);
-    }
+    }*/
 
     void SetupBlackScreen(Action callback)
     {
         gameUIManager.SetupBlackScreen(true, effectsManager, callback);
     }
 
-    public static List<GameCard> GetStartingDeck(int classOfDeck)
+    public static List<GameCard> GetStartingDeck(Classes classOfDeck)
     {
         List<GameCard> startingDeck = new();
 
@@ -191,20 +192,7 @@ public class GameManager : MonoBehaviour
 
     static CardType GetCardType(int cardId)
     {
-        if (cardId == 0)
-            return CardType.Ace;
-
-        if (cardId > 0 && cardId < 11)
-            return CardType.Number;
-
-        if (cardId >= 11 && cardId <= 13)
-            return CardType.Figure;
-
-        if (cardId > 13)
-            return CardType.Special;
-
-        Debug.LogError($"Incorrect card id: {cardId}");
-        return CardType.Default;
+        return (CardType)Enum.Parse(typeof(CardType), cardId.ToString());
     }
 
     public enum GameStatus

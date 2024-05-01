@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using static AnimationManager;
-using static EffectsManager.MovingObject;
+using static VisualEffectsManager.MovingObject;
 
-public class EffectsManager : MonoBehaviour
+public class VisualEffectsManager : MonoBehaviour
 {
     public List<MovingObject> movingObjects = new();
     readonly float movementThreshold = 1f;

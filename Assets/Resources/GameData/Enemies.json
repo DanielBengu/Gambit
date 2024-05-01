@@ -7,6 +7,7 @@
       "HP": 1,
       "BaseMaxScore": 12,
       "BaseStandThreshold": 8,
+      "UnitClass": -1,
       "IsCustomDecklist": false,
       "Rewards": [
         {
@@ -23,6 +24,7 @@
       "HP": 1,
       "BaseMaxScore": 12,
       "BaseStandThreshold": 8,
+      "UnitClass": -1,
       "IsCustomDecklist": false,
       "Rewards": [
         {
@@ -39,6 +41,7 @@
       "HP": 1,
       "BaseMaxScore": 12,
       "BaseStandThreshold": 8,
+      "UnitClass": -1,
       "IsCustomDecklist": false,
       "Rewards": [
         {

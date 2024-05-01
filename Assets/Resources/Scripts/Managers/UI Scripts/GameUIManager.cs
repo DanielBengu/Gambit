@@ -1,12 +1,10 @@
-using Assets.Resources.Scripts.Fight;
 using System;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static EffectsManager.MovingObject;
-using static EnemyManager;
+using static VisualEffectsManager.MovingObject;
 using static FightManager;
+using static CardsManager;
 
 public class GameUIManager : MonoBehaviour
 {
@@ -72,7 +70,7 @@ public class GameUIManager : MonoBehaviour
         enemySlider.value = 0;
     }
 
-    public void SetupBlackScreen(bool active, EffectsManager effectsManager, Action callback)
+    public void SetupBlackScreen(bool active, VisualEffectsManager effectsManager, Action callback)
     {
         blackScreen.gameObject.SetActive(active);
 
@@ -84,29 +82,30 @@ public class GameUIManager : MonoBehaviour
             effectsManager.effects.Add(new()
             {
                 obj = blackScreen.gameObject,
-                effect = EffectsManager.Effects.FightStartup,
+                effect = VisualEffectsManager.Effects.FightStartup,
                 callback = callback
             });
     }
 
-    public void SetupFightUI(EnemyCurrent enemy, UnitData player, int playerDeckCount, int bustAmount)
+    public void SetupFightUI(FightUnit enemy, FightUnit player, int playerDeckCount, int bustAmount)
     {
         fightUI.SetActive(true);
 
-        enemyTitleText.text = enemy.Name;
-        playerTitleText.text = player.Name;
+        enemyTitleText.text = $"{enemy.Name} the {enemy.Class.Class}";
+        playerTitleText.text = $"{player.Name} the {player.Class.Class}";
+
         ChangeDeckCount(playerDeckCount);
         UpdateBustChance(bustAmount, playerDeckCount);
 
-        UpdateMaxScore(Character.Player, player.MaxScore);
-        SetMaxSliderValue(Character.Player, player.MaxScore);
-        SetUnitHP(Character.Player, player.CurrentHP, player.MaxHP);
-        UpdateArmor(Character.Player, player.Armor);
+        UpdateMaxScore(Character.Player, player.CurrentMaxScore);
+        SetMaxSliderValue(Character.Player, player.CurrentMaxScore);
+        SetUnitHP(Character.Player, player.FightHP, player.FightMaxHP);
+        UpdateArmor(Character.Player, player.FightArmor);
 
-        SetUnitHP(Character.Enemy, enemy.CurrentHP, enemy.MaxHP);
-        UpdateArmor(Character.Enemy, enemy.Armor);
-        SetMaxSliderValue(Character.Enemy, enemy.MaxScore);
-        UpdateMaxScore(Character.Enemy, enemy.MaxScore);
+        SetUnitHP(Character.Enemy, enemy.FightHP, enemy.FightMaxHP);
+        UpdateArmor(Character.Enemy, enemy.FightArmor);
+        SetMaxSliderValue(Character.Enemy, enemy.CurrentMaxScore);
+        UpdateMaxScore(Character.Enemy, enemy.CurrentMaxScore);
     }
 
     public void SetupEventUI()
@@ -165,6 +164,17 @@ public class GameUIManager : MonoBehaviour
             return $"DEAD";
 
         return $"health {currentHp}/{maxHp}"; 
+    }
+
+    public void UpdateUI(Character character, FightUnit data)
+    {
+        UpdateStandUI(character, data.status, data.currentScore, data.CurrentMaxScore);
+
+        SetUnitHP(character, data.FightHP, data.FightMaxHP);
+        UpdateArmor(character, data.FightArmor);
+
+        if (character == Character.Player)
+            UpdatePlayerInfo(data.FightCurrentDeck.Count, GetCardsBustAmount(data.FightCurrentDeck, data.currentScore, data.CurrentMaxScore));
     }
 
     public void UpdateStandUI(Character slide, CharacterStatus status, int newScore, int maxScore)
@@ -248,7 +258,7 @@ public class GameUIManager : MonoBehaviour
         deckCount.text = $"Cards in deck: {newValue}";
     }
 
-    public void ShowCardDrawn(Character character, GameCard card, EffectsManager animationManager, Action callback)
+    public void ShowCardDrawn(Character character, GameCard card, VisualEffectsManager animationManager, Action callback)
     {
         switch (character)
         {
@@ -261,7 +271,7 @@ public class GameUIManager : MonoBehaviour
         }
     }
 
-    void HandleCardAnimation(EffectsManager manager, Transform cardSource, Transform cardDestination, TypeOfObject type, Image card, int folderId, int cardId, Action callback)
+    void HandleCardAnimation(VisualEffectsManager manager, Transform cardSource, Transform cardDestination, TypeOfObject type, Image card, Classes folderId, int cardId, Action callback)
     {
         card.gameObject.SetActive(true);
         card.sprite = Resources.Load<Sprite>($"Sprites/Cards/{folderId}/card_{cardId}");

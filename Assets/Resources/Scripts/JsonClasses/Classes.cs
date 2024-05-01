@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using static CardsManager;
 
 [Serializable]
 public class ClassData
@@ -10,6 +11,6 @@ public class ClassData
 [Serializable]
 public class Class
 {
-    public int Id;
+    public Classes Id;
     public string Name;
 }

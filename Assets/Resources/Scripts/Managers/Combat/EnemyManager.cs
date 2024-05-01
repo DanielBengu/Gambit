@@ -7,7 +7,7 @@ using static FightManager;
 public class EnemyManager : MonoBehaviour
 {
     public FightManager fightManager;
-    public EnemyCurrent Enemy { get; set; }
+    public FightUnit Enemy { get; set; }
     public TurnStatus TurnStatus { get { return fightManager.CurrentTurn; } set { fightManager.CurrentTurn = value; } }
 
     public void PlayEnemyTurn()
@@ -17,16 +17,16 @@ public class EnemyManager : MonoBehaviour
 
     public void HandleEnemyTurn()
     {
-        if (Enemy.Status != CharacterStatus.Playing)
+        if (Enemy.status != CharacterStatus.Playing)
             return;
 
         //Player is bust or is standing, enemy keeps playing the turn until end
         PlayEnemyTurn();
 
-        if (Enemy.Status == CharacterStatus.Playing && Enemy.CurrentScore >= Enemy.Threshold)
-            Enemy.Status = CharacterStatus.Standing;
+        if (Enemy.status == CharacterStatus.Playing && Enemy.currentScore >= Enemy.Threshold)
+            Enemy.status = CharacterStatus.Standing;
 
-        if (Enemy.Status != CharacterStatus.Playing)
+        if (Enemy.status != CharacterStatus.Playing)
             TurnStatus = TurnStatus.PlayerTurn;
     }
 
@@ -41,10 +41,11 @@ public class EnemyManager : MonoBehaviour
         public List<GameCard> CurrentDeck { get; set; }
         public List<GameCard> BaseDeck { get; set; }
 
-        public int CurrentScore { get; set; }
-        public int MaxScore { get; set; }
+        public int currentScore;
+        public int maxScore;
         public int Threshold { get; set; }
-        public CharacterStatus Status { get; set; }
+
+        public CharacterStatus status;
 
         public EnemyCurrent(EnemyData enemy)
         {
@@ -57,11 +58,11 @@ public class EnemyManager : MonoBehaviour
             BaseDeck = GameManager.CopyDeck(enemy.BaseDecklist);
             CurrentDeck = GameManager.CopyDeck(enemy.BaseDecklist);
 
-            CurrentScore = 0;
-            MaxScore = enemy.BaseMaxScore;
+            currentScore = 0;
+            maxScore = enemy.BaseMaxScore;
             Threshold = enemy.BaseStandThreshold;
 
-            Status = CharacterStatus.Playing;
+            status = CharacterStatus.Playing;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static CardsManager;
 
 [Serializable]
 public class Card
@@ -23,14 +24,20 @@ public class GameCard
     public int id;
     public CardType cardType;
     public int value;
-    public int classId;
+    public Classes classId;
 }
 
 public enum CardType
 {
     Default = -1,
     Ace,
-    Number,
-    Figure,
-    Special
+    One,
+    Two,
+    Three,
+    Four,
+    Five,
+    Six,
+    Jack = 11,
+    Queen = 12,
+    King = 13
 }

@@ -7,6 +7,7 @@ using System;
 using static CardsManager;
 public class FightManager
 {
+    public static int CRIT_SCORE = 12;
     readonly GameManager gameManager;
     readonly GameUIManager gameUIManager;
     readonly VisualEffectsManager effectsManager;

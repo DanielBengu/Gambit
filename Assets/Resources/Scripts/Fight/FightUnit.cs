@@ -11,6 +11,7 @@ public class FightUnit : UnitData
     #region Private Fields
 
     private readonly int _attacks;
+    private readonly int _damageModifier;
 
     #endregion
 
@@ -73,7 +74,7 @@ public class FightUnit : UnitData
                 Class = new Warrior();
                 break;
             case Classes.Rogue:
-                Class = new Warrior();
+                Class = new Rogue();
                 break;
             case Classes.Wizard:
                 Class = new Warrior();
@@ -96,33 +97,30 @@ public class FightUnit : UnitData
     public int GetUpdatedStat(Stats stat)
     {
         int baseValue = 0;
-        int modifiers = 0;
 
         switch (stat)
         {
             case Stats.MaxHP:
                 baseValue = MaxHP;
-                List<Modifiers> maxHpModifiers = CurrentModifiers.Where(m => m.statModified == Stats.MaxHP).ToList();
-                modifiers = GetModifiersValue(maxHpModifiers);
                 break;
             case Stats.Armor:
                 baseValue = Armor;
-                List<Modifiers> armorModifiers = CurrentModifiers.Where(m => m.statModified == Stats.Armor).ToList();
-                modifiers = GetModifiersValue(armorModifiers);
                 break;
             case Stats.MaxScore:
                 baseValue = MaxScore;
-                List<Modifiers> maxScoreModifiers = CurrentModifiers.Where(m => m.statModified == Stats.MaxScore).ToList();
-                modifiers = GetModifiersValue(maxScoreModifiers);
                 break;
             case Stats.Attacks:
                 baseValue = _attacks;
-                List<Modifiers> attacksModifiers = CurrentModifiers.Where(m => m.statModified == Stats.Attacks).ToList();
-                modifiers = GetModifiersValue(attacksModifiers);
+                break;
+            case Stats.Damage:
+                baseValue = _damageModifier;
                 break;
             default:
                 break;
         }
+
+        List<Modifiers> modifersList = CurrentModifiers.Where(m => m.statModified == stat).ToList();
+        int modifiers = GetModifiersValue(modifersList);
 
         return baseValue + modifiers;
     }
@@ -158,6 +156,9 @@ public class FightUnit : UnitData
 
     public int ApplyDamageModifiers(int baseDamage)
     {
+        if (currentScore >= CRIT_SCORE)
+            baseDamage *= baseDamage;
+
         return baseDamage;
     }
 
@@ -198,6 +199,7 @@ public class FightUnit : UnitData
         MaxHP,
         Armor,
         MaxScore,
+        Damage,
         Attacks
     }
 }

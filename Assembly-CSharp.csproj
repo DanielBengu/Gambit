@@ -60,14 +60,12 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.14f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Resources\Scripts\Fight\Basic.cs" />
     <Compile Include="Assets\Resources\Scripts\JsonClasses\DialogueData.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Config\SavesManager.cs" />
     <Compile Include="Assets\Resources\Scripts\JsonClasses\Maps.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Combat\FightManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\UI Scripts\GameUIManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Combat\VisualEffectsManager.cs" />
-    <Compile Include="Assets\Resources\Scripts\Fight\Warrior.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\Reward.cs" />
     <Compile Include="Assets\Resources\Scripts\JsonClasses\Classes.cs" />
     <Compile Include="Assets\Resources\Scripts\JsonClasses\EventData.cs" />
@@ -77,13 +75,17 @@
     <Compile Include="Assets\Resources\Scripts\Managers\Config\PlayerPrefsManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Menu\IntroManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Config\CharacterManager.cs" />
+    <Compile Include="Assets\Resources\Scripts\Fight\Classes\Warrior.cs" />
     <Compile Include="Assets\Resources\Scripts\JsonClasses\Cards.cs" />
     <Compile Include="Assets\Resources\Scripts\Menu\MenuOptions.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\IClass.cs" />
+    <Compile Include="Assets\Resources\Scripts\Fight\Classes\Rogue.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Combat\UnitAnimationManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\FightUnit.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Config\JSONManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Event\DialogueManager.cs" />
+    <Compile Include="Assets\Resources\Scripts\Fight\Classes\Basic.cs" />
+    <Compile Include="Assets\Resources\Scripts\Fight\Classes\Wizard.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Event\EventManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Combat\GameManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Menu\MenuManager.cs" />

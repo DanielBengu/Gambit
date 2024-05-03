@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI textBubble;
     public Button nextSectionButton;
 
+    public GameObject pageObject;
+
     PlayerData playerData;
     Map currentMap;
 
@@ -77,11 +79,9 @@ public class GameManager : MonoBehaviour
                 break;
 
             case Map.TypeOfEncounter.Event:
-                EventList eventList = JSONManager.GetFileFromJSON<EventList>(JSONManager.EVENTS_PATH);
-                EventData eventData = eventList.Events.Find(e => e.Id == encounter.Id);
-                PlayEvent(eventData);
+                PlayEvent(encounter.Id);
 
-                SetupBlackScreen(EventManager.CharacterTalk);
+                SetupBlackScreen(() => { });
                 break;
         }
     }
@@ -94,9 +94,9 @@ public class GameManager : MonoBehaviour
         Status = GameStatus.Fight;
     }
 
-    void PlayEvent(EventData eventData){
+    void PlayEvent(int eventData){
 
-        EventManager = new(eventData, enemyObj, effectsManager, textBubble, gameUIManager, this);
+        EventManager = new(eventData, enemyObj, effectsManager, textBubble, gameUIManager, this, pageObject);
 
         gameUIManager.SetupEventUI();
 

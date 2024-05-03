@@ -10,25 +10,13 @@ public class DialogueManager
     readonly TextMeshProUGUI bubbleText;
     readonly VisualEffectsManager effectsManager;
 
-    List<DialogueData> DialoguesJSON { get; set; }
     Dialogue dialogueEvent;
 
     public  DialogueManager(TextMeshProUGUI bubbleText, VisualEffectsManager effectsManager)
     {
-        DialoguesJSON = JSONManager.GetFileFromJSON<DialogueContainer>(JSONManager.DIALOGUES_PATH).Dialogues;
         dialogueEvent = new Dialogue(true);
         this.bubbleText = bubbleText;
         this.effectsManager = effectsManager;
-    }
-
-    public string GetDialogue(int dialogueId, int dialogueIndex)
-    {
-        string[] dialogueBlock = DialoguesJSON.Find(d => d.Id == dialogueId).Dialogue;
-
-        if (dialogueBlock == null || dialogueIndex > dialogueBlock.Length)
-            return string.Empty;
-
-        return dialogueBlock[dialogueIndex];
     }
 
     public void TickDialogue()

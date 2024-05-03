@@ -69,14 +69,15 @@
     <Compile Include="Assets\Resources\Scripts\Managers\General\GameManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\Reward.cs" />
     <Compile Include="Assets\Resources\Scripts\JsonClasses\Classes.cs" />
-    <Compile Include="Assets\Resources\Scripts\JsonClasses\EventData.cs" />
     <Compile Include="Assets\Resources\Scripts\JsonClasses\PlayerData.cs" />
     <Compile Include="Assets\Resources\Scripts\JsonClasses\EnemyData.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Combat\AnimationManager.cs" />
+    <Compile Include="Assets\Resources\Scripts\Event\EmptyEvent.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Config\PlayerPrefsManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Menu\IntroManager.cs" />
-    <Compile Include="Assets\Resources\Scripts\Managers\Config\CharacterManager.cs" />
+    <Compile Include="Assets\Resources\Scripts\Event\EventParent.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Event\Dialogue\Dialogue.cs" />
+    <Compile Include="Assets\Resources\Scripts\Managers\Config\CharacterManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\General\InputManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\Classes\Warrior.cs" />
     <Compile Include="Assets\Resources\Scripts\JsonClasses\Cards.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Assets\Resources\Scripts\Fight\Classes\Basic.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\Classes\Wizard.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Event\EventManager.cs" />
+    <Compile Include="Assets\Resources\Scripts\Event\Tutorial\Welcome.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Menu\MenuManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Event\Dialogue\DialogueSection.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Combat\EnemyManager.cs" />

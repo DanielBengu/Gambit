@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using static EventParent;
 
 public class EventManager
 {
@@ -10,36 +13,35 @@ public class EventManager
     readonly GameUIManager gameUIManager;
     readonly VisualEffectsManager visualEffectsManager;
     readonly TextMeshProUGUI textBubble;
+    readonly int eventId;
 
-    public EventManager(EventData eventData, GameObject character, VisualEffectsManager effectsManager, TextMeshProUGUI textBubble, GameUIManager gameUIManager, GameManager gameManager)
+    public GameObject pageObj;
+
+    public EventManager(int eventData, GameObject character, VisualEffectsManager effectsManager, TextMeshProUGUI textBubble, GameUIManager gameUIManager, GameManager gameManager, GameObject pageObj)
     {
         this.character = character;
         this.gameManager = gameManager;
         this.gameUIManager = gameUIManager;
         this.textBubble = textBubble;
+        this.pageObj = pageObj;
+
+        eventId = eventData;
 
         visualEffectsManager = effectsManager;
-
-        CharacterManager.LoadCharacter(eventData.Description, character);
-
         dialogueManager = new(textBubble, effectsManager);
+
+        LoadEvent();
+    }
+
+    public void LoadEvent()
+    {
+        EventParent currentEvent = GetCurrentEvent(eventId);
+        currentEvent.StartEvent();
     }
 
     public void Update()
     {
         dialogueManager.TickDialogue();
-    }
-
-    public void CharacterTalk()
-    {
-        List<DialogueSection> dialogueList = new(){
-            new("Hello! Welcome to the tutorial of GAMBIT!\n Choose your powerup:" , 0.05f, character),
-            new("THIS IS A SUPER FAST TEXT OMG WHY IS IT SO FAAAAAST", 0.01f, character)
-        };
-
-        Dialogue dialogues = new(dialogueList, EndEvent);
-
-        dialogueManager.SetupDialogue(dialogues, character);
     }
 
     void EndEvent()
@@ -50,5 +52,14 @@ public class EventManager
 
         gameUIManager.TurnOffEventUI();
         gameManager.HandleFightVictory();
+    }
+
+    EventParent GetCurrentEvent(int id)
+    {
+        return id switch
+        {
+            0 => new Welcome(character, EndEvent, dialogueManager, visualEffectsManager),
+            _ => new EmptyEvent(character, EndEvent, dialogueManager, visualEffectsManager)
+        };
     }
 }

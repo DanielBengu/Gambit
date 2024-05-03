@@ -1324,7 +1324,7 @@ MonoBehaviour:
   enemyObj: {fileID: 430402300}
   textBubble: {fileID: 830825908}
   nextSectionButton: {fileID: 2099854460}
-  pageObject: {fileID: 0}
+  choicesObj: {fileID: 6759370305635180545}
 --- !u!114 &1900741757 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8830868172308842257, guid: 7b962fa0635b0c942b01d0fb8012cac5, type: 3}
@@ -1441,7 +1441,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2099854459
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1789,6 +1789,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1487178160}
     m_Modifications:
+    - target: {fileID: 2135968979386241585, guid: ef0ee9bf647e94b408be5129bed97a50, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3892071973192728559, guid: ef0ee9bf647e94b408be5129bed97a50, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6946847534178558059, guid: ef0ee9bf647e94b408be5129bed97a50, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1869,6 +1877,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7256799020581461476, guid: ef0ee9bf647e94b408be5129bed97a50, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8288523864465538573, guid: ef0ee9bf647e94b408be5129bed97a50, type: 3}
       propertyPath: m_Name
       value: Event UI
@@ -1879,13 +1891,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8561319394976335565, guid: ef0ee9bf647e94b408be5129bed97a50, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef0ee9bf647e94b408be5129bed97a50, type: 3}
+--- !u!1 &6759370305635180545 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3892071973192728559, guid: ef0ee9bf647e94b408be5129bed97a50, type: 3}
+  m_PrefabInstance: {fileID: 6759370305635180544}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8656057776203892771
 PrefabInstance:
   m_ObjectHideFlags: 0

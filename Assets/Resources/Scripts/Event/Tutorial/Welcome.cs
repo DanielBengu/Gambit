@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static ChoiceManager;
 
 public class Welcome : EventParent
 {
@@ -9,7 +10,7 @@ public class Welcome : EventParent
     public override int EventId { get => 0; }
     public override int NumberOfEvents { get => 5; }
 
-    public Welcome(GameObject enemyObject, Action callback, DialogueManager dialogueManager, VisualEffectsManager effectsManager) : base(enemyObject, callback, dialogueManager, effectsManager)
+    public Welcome(GameObject enemyObject, Action callback, DialogueManager dialogueManager, VisualEffectsManager effectsManager, GameObject choicesObject) : base(enemyObject, callback, dialogueManager, effectsManager, choicesObject)
     {
     }
 
@@ -27,12 +28,32 @@ public class Welcome : EventParent
                 StartDialogue(dialogueList);
                 break;
             case 2:
-                EndEvent();
+                LoadChoices(CurrentEventCount);
                 break;
             case 3:
+                EndEvent();
+                break;
+            case 4:
                 break;
             default:
                 Debug.LogError($"NO COUNT ({CurrentEventCount}) FOUND FOR EVENT {EventId}");
+                break;
+        }
+    }
+
+    public void LoadChoices(int choiceId)
+    {
+        switch (choiceId)
+        {
+            case 2:
+                LoadChoiceManager(new()
+                {
+                    new(choices.transform.GetChild(0).gameObject, "FIRST CHOICE BLA BLA BLA BLA BLA", "Icon_Skull", new(){LoadNextStep }),
+                    new(choices.transform.GetChild(1).gameObject, "SECOND CHOICE BLA BLA BLA BLA BLA", "Icon_Crown", new() { LoadNextStep }),
+                    new(choices.transform.GetChild(2).gameObject, "THIRD CHOICE BLA BLA BLA BLA BLA", "Icon_Star", new() { LoadNextStep })
+                });
+                break;
+            default:
                 break;
         }
     }

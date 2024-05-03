@@ -27,4 +27,10 @@ public class IntroManager : MonoBehaviour
         // Remove the listener to avoid memory leaks
         videoPlayer.loopPointReached -= OnVideoEnd;
     }
+
+    private void Update()
+    {
+        if(InputManager.IsClick())
+            OnVideoEnd(videoPlayer);
+    }
 }

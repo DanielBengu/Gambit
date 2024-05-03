@@ -1,9 +1,5 @@
-using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
-using static EventParent;
 
 public class EventManager
 {
@@ -15,15 +11,17 @@ public class EventManager
     readonly TextMeshProUGUI textBubble;
     readonly int eventId;
 
-    public GameObject pageObj;
+    public GameObject choicesObj;
 
-    public EventManager(int eventData, GameObject character, VisualEffectsManager effectsManager, TextMeshProUGUI textBubble, GameUIManager gameUIManager, GameManager gameManager, GameObject pageObj)
+    EventParent currentEvent;
+
+    public EventManager(int eventData, GameObject character, VisualEffectsManager effectsManager, TextMeshProUGUI textBubble, GameUIManager gameUIManager, GameManager gameManager, GameObject choicesObj)
     {
         this.character = character;
         this.gameManager = gameManager;
         this.gameUIManager = gameUIManager;
         this.textBubble = textBubble;
-        this.pageObj = pageObj;
+        this.choicesObj = choicesObj;
 
         eventId = eventData;
 
@@ -35,7 +33,7 @@ public class EventManager
 
     public void LoadEvent()
     {
-        EventParent currentEvent = GetCurrentEvent(eventId);
+        currentEvent = GetCurrentEvent(eventId);
         currentEvent.StartEvent();
     }
 
@@ -52,14 +50,16 @@ public class EventManager
 
         gameUIManager.TurnOffEventUI();
         gameManager.HandleFightVictory();
+
+        currentEvent = null;
     }
 
     EventParent GetCurrentEvent(int id)
     {
         return id switch
         {
-            0 => new Welcome(character, EndEvent, dialogueManager, visualEffectsManager),
-            _ => new EmptyEvent(character, EndEvent, dialogueManager, visualEffectsManager)
+            0 => new Welcome(character, EndEvent, dialogueManager, visualEffectsManager, choicesObj),
+            _ => new EmptyEvent(character, EndEvent, dialogueManager, visualEffectsManager, choicesObj)
         };
     }
 }

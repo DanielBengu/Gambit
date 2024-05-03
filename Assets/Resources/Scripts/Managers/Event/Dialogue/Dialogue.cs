@@ -65,8 +65,11 @@ public class Dialogue
     {
         if (IsDialogueCompleted())
         {
+            if(bubbleText.text != string.Empty)
+                callback();
             bubbleText.text = string.Empty;
-            callback();
+            bubbleText.transform.parent.gameObject.SetActive(false);
+
             return;
         }
 

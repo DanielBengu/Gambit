@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI textBubble;
     public Button nextSectionButton;
 
-    public GameObject pageObject;
+    public GameObject choicesObj;
 
     PlayerData playerData;
     Map currentMap;
@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
 
     void PlayEvent(int eventData){
 
-        EventManager = new(eventData, enemyObj, effectsManager, textBubble, gameUIManager, this, pageObject);
+        EventManager = new(eventData, enemyObj, effectsManager, textBubble, gameUIManager, this, choicesObj);
 
         gameUIManager.SetupEventUI();
 

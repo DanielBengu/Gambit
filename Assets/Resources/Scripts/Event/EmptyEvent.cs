@@ -9,7 +9,7 @@ public class EmptyEvent : EventParent
     public override int EventId { get => 0; }
     public override int NumberOfEvents { get => 5; }
 
-    public EmptyEvent(GameObject enemyObject, Action callback, DialogueManager dialogueManager, VisualEffectsManager effectsManager) : base(enemyObject, callback, dialogueManager, effectsManager)
+    public EmptyEvent(GameObject enemyObject, Action callback, DialogueManager dialogueManager, VisualEffectsManager effectsManager, GameObject choicesObject) : base(enemyObject, callback, dialogueManager, effectsManager, choicesObject)
     {
     }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static ChoiceManager;
 
 public abstract class EventParent
 {
@@ -10,17 +11,20 @@ public abstract class EventParent
     public int CurrentEventCount { get; set; } = -1;
 
     readonly DialogueManager dialogueManager;
+    internal ChoiceManager choiceManager;
     readonly VisualEffectsManager effectsManager;
 
     public Action endEventCallback;
     internal readonly GameObject enemyObject;
+    internal readonly GameObject choices;
 
-    public EventParent(GameObject enemyObject, Action callback, DialogueManager dialogueManager, VisualEffectsManager effectsManager)
+    public EventParent(GameObject enemyObject, Action callback, DialogueManager dialogueManager, VisualEffectsManager effectsManager, GameObject choices)
     {
         this.enemyObject = enemyObject;
         this.dialogueManager = dialogueManager;
         this.effectsManager = effectsManager;
         endEventCallback = callback;
+        this.choices = choices;
     }
 
     public void StartEvent()
@@ -49,6 +53,11 @@ public abstract class EventParent
     {
         CharacterManager.LoadCharacter(characterName, enemyObject);
         AnimationManager.PlayAnimation(enemyObject, AnimationManager.SpriteAnimation.UnitIntro, LoadNextStep, effectsManager);
+    }
+
+    public void LoadChoiceManager(List<Choice> choices)
+    {
+        choiceManager = new(choices);
     }
 
     public struct DialogueConfig

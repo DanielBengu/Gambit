@@ -27,8 +27,9 @@ public class DialogueManager
             return;
         }
 
-        if (dialogueEvent.IsDialogueCompleted())
+        if (dialogueEvent.IsDialogueCompleted()) {
             return;
+        }
 
         dialogueEvent.TickDialogue(bubbleText);
     }

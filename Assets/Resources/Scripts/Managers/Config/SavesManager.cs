@@ -33,4 +33,24 @@ public static class SaveManager
             return null;
         }
     }
+
+    public static void TerminateSave()
+    {
+        PlayerData data = new()
+        {
+            CurrentRun = new()
+            {
+                IsOngoing = false,
+            },
+            UnitData = new()
+            {
+            }
+        };
+
+        string jsonData = JsonUtility.ToJson(data);
+
+        File.WriteAllText(_playerDataFilePath, jsonData);
+
+        Debug.Log($"Run completed, save file reset");
+    }
 }

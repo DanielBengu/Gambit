@@ -156,7 +156,7 @@ public class FightManager
         switch (character)
         {
             case Character.Enemy:
-                CharacterManager.ResetCharacter(enemyObj);
+                CharacterManager.ResetCharacter(enemyObj, effectsManager);
                 gameUIManager.TurnOfFightUI();
                 gameManager.HandleFightVictory();
                 break;

@@ -57,6 +57,7 @@ public class FightUnit : UnitData
 
         currentScore = 0;
         _attacks = 1;
+        _damageModifier = 0;
 
         Threshold = threshold;
 

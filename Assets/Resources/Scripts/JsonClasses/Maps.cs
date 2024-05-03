@@ -20,11 +20,13 @@ public class Map
 {
     public int Id;
     public string Name;
-    public List<EncounterData> EncounterList;
-    public int NumberOfEncounters;
 
-    //This lists represents encounters that are fixed (for example forcing a skeleton enemy encounter as a first encounter on a world)
+    //List of possible encounters of the map
+    public List<EncounterData> EncounterList;
+    //This lists represents encounters that are fixed (for example forcing a basic skeleton enemy encounter as a first encounter on a world)
     public List<CustomEncounter> CustomEncounters;
+
+    public int NumberOfEncounters;
 
     public enum TypeOfEncounter
     {

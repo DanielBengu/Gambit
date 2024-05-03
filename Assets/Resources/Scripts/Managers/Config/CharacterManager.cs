@@ -19,8 +19,10 @@ static class CharacterManager
         characterObject.GetComponent<SpriteRenderer>().sprite = LoadSprite(characterName);
     }
 
-    public static void ResetCharacter(GameObject characterObject)
+    public static void ResetCharacter(GameObject characterObject, VisualEffectsManager visualEffectsManager)
     {
+        visualEffectsManager.RemoveFromLists(characterObject);
+
         characterObject.GetComponent<Animator>().runtimeAnimatorController = null;
         characterObject.GetComponent<SpriteRenderer>().sprite = null;
     }

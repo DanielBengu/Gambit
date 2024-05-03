@@ -23,7 +23,7 @@
       "Armor": 0,
       "HP": 1,
       "BaseMaxScore": 12,
-      "BaseStandThreshold": 8,
+      "BaseStandThreshold": 4,
       "UnitClass": -1,
       "IsCustomDecklist": false,
       "Rewards": [

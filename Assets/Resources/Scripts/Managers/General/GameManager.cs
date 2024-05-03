@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
 {
     public FightManager FightManager { get; set; }
     public EventManager EventManager { get; set; }
-    public DialogueManager DialogueManager { get; set; } = new();
 
     public GameUIManager gameUIManager;
     public EnemyManager enemyManager;
@@ -30,7 +29,7 @@ public class GameManager : MonoBehaviour
     Map currentMap;
 
     public GameStatus Status { get; set; }
-    public int CurrentEncounterCount { get; set; } = 0;
+    public int CurrentEncounterCount { get; set; } = -1;
 
     // Start is called before the first frame update
     void Start()
@@ -38,8 +37,7 @@ public class GameManager : MonoBehaviour
         playerData = SaveManager.LoadPlayerData();
         currentMap = JSONManager.GetFileFromJSON<MapData>(JSONManager.MAPS_PATH).Maps.Find(m => m.Id == playerData.CurrentRun.MapId);
 
-        EncounterData encounter = GetEncounter(CurrentEncounterCount);
-        PlayEncounter(encounter);
+        HandleNextEncounter();
     }
 
     private void Update()
@@ -98,7 +96,7 @@ public class GameManager : MonoBehaviour
 
     void PlayEvent(EventData eventData){
 
-        EventManager = new(eventData, enemyObj, effectsManager, textBubble);
+        EventManager = new(eventData, enemyObj, effectsManager, textBubble, gameUIManager, this);
 
         gameUIManager.SetupEventUI();
 
@@ -160,19 +158,45 @@ public class GameManager : MonoBehaviour
     //Next section button click
     public void NextSectionButtonClick()
     {
-        CurrentEncounterCount++;
-        EncounterData nextEncounter = GetEncounter(CurrentEncounterCount);
-        PlayEncounter(nextEncounter);
+        HandleNextEncounter();
     }
 
-    public void HandleFightDefeat()
+    void HandleNextEncounter()
     {
-        SceneManager.LoadScene(0);
+        CurrentEncounterCount++;
+
+        if(currentMap.NumberOfEncounters ==  CurrentEncounterCount)
+        {
+            HandleGameVictory();
+        }
+        else
+        {
+            EncounterData nextEncounter = GetEncounter(CurrentEncounterCount);
+            PlayEncounter(nextEncounter);
+        }
     }
 
     public void HandleFightVictory()
     {
         nextSectionButton.gameObject.SetActive(true);
+    }
+
+    public void HandleFightDefeat()
+    {
+        Debug.Log("Fight lost");
+        HandleGameDefeat();
+    }
+
+    public void HandleGameVictory()
+    {
+        SaveManager.TerminateSave();
+        SceneManager.LoadScene(0);
+    }
+
+    public void HandleGameDefeat()
+    {
+        SaveManager.TerminateSave();
+        SceneManager.LoadScene(0);
     }
 
     //Called by deck click in game

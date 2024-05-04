@@ -1,0 +1,40 @@
+{
+  "Strings": [
+    {
+      "Id": 0,
+      "Value": "Nuova partita"
+    },
+    {
+      "Id": 1,
+      "Value": "Continua"
+    },
+    {
+      "Id": 2,
+      "Value": "Archivio"
+    },
+    {
+      "Id": 3,
+      "Value": "Crediti"
+    },
+    {
+      "Id": 4,
+      "Value": "Possibilità bust: {0}%"
+    },
+    {
+      "Id": 5,
+      "Value": "Successo: {0}% ({1}/{2}"
+    },
+    {
+      "Id": 6,
+      "Value": "Successo: ???"
+    },
+    {
+      "Id": 7,
+      "Value": "{0} il {1}"
+    },
+    {
+      "Id": 8,
+      "Value": "Carte nel mazzo: {0}"
+    }
+  ]
+}

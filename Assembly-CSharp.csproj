@@ -91,7 +91,9 @@
     <Compile Include="Assets\Resources\Scripts\Managers\Event\DialogueManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\Classes\Basic.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\Classes\Wizard.cs" />
+    <Compile Include="Assets\Resources\Scripts\JsonClasses\LanguageClass.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Event\EventManager.cs" />
+    <Compile Include="Assets\Resources\Scripts\Managers\General\LanguageManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Event\Tutorial\Welcome.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Menu\MenuManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Event\Dialogue\DialogueSection.cs" />

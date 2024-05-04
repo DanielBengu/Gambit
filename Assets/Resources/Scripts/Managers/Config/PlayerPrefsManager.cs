@@ -57,5 +57,6 @@ public static class PlayerPrefsManager
     {
         AlreadyLaunchedGame,
         HasWonAnyRun,
+        Language
     }
 }

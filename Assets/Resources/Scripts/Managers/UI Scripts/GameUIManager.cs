@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using static VisualEffectsManager.MovingObject;
 using static FightManager;
 using static CardsManager;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class GameUIManager : MonoBehaviour
 {
@@ -61,6 +62,8 @@ public class GameUIManager : MonoBehaviour
 
     #endregion
 
+    public LanguageManager languageManager;
+
     void Start()
     {
         playerScoreText.text = "0";
@@ -91,8 +94,8 @@ public class GameUIManager : MonoBehaviour
     {
         fightUI.SetActive(true);
 
-        enemyTitleText.text = $"{enemy.Name} the {enemy.Class.Class}";
-        playerTitleText.text = $"{player.Name} the {player.Class.Class}";
+        SetUnitTitle(enemyTitleText, enemy.Name, enemy.Class.Class.ToString());
+        SetUnitTitle(playerTitleText, player.Name, player.Class.Class.ToString());
 
         ChangeDeckCount(playerDeckCount);
         UpdateBustChance(bustAmount, playerDeckCount);
@@ -110,9 +113,17 @@ public class GameUIManager : MonoBehaviour
 
     public void SetPlayerSection(string name, string className, int maxHp, int currentHp, int armor)
     {
-        playerTitleText.text = $"{name} the {className}";
+        SetUnitTitle(playerTitleText, name, className);
         UpdateArmor(Character.Player, armor);
         SetUnitHP(Character.Player, currentHp, maxHp);
+    }
+
+    public void SetUnitTitle(TextMeshProUGUI textObj, string name, string unitClass)
+    {
+        languageManager.SetLanguageValues(new()
+        {
+            new(7, textObj, new object[2]{ name, unitClass }),
+        });
     }
 
     public void SetCardImage(GameObject card, IClass cardClass, CardType cardType)
@@ -225,7 +236,10 @@ public class GameUIManager : MonoBehaviour
     {
         if(deckCount == 0)
         {
-            bustChance.text = "Success: ???";
+            languageManager.SetLanguageValues(new()
+            {
+                new(6, bustChance, new object[0]),
+            });
             return;
         }
 
@@ -238,7 +252,10 @@ public class GameUIManager : MonoBehaviour
         else
             bustChance.color= Color.green;
 
-        bustChance.text = $"Success: {successChanceValue}% ({deckCount - bustChanceAmount}/{deckCount})";
+        languageManager.SetLanguageValues(new()
+        {
+            new(5, bustChance, new object[3]{ successChanceValue, deckCount - bustChanceAmount, deckCount }),
+        });
     }
 
     public void TurnOfFightUI()
@@ -275,7 +292,10 @@ public class GameUIManager : MonoBehaviour
 
     public void ChangeDeckCount(int newValue)
     {
-        deckCount.text = $"Cards in deck: {newValue}";
+        languageManager.SetLanguageValues(new()
+        {
+            new(8, deckCount, new object[1]{ newValue }),
+        });
     }
 
     public void ShowCardDrawn(Character character, GameCard card, IClass unitClass, VisualEffectsManager animationManager, Action callback)

@@ -13,6 +13,9 @@ public static class JSONManager
     public static string CARDS_PATH = $"{GAMEDATA_PATH}\\Cards.json";
     public static string DIALOGUES_PATH = $"{GAMEDATA_PATH}\\Dialogues.json";
 
+    public static string LANGUAGES_PATH_ENG = $"{GAMEDATA_PATH}\\Languages\\English.json";
+    public static string LANGUAGES_PATH_ITA = $"{GAMEDATA_PATH}\\Languages\\Italian.json";
+
     public static T GetFileFromJSON<T>(string path)
     {
         string data = File.ReadAllText(path);

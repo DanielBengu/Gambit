@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using static CardsManager;
@@ -7,9 +8,11 @@ using static PlayerPrefsManager;
 
 public class MenuManager : MonoBehaviour
 {
-    public bool forceTutorial = false;
+    public bool forceFirstStart = false;
+
     public MenuOptions menuOptions;
     public VisualEffectsManager effectsManager;
+    public LanguageManager languageManager;
 
     public GameObject blackScreen;
 
@@ -20,6 +23,27 @@ public class MenuManager : MonoBehaviour
         menuOptions.StartCardAnimation();
 
         HandleSaves();
+        SetStrings();
+    }
+
+    void SetStrings()
+    {
+        Transform cardLeftContents = GameObject.Find("Card_left").transform.GetChild(0);
+        Transform cardCenterContents = GameObject.Find("Card_center").transform.GetChild(0);
+        Transform cardRightContents = GameObject.Find("Card_right").transform.GetChild(0);
+
+        TextMeshProUGUI newGameText = cardCenterContents.Find("New Game").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI continueText = cardLeftContents.Find("Continue").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI archiveText = cardRightContents.Find("Archive").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI creditsText = cardRightContents.Find("Credits").GetComponent<TextMeshProUGUI>();
+
+        languageManager.SetLanguageValues(new()
+        {
+            new(0, newGameText, new object[0]),
+            new(1, continueText, new object[0]),
+            new(2, archiveText, new object[0]),
+            new(3, creditsText, new object[0]),
+        });
     }
 
     void HandleSaves()
@@ -48,10 +72,12 @@ public class MenuManager : MonoBehaviour
 
     void FirstGameStart()
     {
-        if (DoesPrefExists(PlayerPrefsEnum.AlreadyLaunchedGame))
+        if (DoesPrefExists(PlayerPrefsEnum.AlreadyLaunchedGame) && !forceFirstStart)
             return;
 
         SetPref(PlayerPrefsEnum.HasWonAnyRun, 0);
+        SetPref(PlayerPrefsEnum.Language, (int)LanguageManager.Language.Italian);
+
         SaveManager.SavePlayerData(new()
         {
             CurrentRun = new()
@@ -66,7 +92,7 @@ public class MenuManager : MonoBehaviour
         MapData mapList = JSONManager.GetFileFromJSON<MapData>(JSONManager.MAPS_PATH);
         Map mapToPlay;
         Classes playerClass = Classes.Basic;
-        if (!DoesPrefExists(PlayerPrefsEnum.AlreadyLaunchedGame) || forceTutorial)
+        if (!DoesPrefExists(PlayerPrefsEnum.AlreadyLaunchedGame) || forceFirstStart)
         {
             mapToPlay = mapList.Maps.Find(m => m.Id == 0); //Tutorial world
             playerClass = Classes.Wizard; //Tutorial starts with warrior

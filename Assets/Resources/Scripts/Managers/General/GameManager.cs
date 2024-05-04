@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public GameUIManager gameUIManager;
     public EnemyManager enemyManager;
     public VisualEffectsManager effectsManager;
+    public LanguageManager languageManager;
 
     public GameObject player;
     public GameObject enemyObj;
@@ -44,6 +45,8 @@ public class GameManager : MonoBehaviour
         CharacterManager.LoadCharacter(playerData.CurrentRun.ClassId.ToString(), player);
 
         gameUIManager.SetPlayerSection(playerData.UnitData.Name, playerData.CurrentRun.ClassId.ToString(), playerData.UnitData.MaxHP, playerData.UnitData.CurrentHP, playerData.UnitData.Armor);
+
+        SetStrings();
     }
 
     private void Update()
@@ -53,6 +56,10 @@ public class GameManager : MonoBehaviour
             FightManager.HandleEndTurn();
 
         EventManager?.Update();
+    }
+
+    void SetStrings()
+    {
     }
 
     EncounterData GetEncounter(int encounterCount)

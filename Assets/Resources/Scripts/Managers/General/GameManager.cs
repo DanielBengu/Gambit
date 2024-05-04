@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
 
         HandleNextEncounter();
 
+        CharacterManager.LoadCharacter(playerData.CurrentRun.ClassId.ToString(), player);
+
         gameUIManager.SetPlayerSection(playerData.UnitData.Name, playerData.CurrentRun.ClassId.ToString(), playerData.UnitData.MaxHP, playerData.UnitData.CurrentHP, playerData.UnitData.Armor);
     }
 

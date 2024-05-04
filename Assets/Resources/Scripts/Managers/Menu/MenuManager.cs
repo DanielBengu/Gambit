@@ -69,7 +69,7 @@ public class MenuManager : MonoBehaviour
         if (!DoesPrefExists(PlayerPrefsEnum.AlreadyLaunchedGame) || forceTutorial)
         {
             mapToPlay = mapList.Maps.Find(m => m.Id == 0); //Tutorial world
-            playerClass = Classes.Warrior; //Tutorial starts with warrior
+            playerClass = Classes.Wizard; //Tutorial starts with warrior
             SetPref(PlayerPrefsEnum.AlreadyLaunchedGame, 1);
         }
         else

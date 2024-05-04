@@ -41,7 +41,34 @@ internal class Basic : IClass
 
     public string GetCardText(CardType cardType)
     {
-        return string.Empty;
+        switch (cardType)
+        {
+            case CardType.Default:
+                return string.Empty;
+            case CardType.Ace:
+                return "ACE";
+            case CardType.One:
+                return "1";
+            case CardType.Two:
+                return "2";
+            case CardType.Three:
+                return "3";
+            case CardType.Four:
+                return "4";
+            case CardType.Five:
+                return "5";
+            case CardType.Six:
+                return "6";
+            case CardType.Jack:
+                return "JACK";
+            case CardType.Queen:
+                return "QUEEN";
+            case CardType.King:
+                return "KING";
+            default:
+                Debug.LogError($"Card {cardType} not implemented for {Class}");
+                return string.Empty;
+        }
     }
 
     public Sprite GetCardIcon(CardType cardType)

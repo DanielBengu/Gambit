@@ -1,8 +1,10 @@
 ﻿using System;
+using UnityEngine;
 
 internal class Basic : IClass
 {
     public CardsManager.Classes Class { get; set; } = CardsManager.Classes.Basic;
+    public Color CardColor { get; set; } = Color.white;
 
     public void PlayCardEffect(CardType cardType, FightUnit unit, FightUnit enemy)
     {
@@ -35,5 +37,15 @@ internal class Basic : IClass
     public void PlayAce(FightUnit unit, FightUnit enemy)
     {
 
+    }
+
+    public string GetCardText(CardType cardType)
+    {
+        return string.Empty;
+    }
+
+    public Sprite GetCardIcon(CardType cardType)
+    {
+        return null;
     }
 }

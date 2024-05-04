@@ -108,6 +108,26 @@ public class GameUIManager : MonoBehaviour
         UpdateMaxScore(Character.Enemy, enemy.CurrentMaxScore);
     }
 
+    public void SetPlayerSection(string name, string className, int maxHp, int currentHp, int armor)
+    {
+        playerTitleText.text = $"{name} the {className}";
+        UpdateArmor(Character.Player, armor);
+        SetUnitHP(Character.Player, currentHp, maxHp);
+    }
+
+    public void SetCardImage(GameObject card, IClass cardClass, CardType cardType)
+    {
+        Sprite cardIcon = cardClass.GetCardIcon(cardType);
+        string cardText = cardClass.GetCardText(cardType);
+
+        Transform cardIconTransform = card.transform.Find("Icon");
+
+        cardIconTransform.gameObject.SetActive(cardIcon != null);
+        cardIconTransform.GetComponent<Image>().sprite = cardIcon;
+
+        card.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = cardText;
+    }
+
     public void SetupEventUI()
     {
         eventUI.SetActive(true);
@@ -218,7 +238,7 @@ public class GameUIManager : MonoBehaviour
         else
             bustChance.color= Color.green;
 
-        bustChance.text = $"Success: {successChanceValue}% ({bustChanceAmount}/{deckCount})";
+        bustChance.text = $"Success: {successChanceValue}% ({deckCount - bustChanceAmount}/{deckCount})";
     }
 
     public void TurnOfFightUI()
@@ -258,23 +278,24 @@ public class GameUIManager : MonoBehaviour
         deckCount.text = $"Cards in deck: {newValue}";
     }
 
-    public void ShowCardDrawn(Character character, GameCard card, VisualEffectsManager animationManager, Action callback)
+    public void ShowCardDrawn(Character character, GameCard card, IClass unitClass, VisualEffectsManager animationManager, Action callback)
     {
         switch (character)
         {
             case Character.Player:
-                HandleCardAnimation(animationManager, playerCardImage.transform, playerCardDestination, TypeOfObject.CardDrawnPlayer, playerCardImage, card.classId, card.id, callback);
+                HandleCardAnimation(animationManager, playerCardImage.transform, playerCardDestination, TypeOfObject.CardDrawnPlayer, unitClass, card.cardType, callback);
                 break;
             case Character.Enemy:
-                HandleCardAnimation(animationManager, enemyCardImage.transform, enemyCardDestination, TypeOfObject.CardDrawnEnemy, enemyCardImage, card.classId, card.id, callback);
+                HandleCardAnimation(animationManager, enemyCardImage.transform, enemyCardDestination, TypeOfObject.CardDrawnEnemy, unitClass, card.cardType, callback);
                 break;
         }
     }
 
-    void HandleCardAnimation(VisualEffectsManager manager, Transform cardSource, Transform cardDestination, TypeOfObject type, Image card, Classes folderId, int cardId, Action callback)
+    void HandleCardAnimation(VisualEffectsManager manager, Transform cardSource, Transform cardDestination, TypeOfObject type, IClass unitClass, CardType cardType, Action callback)
     {
-        card.gameObject.SetActive(true);
-        card.sprite = Resources.Load<Sprite>($"Sprites/Cards/{folderId}/card_{cardId}");
+        cardSource.gameObject.SetActive(true);
+
+        SetCardImage(cardSource.gameObject, unitClass, cardType);
 
         manager.StartMovement(cardSource, cardDestination, 5, type, callback);
     }

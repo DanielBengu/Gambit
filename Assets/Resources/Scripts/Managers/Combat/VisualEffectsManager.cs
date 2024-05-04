@@ -98,7 +98,6 @@ public class VisualEffectsManager : MonoBehaviour
                     }
                     break;
             }
-
         }
     }
 

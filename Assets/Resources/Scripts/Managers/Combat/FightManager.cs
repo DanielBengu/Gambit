@@ -46,6 +46,7 @@ public class FightManager
 
         CharacterManager.LoadCharacter(enemy.Name, enemyObj);
         CharacterManager.LoadCharacter(Player.Class.Class.ToString(), playerObj);
+
         PlayAnimation(enemyObj, SpriteAnimation.UnitIntro, SetupFightUI, effectsManager);
     }
 
@@ -383,13 +384,13 @@ public class FightManager
                 GameCard cardDrawn = DrawAndPlayRandomCard(Character.Player);
                 if (Player.status != CharacterStatus.Playing)
                     gameUIManager.SetStandButtonInteractable(false);
-                gameUIManager.ShowCardDrawn(Character.Player, cardDrawn, effectsManager, PlayerCardAnimationCallback);
+                gameUIManager.ShowCardDrawn(Character.Player, cardDrawn, Player.Class, effectsManager, PlayerCardAnimationCallback);
                 gameUIManager.UpdateStandUI(character, Player.status, Player.currentScore, Player.CurrentMaxScore);
                 gameUIManager.UpdatePlayerInfo(Player.FightCurrentDeck.Count, GetCardsBustAmount(Player.FightCurrentDeck, Player.currentScore, Player.MaxScore));
                 break;
             case Character.Enemy:
                 GameCard enemyCardDrawn = DrawAndPlayRandomCard(Character.Enemy);
-                gameUIManager.ShowCardDrawn(Character.Enemy, enemyCardDrawn, effectsManager, EnemyCardAnimationCallback);
+                gameUIManager.ShowCardDrawn(Character.Enemy, enemyCardDrawn, Enemy.Class, effectsManager, EnemyCardAnimationCallback);
                 gameUIManager.UpdateStandUI(character, Enemy.status, Enemy.currentScore,Enemy.CurrentMaxScore);
                 break;
         }

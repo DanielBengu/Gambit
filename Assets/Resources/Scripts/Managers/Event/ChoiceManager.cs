@@ -26,10 +26,10 @@ public class ChoiceManager
             choice.GetObject().SetActive(false);
     }
 
-    public struct Choice
+    public readonly struct Choice
     {
-        GameObject obj;
-        Button btn;
+        readonly GameObject obj;
+        readonly Button btn;
         public Choice(GameObject obj, string description, string iconName, List<Action> callbackList)
         {
             this.obj = obj;

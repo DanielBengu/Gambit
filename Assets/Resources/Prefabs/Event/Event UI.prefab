@@ -86,6 +86,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: EventChoice_2
       objectReference: {fileID: 0}
+    - target: {fileID: 1476752595473507235, guid: cb44958201d5992499a8975097bd5cfa, type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476752595473507235, guid: cb44958201d5992499a8975097bd5cfa, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476752595473507235, guid: cb44958201d5992499a8975097bd5cfa, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476752595473507235, guid: cb44958201d5992499a8975097bd5cfa, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4018979090489336200, guid: cb44958201d5992499a8975097bd5cfa, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -192,6 +208,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: EventChoice_3
       objectReference: {fileID: 0}
+    - target: {fileID: 1476752595473507235, guid: cb44958201d5992499a8975097bd5cfa, type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476752595473507235, guid: cb44958201d5992499a8975097bd5cfa, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476752595473507235, guid: cb44958201d5992499a8975097bd5cfa, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476752595473507235, guid: cb44958201d5992499a8975097bd5cfa, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4018979090489336200, guid: cb44958201d5992499a8975097bd5cfa, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -297,6 +329,22 @@ PrefabInstance:
     - target: {fileID: 903692046912838303, guid: cb44958201d5992499a8975097bd5cfa, type: 3}
       propertyPath: m_Name
       value: EventChoice
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476752595473507235, guid: cb44958201d5992499a8975097bd5cfa, type: 3}
+      propertyPath: m_fontSize
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476752595473507235, guid: cb44958201d5992499a8975097bd5cfa, type: 3}
+      propertyPath: m_enableAutoSizing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476752595473507235, guid: cb44958201d5992499a8975097bd5cfa, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 1476752595473507235, guid: cb44958201d5992499a8975097bd5cfa, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9131209721121553093, guid: cb44958201d5992499a8975097bd5cfa, type: 3}
       propertyPath: m_Pivot.x

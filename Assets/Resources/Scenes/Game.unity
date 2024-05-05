@@ -466,6 +466,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8538474505004069897, guid: 576d2636d01ac2f47874292202bb287c, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8538474505004069897, guid: 576d2636d01ac2f47874292202bb287c, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 0
       objectReference: {fileID: 0}
@@ -1581,8 +1585,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcbf2b060bc4b8c4d9f8b9bbf502a7e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceLanguage: 1
-  selectedLanguage: 1
 --- !u!1 &2099854458
 GameObject:
   m_ObjectHideFlags: 0
@@ -1900,6 +1902,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 6855168d41398784fbb620cddb726b63, type: 3}
+    - target: {fileID: 4981670990428712575, guid: 8caaa94531df4584aa32b7bd51a69e30, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4981670990428712575, guid: 8caaa94531df4584aa32b7bd51a69e30, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1

@@ -1,7 +1,6 @@
 using Assets.Resources.Scripts.Fight;
 using System.Collections.Generic;
 using UnityEngine;
-using static EnemyManager;
 using static AnimationManager;
 using System;
 using static CardsManager;

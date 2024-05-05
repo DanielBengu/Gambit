@@ -22,7 +22,7 @@
     },
     {
       "Id": 5,
-      "Value": "Success: {0}% ({1}/{2}"
+      "Value": "Success: {0}% ({1}/{2})"
     },
     {
       "Id": 6,
@@ -35,6 +35,42 @@
     {
       "Id": 8,
       "Value": "Cards in deck: {0}"
+    },
+    {
+      "Id": 9,
+      "Value": "DEAD"
+    },
+    {
+      "Id": 10,
+      "Value": "HEALTH {0}/{1}"
+    },
+    {
+      "Id": 11,
+      "Value": "Gain 2 ARMOR"
+    },
+    {
+      "Id": 12,
+      "Value": "Gain 5 MAX HP"
+    },
+    {
+      "Id": 13,
+      "Value": "DIE"
+    },
+    {
+      "Id": 14,
+      "Value": "Hello! Welcome to the tutorial of GAMBIT!\n Choose your powerup:"
+    },
+    {
+      "Id": 15,
+      "Value": "THIS IS A SUPER FAST TEXT OMG WHY IS IT SO FAST AAAAAAA"
+    },
+    {
+      "Id": 16,
+      "Value": "Tutorial Guy"
+    },
+    {
+      "Id": 17,
+      "Value": "GREAT CHOICE!"
     }
   ]
 }

@@ -10,21 +10,23 @@ public abstract class EventParent
 
     public int CurrentEventCount { get; set; } = -1;
 
-    readonly DialogueManager dialogueManager;
+    internal readonly DialogueManager dialogueManager;
     internal ChoiceManager choiceManager;
+    internal GameManager gameManager;
     readonly VisualEffectsManager effectsManager;
 
     public Action endEventCallback;
     internal readonly GameObject enemyObject;
     internal readonly GameObject choices;
 
-    public EventParent(GameObject enemyObject, Action callback, DialogueManager dialogueManager, VisualEffectsManager effectsManager, GameObject choices)
+    public EventParent(GameObject enemyObject, Action callback, DialogueManager dialogueManager, VisualEffectsManager effectsManager, GameObject choices, GameManager gameManager)
     {
         this.enemyObject = enemyObject;
         this.dialogueManager = dialogueManager;
         this.effectsManager = effectsManager;
         endEventCallback = callback;
         this.choices = choices;
+        this.gameManager = gameManager;
     }
 
     public void StartEvent()

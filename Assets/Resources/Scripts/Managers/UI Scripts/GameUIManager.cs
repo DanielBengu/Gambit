@@ -102,10 +102,10 @@ public class GameUIManager : MonoBehaviour
 
         UpdateMaxScore(Character.Player, player.CurrentMaxScore);
         SetMaxSliderValue(Character.Player, player.CurrentMaxScore);
-        SetUnitHP(Character.Player, player.FightHP, player.FightMaxHP);
+        UpdateUnitHP(Character.Player, player.FightHP, player.FightMaxHP);
         UpdateArmor(Character.Player, player.FightArmor);
 
-        SetUnitHP(Character.Enemy, enemy.FightHP, enemy.FightMaxHP);
+        UpdateUnitHP(Character.Enemy, enemy.FightHP, enemy.FightMaxHP);
         UpdateArmor(Character.Enemy, enemy.FightArmor);
         SetMaxSliderValue(Character.Enemy, enemy.CurrentMaxScore);
         UpdateMaxScore(Character.Enemy, enemy.CurrentMaxScore);
@@ -115,7 +115,7 @@ public class GameUIManager : MonoBehaviour
     {
         SetUnitTitle(playerTitleText, name, className);
         UpdateArmor(Character.Player, armor);
-        SetUnitHP(Character.Player, currentHp, maxHp);
+        UpdateUnitHP(Character.Player, currentHp, maxHp);
     }
 
     public void SetUnitTitle(TextMeshProUGUI textObj, string name, string unitClass)
@@ -170,38 +170,52 @@ public class GameUIManager : MonoBehaviour
         }
     }
 
-    public void SetUnitHP(Character unit, int hpValue, int maxHpValue)
+    public void UpdateUnitHP(Character unit, int hpValue, int maxHpValue)
     {
-        string hpString = GetHPString(hpValue, maxHpValue);
-
         switch (unit)
         {
             case Character.Player:
                 playerHPBar.maxValue = maxHpValue;
                 playerHPBar.value = hpValue;
-                playerHPText.text = hpString;
+
+                if(hpValue <= 0)
+                    languageManager.SetLanguageValues(new()
+                    {
+                        new(9, playerHPText, new object[0]{}),
+                    });
+                else
+                {
+                    languageManager.SetLanguageValues(new()
+                    {
+                        new(10, playerHPText, new object[2]{hpValue, maxHpValue}),
+                    });
+                }
                 break;
             case Character.Enemy:
                 enemyHPBar.maxValue = maxHpValue;
                 enemyHPBar.value = hpValue;
-                enemyHPText.text = hpString;
+
+                if (hpValue <= 0)
+                    languageManager.SetLanguageValues(new()
+                    {
+                        new(9, enemyHPText, new object[0]{}),
+                    });
+                else
+                {
+                    languageManager.SetLanguageValues(new()
+                    {
+                        new(10, enemyHPText, new object[2]{hpValue, maxHpValue}),
+                    });
+                }
                 break;
         }
-    }
-
-    string GetHPString(int currentHp, int maxHp)
-    {
-        if (currentHp <= 0)
-            return $"DEAD";
-
-        return $"health {currentHp}/{maxHp}"; 
     }
 
     public void UpdateUI(Character character, FightUnit data)
     {
         UpdateStandUI(character, data.status, data.currentScore, data.CurrentMaxScore);
 
-        SetUnitHP(character, data.FightHP, data.FightMaxHP);
+        UpdateUnitHP(character, data.FightHP, data.FightMaxHP);
         UpdateArmor(character, data.FightArmor);
 
         if (character == Character.Player)

@@ -9,14 +9,16 @@ public class DialogueManager
 {
     readonly TextMeshProUGUI bubbleText;
     readonly VisualEffectsManager effectsManager;
+    public readonly LanguageManager languageManager;
 
     Dialogue dialogueEvent;
 
-    public  DialogueManager(TextMeshProUGUI bubbleText, VisualEffectsManager effectsManager)
+    public  DialogueManager(TextMeshProUGUI bubbleText, VisualEffectsManager effectsManager, LanguageManager languageManager)
     {
         dialogueEvent = new Dialogue(true);
         this.bubbleText = bubbleText;
         this.effectsManager = effectsManager;
+        this.languageManager = languageManager;
     }
 
     public void TickDialogue()

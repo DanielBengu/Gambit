@@ -15,7 +15,7 @@ public class EventManager
 
     EventParent currentEvent;
 
-    public EventManager(int eventData, GameObject character, VisualEffectsManager effectsManager, TextMeshProUGUI textBubble, GameUIManager gameUIManager, GameManager gameManager, GameObject choicesObj)
+    public EventManager(int eventData, GameObject character, VisualEffectsManager effectsManager, TextMeshProUGUI textBubble, GameUIManager gameUIManager, GameManager gameManager, GameObject choicesObj, LanguageManager languageManager)
     {
         this.character = character;
         this.gameManager = gameManager;
@@ -26,7 +26,7 @@ public class EventManager
         eventId = eventData;
 
         visualEffectsManager = effectsManager;
-        dialogueManager = new(textBubble, effectsManager);
+        dialogueManager = new(textBubble, effectsManager, languageManager);
 
         LoadEvent();
     }
@@ -58,8 +58,8 @@ public class EventManager
     {
         return id switch
         {
-            0 => new Welcome(character, EndEvent, dialogueManager, visualEffectsManager, choicesObj),
-            _ => new EmptyEvent(character, EndEvent, dialogueManager, visualEffectsManager, choicesObj)
+            0 => new Welcome(character, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager),
+            _ => new EmptyEvent(character, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager)
         };
     }
 }

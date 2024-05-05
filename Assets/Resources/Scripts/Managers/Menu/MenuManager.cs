@@ -76,7 +76,7 @@ public class MenuManager : MonoBehaviour
             return;
 
         SetPref(PlayerPrefsEnum.HasWonAnyRun, 0);
-        SetPref(PlayerPrefsEnum.Language, (int)LanguageManager.Language.Italian);
+        SetPref(PlayerPrefsEnum.Language, (int)LanguageManager.Language.English);
 
         SaveManager.SavePlayerData(new()
         {

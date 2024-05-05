@@ -28,13 +28,12 @@ public class GameManager : MonoBehaviour
 
     public GameObject choicesObj;
 
-    PlayerData playerData;
+    public PlayerData playerData;
     Map currentMap;
 
     public GameStatus Status { get; set; }
     public int CurrentEncounterCount { get; set; } = -1;
 
-    // Start is called before the first frame update
     void Start()
     {
         playerData = SaveManager.LoadPlayerData();
@@ -107,21 +106,12 @@ public class GameManager : MonoBehaviour
 
     void PlayEvent(int eventData){
 
-        EventManager = new(eventData, enemyObj, effectsManager, textBubble, gameUIManager, this, choicesObj);
+        EventManager = new(eventData, enemyObj, effectsManager, textBubble, gameUIManager, this, choicesObj, languageManager);
 
         gameUIManager.SetupEventUI();
 
         Status = GameStatus.Event;
     }
-
-    /*EnemyData GetRandomEnemy(Map currentMap, EnemyList enemyList)
-    {
-        List<int> listOfEncounters = currentMap.EncounterList.Where(w => w.Type == Map.TypeOfEncounter.Combat).Select(e => e.Id).ToList();
-        int enemyIndexSelected = UnityEngine.Random.Range(0, listOfEncounters.Count);
-        int enemyId = listOfEncounters[enemyIndexSelected];
-
-        return enemyList.Enemies.Find(e => e.Id == enemyId);
-    }*/
 
     void SetupBlackScreen(Action callback)
     {
@@ -166,12 +156,6 @@ public class GameManager : MonoBehaviour
         };
     }
 
-    //Next section button click
-    public void NextSectionButtonClick()
-    {
-        HandleNextEncounter();
-    }
-
     void HandleNextEncounter()
     {
         CurrentEncounterCount++;
@@ -186,6 +170,13 @@ public class GameManager : MonoBehaviour
             PlayEncounter(nextEncounter);
         }
     }
+
+    public void MakePlayerDie()
+    {
+        AnimationManager.PlayAnimation(player, AnimationManager.SpriteAnimation.UnitDeath, HandleGameDefeat, effectsManager);
+    }
+
+    #region Handle Game Status
 
     public void HandleFightVictory()
     {
@@ -210,6 +201,10 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    #endregion
+
+    #region Button clicks
+
     //Called by deck click in game
     public void PlayCard()
     {
@@ -224,6 +219,14 @@ public class GameManager : MonoBehaviour
     {
         FightManager.HandlePlayerStand();
     }
+
+    //Next section button click
+    public void NextSectionButtonClick()
+    {
+        HandleNextEncounter();
+    }
+
+    #endregion
 
     static CardType GetCardType(int cardId)
     {

@@ -22,7 +22,7 @@
     },
     {
       "Id": 5,
-      "Value": "Successo: {0}% ({1}/{2}"
+      "Value": "Successo: {0}% ({1}/{2})"
     },
     {
       "Id": 6,
@@ -35,6 +35,14 @@
     {
       "Id": 8,
       "Value": "Carte nel mazzo: {0}"
+    },
+    {
+      "Id": 9,
+      "Value": "MORTO"
+    },
+    {
+      "Id": 10,
+      "Value": "VITA {0}/{1}"
     }
   ]
 }

@@ -55,6 +55,11 @@ public class LanguageManager : MonoBehaviour
         }  
     }
 
+    public string GetText(int textId)
+    {
+        return GetString(textId);
+    }
+
     public struct LanguageStruct
     {
         public int id;

@@ -24,14 +24,14 @@ public class Welcome : EventParent
                 break;
             case 1:
                 var dialogueList = LoadDialogue(CurrentEventCount);
-                StartDialogue(dialogueList);
+                StartDialogue(dialogueList, LoadNextStep);
                 break;
             case 2:
                 LoadChoices(CurrentEventCount);
                 break;
             case 3:
                 var dialogueListThree = LoadDialogue(CurrentEventCount);
-                StartDialogue(dialogueListThree);
+                StartDialogue(dialogueListThree, LoadNextStep);
                 break;
             case 4:
                 EndEvent();

@@ -27,21 +27,21 @@ public class FollowerOfXsant : EventParent
                 break;
             case 1:
                 var dialogueList = LoadDialogue(CurrentEventCount);
-                StartDialogue(dialogueList);
+                StartDialogue(dialogueList, LoadNextStep);
                 break;
             case 2:
                 LoadChoices(0);
                 break;
             case 3:
                 var dialogueListFriendly = LoadDialogue(3);
-                StartDialogue(dialogueListFriendly);
+                StartDialogue(dialogueListFriendly, LoadNextStep);
                 break;
             case 4:
                 EndEvent();
                 break;
             case 20:
                 var dialogueListFight = LoadDialogue(2);
-                StartDialogue(dialogueListFight);
+                StartDialogue(dialogueListFight, LoadNextStep);
                 break;
             case 21:
                 AnimationManager.PlayCustomAnimation(enemyObject, "IntroToIdle", LoadNextStep, effectsManager);
@@ -123,7 +123,7 @@ public class FollowerOfXsant : EventParent
             case 0:
                 EnemyList enemyList = JSONManager.GetFileFromJSON<EnemyList>(JSONManager.ENEMIES_PATH);
                 EnemyData enemy = enemyList.Enemies.Find(e => e.Id == 2);
-                gameManager.PlayCombat(enemy, LoadNextStep);
+                gameManager.PlayCombat(enemy, gameManager.SetNextSectionButtonClick);
                 gameManager.FightManager.SetupFightUI();
                 break;
             default:

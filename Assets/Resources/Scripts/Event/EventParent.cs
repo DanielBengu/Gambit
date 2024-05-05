@@ -35,9 +35,9 @@ public abstract class EventParent
         LoadNextStep();
     }
 
-    public void StartDialogue(List<DialogueSection> dialogueList)
+    public void StartDialogue(List<DialogueSection> dialogueList, Action callback)
     {
-        Dialogue dialogues = new(dialogueList, LoadNextStep);
+        Dialogue dialogues = new(dialogueList, callback);
 
         dialogueManager.SetupDialogue(dialogues, enemyObject);
     }

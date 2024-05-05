@@ -49,6 +49,8 @@ public class ChoiceManager
 
         public readonly void SetupChoiceUI(GameObject obj, string description, string iconName, List<Action> callbackList)
         {
+            btn.onClick.RemoveAllListeners();
+
             foreach (Action action in callbackList)
             {
                 btn.onClick.AddListener(() => action());

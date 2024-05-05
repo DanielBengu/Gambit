@@ -181,7 +181,7 @@ public class GameManager : MonoBehaviour
 
     public void MakePlayerDie()
     {
-        AnimationManager.PlayAnimation(player, AnimationManager.SpriteAnimation.UnitDeath, HandleGameDefeat, effectsManager);
+        PlayAnimation(player, SpriteAnimation.UnitDeath, HandleGameDefeat, effectsManager);
     }
 
     public void SetNextSectionButtonClick()

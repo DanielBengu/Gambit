@@ -69,6 +69,7 @@
     <Compile Include="Assets\Resources\Scripts\Managers\General\GameManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\Reward.cs" />
     <Compile Include="Assets\Resources\Scripts\JsonClasses\Classes.cs" />
+    <Compile Include="Assets\Resources\Scripts\Event\Tutorial\FollowerOfXsant.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Event\ChoiceManager.cs" />
     <Compile Include="Assets\Resources\Scripts\JsonClasses\PlayerData.cs" />
     <Compile Include="Assets\Resources\Scripts\JsonClasses\EnemyData.cs" />

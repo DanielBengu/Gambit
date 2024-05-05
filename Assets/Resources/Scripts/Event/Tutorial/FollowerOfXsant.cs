@@ -1,0 +1,146 @@
+using Assets.Resources.Scripts.Fight;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using static UnityEditor.Experimental.AssetDatabaseExperimental.AssetDatabaseCounters;
+
+public class FollowerOfXsant : EventParent
+{
+    public string FollowerName { get => dialogueManager.languageManager.GetText(18); }
+
+    public override int EventId { get => 0; }
+    public override int NumberOfEvents { get => 5; }
+
+    public FollowerOfXsant(GameObject enemyObject, Action callback, DialogueManager dialogueManager, VisualEffectsManager effectsManager, GameObject choicesObject, GameManager gameManager) : base(enemyObject, callback, dialogueManager, effectsManager, choicesObject, gameManager)
+    {
+    }
+
+    public async override void LoadNextStep()
+    {
+        CurrentEventCount++;
+
+        switch (CurrentEventCount)
+        {
+            case 0:
+                LoadCharacter(CurrentEventCount);
+                await ExecuteWithDelay(LoadNextStep, 2f);
+                break;
+            case 1:
+                var dialogueList = LoadDialogue(CurrentEventCount);
+                StartDialogue(dialogueList);
+                break;
+            case 2:
+                LoadChoices(0);
+                break;
+            case 3:
+                var dialogueListFriendly = LoadDialogue(3);
+                StartDialogue(dialogueListFriendly);
+                break;
+            case 4:
+                EndEvent();
+                break;
+            case 20:
+                var dialogueListFight = LoadDialogue(2);
+                StartDialogue(dialogueListFight);
+                break;
+            case 21:
+                AnimationManager.PlayCustomAnimation(enemyObject, "IntroToIdle", LoadNextStep, effectsManager);
+                break;
+            case 22:
+                LoadFight(0);
+                break;
+            case 23:
+                EndEvent();
+                break;
+            default:
+                Debug.LogError($"NO COUNT ({CurrentEventCount}) FOUND FOR EVENT {EventId}");
+                break;
+        }
+    }
+
+    public void LoadChoices(int choiceId)
+    {
+        switch (choiceId)
+        {
+            case 0:
+                LoadChoiceManager(new()
+                {
+                    new(choices.transform.GetChild(0).gameObject, dialogueManager.languageManager.GetText(20), "Icon_Star", new(){ SwitchToFight }),
+                    new(choices.transform.GetChild(1).gameObject, dialogueManager.languageManager.GetText(21), "Icon_Crown", new() { LoadNextStep }),
+                    new(choices.transform.GetChild(2).gameObject, dialogueManager.languageManager.GetText(22), "Icon_Skull", new() { SwitchToFight })
+                });
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void SwitchToFight()
+    {
+        CurrentEventCount = 19;
+        LoadNextStep();
+    }
+
+    public override List<DialogueSection> LoadDialogue(int dialogue)
+    {
+        return dialogue switch
+        {
+            1 => new()
+            {
+                new(dialogueManager.languageManager.GetText(19), 0.05f, enemyObject),
+            },
+            2 => new()
+            {
+                new(dialogueManager.languageManager.GetText(23), 0.05f, enemyObject),
+            },
+            3 => new()
+            {
+                new(dialogueManager.languageManager.GetText(24), 0.05f, enemyObject),
+            },
+            _ => new()
+            {
+                new(string.Empty, 0f, enemyObject)
+            },
+        };
+    }
+
+    public override void LoadCharacter(int character)
+    {
+        switch (character)
+        {
+            case 0:
+                SetupCharacter(FollowerName, false);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public override void LoadFight(int fight)
+    {
+        switch (fight)
+        {
+            case 0:
+                EnemyList enemyList = JSONManager.GetFileFromJSON<EnemyList>(JSONManager.ENEMIES_PATH);
+                EnemyData enemy = enemyList.Enemies.Find(e => e.Id == 2);
+                gameManager.PlayCombat(enemy, LoadNextStep);
+                gameManager.FightManager.SetupFightUI();
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void RaiseArmor()
+    {
+        gameManager.playerData.UnitData.Armor += 2;
+        gameManager.gameUIManager.UpdateArmor(FightManager.Character.Player, gameManager.playerData.UnitData.Armor);
+    }
+
+    public void RaiseMaxHP()
+    {
+        gameManager.playerData.UnitData.MaxHP += 5;
+        gameManager.playerData.UnitData.CurrentHP += 5;
+        gameManager.gameUIManager.UpdateUnitHP(FightManager.Character.Player, gameManager.playerData.UnitData.CurrentHP, gameManager.playerData.UnitData.MaxHP);
+    }
+}

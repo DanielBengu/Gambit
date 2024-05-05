@@ -403,27 +403,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1685143527161320348, guid: 576d2636d01ac2f47874292202bb287c, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.2
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1685143527161320348, guid: 576d2636d01ac2f47874292202bb287c, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.2
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1685143527161320348, guid: 576d2636d01ac2f47874292202bb287c, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.2
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1685143527161320348, guid: 576d2636d01ac2f47874292202bb287c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.1
+      value: 3.61
       objectReference: {fileID: 0}
     - target: {fileID: 1685143527161320348, guid: 576d2636d01ac2f47874292202bb287c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.63
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1685143527161320348, guid: 576d2636d01ac2f47874292202bb287c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.000011444092
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1685143527161320348, guid: 576d2636d01ac2f47874292202bb287c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1443,6 +1443,19 @@ MonoBehaviour:
   textBubble: {fileID: 830825908}
   nextSectionButton: {fileID: 2099854460}
   choicesObj: {fileID: 6759370305635180545}
+  playerData:
+    UnitData:
+      Name: 
+      Armor: 0
+      MaxHP: 0
+      CurrentHP: 0
+      MaxScore: 0
+    CurrentRun:
+      IsOngoing: 0
+      MapId: 0
+      ClassId: 0
+      CurrentFloor: 0
+      CardList: []
 --- !u!114 &1900741757 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8830868172308842257, guid: 7b962fa0635b0c942b01d0fb8012cac5, type: 3}
@@ -1928,7 +1941,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6160560176217049102, guid: 8caaa94531df4584aa32b7bd51a69e30, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.13
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6160560176217049102, guid: 8caaa94531df4584aa32b7bd51a69e30, type: 3}
       propertyPath: m_LocalPosition.z

@@ -58,7 +58,8 @@ public class VisualEffectsManager : MonoBehaviour
             if (currentAnimationName == GetAnimationName(SpriteAnimation.UnitIdle))
             {
                 anim.callback();
-                animatingSprites.RemoveAt(i);
+                if(animatingSprites.Contains(anim))
+                    animatingSprites.Remove(anim);
                 i--;
             }
         }
@@ -151,9 +152,9 @@ public class VisualEffectsManager : MonoBehaviour
     {
         public Animator objectToAnimate;
         public Action callback; //This callback won't be called at the end of animation, but will be manually called by some animation
-        public SpriteAnimation animation;
+        public string animation;
 
-        public AnimatingSpriteStruct(Animator obj, SpriteAnimation animation, Action callback)
+        public AnimatingSpriteStruct(Animator obj, string animation, Action callback)
         {
             objectToAnimate = obj;
             this.callback = callback;

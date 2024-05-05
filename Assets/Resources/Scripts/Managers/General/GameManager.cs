@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static AnimationManager;
 using static CardsManager;
 using static FightManager;
 
@@ -30,6 +31,8 @@ public class GameManager : MonoBehaviour
 
     public PlayerData playerData;
     Map currentMap;
+
+    Action callbackFightVictory;
 
     public GameStatus Status { get; set; }
     public int CurrentEncounterCount { get; set; } = -1;
@@ -83,7 +86,10 @@ public class GameManager : MonoBehaviour
             case Map.TypeOfEncounter.Combat:
                 EnemyList enemyList = JSONManager.GetFileFromJSON<EnemyList>(JSONManager.ENEMIES_PATH);
                 EnemyData enemy = enemyList.Enemies.Find(e => e.Id == encounter.Id);
-                PlayCombat(enemy);
+                PlayCombat(enemy, SetNextSectionButtonClick);
+
+                CharacterManager.LoadCharacter(enemy.Name, enemyObj);
+                PlayAnimation(enemyObj, SpriteAnimation.UnitIntro, FightManager.SetupFightUI, effectsManager);
 
                 SetupBlackScreen(() => { });
                 break;
@@ -96,8 +102,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void PlayCombat(EnemyData enemy)
+    public void PlayCombat(EnemyData enemy, Action callback)
     {
+        callbackFightVictory = callback;
+
         enemy.BaseDecklist = enemy.IsCustomDecklist ? GetStartingDeck(0) : GetStartingDeck(0);
         FightManager = new(enemy, playerData.CurrentRun.CardList, playerData.UnitData, playerData.CurrentRun.ClassId, gameUIManager, effectsManager, enemyManager, player, enemyObj, this);
 
@@ -176,16 +184,32 @@ public class GameManager : MonoBehaviour
         AnimationManager.PlayAnimation(player, AnimationManager.SpriteAnimation.UnitDeath, HandleGameDefeat, effectsManager);
     }
 
+    public void SetNextSectionButtonClick()
+    {
+        nextSectionButton.gameObject.SetActive(true);
+    }
+
     #region Handle Game Status
 
     public void HandleFightVictory()
     {
-        nextSectionButton.gameObject.SetActive(true);
+        callbackFightVictory();
     }
 
     public void HandleFightDefeat()
     {
         Debug.Log("Fight lost");
+        HandleGameDefeat();
+    }
+
+    public void HandleEventVictory()
+    {
+        SetNextSectionButtonClick();
+    }
+
+    public void HandleEventDefeat()
+    {
+        Debug.Log("Event lost");
         HandleGameDefeat();
     }
 

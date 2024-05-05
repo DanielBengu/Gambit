@@ -49,7 +49,7 @@ public class EventManager
         textBubble.transform.parent.gameObject.SetActive(false);
 
         gameUIManager.TurnOffEventUI();
-        gameManager.HandleFightVictory();
+        gameManager.HandleEventVictory();
 
         currentEvent = null;
     }
@@ -59,6 +59,7 @@ public class EventManager
         return id switch
         {
             0 => new Welcome(character, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager),
+            1 => new FollowerOfXsant(character, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager),
             _ => new EmptyEvent(character, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager)
         };
     }

@@ -84,7 +84,18 @@ public class Welcome : EventParent
         switch (character)
         {
             case 0:
-                SetupCharacter(TutorialGuyName);
+                SetupCharacter(TutorialGuyName, true);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public override void LoadFight(int fight)
+    {
+        switch (fight)
+        {
+            case 0:
                 break;
             default:
                 break;

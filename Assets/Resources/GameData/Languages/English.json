@@ -71,6 +71,34 @@
     {
       "Id": 17,
       "Value": "GREAT CHOICE!"
+    },
+    {
+      "Id": 18,
+      "Value": "Xsant_Follower"
+    },
+    {
+      "Id": 19,
+      "Value": "Welcome traveler, do you worship Xsant?"
+    },
+    {
+      "Id": 20,
+      "Value": "NO"
+    },
+    {
+      "Id": 21,
+      "Value": "YES"
+    },
+    {
+      "Id": 22,
+      "Value": "WHO?"
+    },
+    {
+      "Id": 23,
+      "Value": "Understandable, <color=red>PREPARE TO DIE</color>"
+    },
+    {
+      "Id": 24,
+      "Value": "Oh... ok..."
     }
   ]
 }

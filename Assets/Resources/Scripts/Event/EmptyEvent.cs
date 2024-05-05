@@ -40,4 +40,8 @@ public class EmptyEvent : EventParent
     public override void LoadCharacter(int character)
     {
     }
+
+    public override void LoadFight(int fight)
+    {
+    }
 }

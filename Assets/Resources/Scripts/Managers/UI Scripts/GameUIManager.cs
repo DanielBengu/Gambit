@@ -93,6 +93,9 @@ public class GameUIManager : MonoBehaviour
     public void SetupFightUI(FightUnit enemy, FightUnit player, int playerDeckCount, int bustAmount)
     {
         fightUI.SetActive(true);
+        enemyInfoUI.SetActive(true);
+        hitOrStandUI.SetActive(true);
+        scoreUI.SetActive(true);
 
         SetUnitTitle(enemyTitleText, enemy.Name, enemy.Class.Class.ToString());
         SetUnitTitle(playerTitleText, player.Name, player.Class.Class.ToString());

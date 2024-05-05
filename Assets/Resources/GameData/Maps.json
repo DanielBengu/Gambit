@@ -24,6 +24,11 @@
           "PositionOnMap": 1,
           "Type": 0,
           "Id": 1
+        },
+        {
+          "PositionOnMap": 2,
+          "Type": 1,
+          "Id": 1
         }
       ]
     },

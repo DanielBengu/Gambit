@@ -10,6 +10,14 @@ public static class AnimationManager
         string animationToPlay = GetAnimationName(animation);
 
         animator.Play(animationToPlay);
+        effectsManager.animatingSprites.Add(new(animator, animation.ToString(), callback));
+    }
+
+    public static void PlayCustomAnimation(GameObject unit, string animation, Action callback, VisualEffectsManager effectsManager)
+    {
+        Animator animator = unit.GetComponent<Animator>();
+
+        animator.Play(animation);
         effectsManager.animatingSprites.Add(new(animator, animation, callback));
     }
 

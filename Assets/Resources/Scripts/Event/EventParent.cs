@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using static ChoiceManager;
 
@@ -13,7 +14,7 @@ public abstract class EventParent
     internal readonly DialogueManager dialogueManager;
     internal ChoiceManager choiceManager;
     internal GameManager gameManager;
-    readonly VisualEffectsManager effectsManager;
+    internal readonly VisualEffectsManager effectsManager;
 
     public Action endEventCallback;
     internal readonly GameObject enemyObject;
@@ -41,20 +42,28 @@ public abstract class EventParent
         dialogueManager.SetupDialogue(dialogues, enemyObject);
     }
 
+    public async Task ExecuteWithDelay(Action action, float delayInSeconds)
+    {
+        await Task.Delay(TimeSpan.FromSeconds(delayInSeconds));
+        action.Invoke();
+    }
+
     public abstract void LoadNextStep();
 
     public abstract List<DialogueSection> LoadDialogue(int dialogue);
     public abstract void LoadCharacter(int character);
+    public abstract void LoadFight(int character);
 
     public void EndEvent()
     {
         endEventCallback?.Invoke();
     }
 
-    public void SetupCharacter(string characterName)
+    public void SetupCharacter(string characterName, bool playAnimation)
     {
         CharacterManager.LoadCharacter(characterName, enemyObject);
-        AnimationManager.PlayAnimation(enemyObject, AnimationManager.SpriteAnimation.UnitIntro, LoadNextStep, effectsManager);
+        if(playAnimation)
+            AnimationManager.PlayAnimation(enemyObject, AnimationManager.SpriteAnimation.UnitIntro, LoadNextStep, effectsManager);
     }
 
     public void LoadChoiceManager(List<Choice> choices)

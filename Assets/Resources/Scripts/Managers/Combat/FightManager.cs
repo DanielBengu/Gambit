@@ -30,7 +30,6 @@ public class FightManager
         this.enemyManager.fightManager = this;
 
         Enemy = ConvertEnemyIntoUnit(enemy);
-
         Player = new(unit, true, playerClass, GameManager.CopyDeck(playerStartingDeck), GameManager.CopyDeck(playerStartingDeck));
 
         CurrentTurn = TurnStatus.IntermediaryEffects;
@@ -42,13 +41,9 @@ public class FightManager
         this.enemyObj = enemyObj;
 
         this.gameManager = gameManager;
-
-        CharacterManager.LoadCharacter(enemy.Name, enemyObj);
-
-        PlayAnimation(enemyObj, SpriteAnimation.UnitIntro, SetupFightUI, effectsManager);
     }
 
-    void SetupFightUI()
+    public void SetupFightUI()
     {
         int bustAmount = GetCardsBustAmount(Player.FightCurrentDeck, Player.currentScore, Player.MaxScore);
         gameUIManager.SetupFightUI(Enemy, Player, Player.FightCurrentDeck.Count, bustAmount);

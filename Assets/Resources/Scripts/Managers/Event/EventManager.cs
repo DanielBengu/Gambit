@@ -12,16 +12,19 @@ public class EventManager
     readonly int eventId;
 
     public GameObject choicesObj;
+    public Transform choicePosition;
 
     EventParent currentEvent;
 
-    public EventManager(int eventData, GameObject character, VisualEffectsManager effectsManager, TextMeshProUGUI textBubble, GameUIManager gameUIManager, GameManager gameManager, GameObject choicesObj, LanguageManager languageManager)
+    public EventManager(int eventData, GameObject character, VisualEffectsManager effectsManager, TextMeshProUGUI textBubble, GameUIManager gameUIManager, GameManager gameManager, GameObject choicesObj, LanguageManager languageManager, Transform choicesPositionObj)
     {
         this.character = character;
         this.gameManager = gameManager;
         this.gameUIManager = gameUIManager;
         this.textBubble = textBubble;
         this.choicesObj = choicesObj;
+
+        choicePosition = choicesPositionObj;
 
         eventId = eventData;
 
@@ -58,9 +61,9 @@ public class EventManager
     {
         return id switch
         {
-            0 => new Welcome(character, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager),
-            1 => new FollowerOfXsant(character, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager),
-            _ => new EmptyEvent(character, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager)
+            0 => new Welcome(character, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition),
+            1 => new FollowerOfXsant(character, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition),
+            _ => new EmptyEvent(character, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition)
         };
     }
 }

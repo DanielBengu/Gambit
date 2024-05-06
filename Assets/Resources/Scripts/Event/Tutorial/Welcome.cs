@@ -9,7 +9,7 @@ public class Welcome : EventParent
     public override int EventId { get => 0; }
     public override int NumberOfEvents { get => 5; }
 
-    public Welcome(GameObject enemyObject, Action callback, DialogueManager dialogueManager, VisualEffectsManager effectsManager, GameObject choicesObject, GameManager gameManager) : base(enemyObject, callback, dialogueManager, effectsManager, choicesObject, gameManager)
+    public Welcome(GameObject enemyObject, Action callback, DialogueManager dialogueManager, VisualEffectsManager effectsManager, GameObject choicesObject, GameManager gameManager, Transform choicePosition) : base(enemyObject, callback, dialogueManager, effectsManager, choicesObject, gameManager, choicePosition)
     {
     }
 

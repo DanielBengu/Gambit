@@ -1443,6 +1443,7 @@ MonoBehaviour:
   textBubble: {fileID: 830825908}
   nextSectionButton: {fileID: 2099854460}
   choicesObj: {fileID: 6759370305635180545}
+  choicesPositionObj: {fileID: 6759370305635180546}
   playerData:
     UnitData:
       Name: 
@@ -2100,6 +2101,11 @@ PrefabInstance:
 --- !u!1 &6759370305635180545 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3892071973192728559, guid: ef0ee9bf647e94b408be5129bed97a50, type: 3}
+  m_PrefabInstance: {fileID: 6759370305635180544}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &6759370305635180546 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4401586771940807332, guid: ef0ee9bf647e94b408be5129bed97a50, type: 3}
   m_PrefabInstance: {fileID: 6759370305635180544}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8656057776203892771

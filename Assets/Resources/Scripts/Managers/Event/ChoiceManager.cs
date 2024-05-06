@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,14 +9,28 @@ using UnityEngine.UI;
 public class ChoiceManager
 {
     public List<Choice> choices;
+    public Transform centerPoint;
 
-    public ChoiceManager(List<Choice> choices)
+    public ChoiceManager(List<Choice> choices, Transform centerPoint)
     {
         this.choices = choices;
+        this.centerPoint = centerPoint;
+
         foreach (var choice in choices)
         {
             choice.AddCallback(ResetAllChoices);
         }
+
+        SetCardsPosition(choices.Select(c => c.GetObject().transform).ToList());
+    }
+    public void SetCardsPosition(List<Transform> cardPositions)
+    {
+        foreach (var card in cardPositions)
+        {
+            card.LookAt(centerPoint);
+            card.SetPositionAndRotation(card.position, new Quaternion(0, 0, card.rotation.z, card.rotation.w));
+        }
+            
     }
 
     public void ResetAllChoices()

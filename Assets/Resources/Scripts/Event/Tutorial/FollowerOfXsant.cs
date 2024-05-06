@@ -11,7 +11,7 @@ public class FollowerOfXsant : EventParent
     public override int EventId { get => 0; }
     public override int NumberOfEvents { get => 5; }
 
-    public FollowerOfXsant(GameObject enemyObject, Action callback, DialogueManager dialogueManager, VisualEffectsManager effectsManager, GameObject choicesObject, GameManager gameManager) : base(enemyObject, callback, dialogueManager, effectsManager, choicesObject, gameManager)
+    public FollowerOfXsant(GameObject enemyObject, Action callback, DialogueManager dialogueManager, VisualEffectsManager effectsManager, GameObject choicesObject, GameManager gameManager, Transform choicePosition) : base(enemyObject, callback, dialogueManager, effectsManager, choicesObject, gameManager, choicePosition)
     {
     }
 
@@ -129,18 +129,5 @@ public class FollowerOfXsant : EventParent
             default:
                 break;
         }
-    }
-
-    public void RaiseArmor()
-    {
-        gameManager.playerData.UnitData.Armor += 2;
-        gameManager.gameUIManager.UpdateArmor(FightManager.Character.Player, gameManager.playerData.UnitData.Armor);
-    }
-
-    public void RaiseMaxHP()
-    {
-        gameManager.playerData.UnitData.MaxHP += 5;
-        gameManager.playerData.UnitData.CurrentHP += 5;
-        gameManager.gameUIManager.UpdateUnitHP(FightManager.Character.Player, gameManager.playerData.UnitData.CurrentHP, gameManager.playerData.UnitData.MaxHP);
     }
 }

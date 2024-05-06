@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public Button nextSectionButton;
 
     public GameObject choicesObj;
+    public Transform choicesPositionObj;
 
     public PlayerData playerData;
     Map currentMap;
@@ -114,7 +115,7 @@ public class GameManager : MonoBehaviour
 
     void PlayEvent(int eventData){
 
-        EventManager = new(eventData, enemyObj, effectsManager, textBubble, gameUIManager, this, choicesObj, languageManager);
+        EventManager = new(eventData, enemyObj, effectsManager, textBubble, gameUIManager, this, choicesObj, languageManager, choicesPositionObj);
 
         gameUIManager.SetupEventUI();
 

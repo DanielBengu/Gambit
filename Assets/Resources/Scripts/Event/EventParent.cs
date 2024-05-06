@@ -19,8 +19,9 @@ public abstract class EventParent
     public Action endEventCallback;
     internal readonly GameObject enemyObject;
     internal readonly GameObject choices;
+    internal readonly Transform choicePosition;
 
-    public EventParent(GameObject enemyObject, Action callback, DialogueManager dialogueManager, VisualEffectsManager effectsManager, GameObject choices, GameManager gameManager)
+    public EventParent(GameObject enemyObject, Action callback, DialogueManager dialogueManager, VisualEffectsManager effectsManager, GameObject choices, GameManager gameManager, Transform choicePosition)
     {
         this.enemyObject = enemyObject;
         this.dialogueManager = dialogueManager;
@@ -28,6 +29,7 @@ public abstract class EventParent
         endEventCallback = callback;
         this.choices = choices;
         this.gameManager = gameManager;
+        this.choicePosition = choicePosition;
     }
 
     public void StartEvent()
@@ -68,7 +70,7 @@ public abstract class EventParent
 
     public void LoadChoiceManager(List<Choice> choices)
     {
-        choiceManager = new(choices);
+        choiceManager = new(choices, choicePosition);
     }
 
     public struct DialogueConfig

@@ -108,14 +108,14 @@ public class FightManager
         unitTakingDamage.FightHP -= amount;
     }
 
-    public Action GetAnimationCallback(SpriteAnimation animation)
+    public Action GetAnimationCallback(SpriteAnimation animation, Character character)
     {
         return animation switch
         {
             SpriteAnimation.UnitTakingDamage => EmptyMethod,
             SpriteAnimation.UnitDealingDamage => EmptyMethod,
             SpriteAnimation.UnitIdle => EmptyMethod,
-            SpriteAnimation.UnitDeath => EmptyMethod,
+            SpriteAnimation.UnitDeath => character == Character.Player ? HandlePlayerDeath : HandlEnemyDeath,
             _ => EmptyMethod,
         };
     }
@@ -132,7 +132,7 @@ public class FightManager
 
     public void MakeUnitPerformAnimation(Character character, SpriteAnimation animation)
     {
-        Action callback = GetAnimationCallback(animation);
+        Action callback = GetAnimationCallback(animation, character);
 
         switch (character)
         {
@@ -145,19 +145,16 @@ public class FightManager
         }
     }
 
-    public void HandleUnitDeath(Character character)
+    public void HandlePlayerDeath()
     {
-        switch (character)
-        {
-            case Character.Enemy:
-                CharacterManager.ResetCharacter(enemyObj, effectsManager);
-                gameUIManager.TurnOfFightUI();
-                gameManager.HandleFightVictory();
-                break;
-            case Character.Player:
-                gameManager.HandleFightDefeat();
-                break;
-        }
+        gameManager.HandleFightDefeat();
+    }
+
+    public void HandlEnemyDeath()
+    {
+        CharacterManager.ResetCharacter(enemyObj, effectsManager);
+        gameUIManager.TurnOfFightUI();
+        gameManager.HandleFightVictory();
     }
 
     void EmptyMethod()

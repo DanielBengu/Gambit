@@ -1,24 +1,30 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class AnimationManager
 {
     public static void PlayAnimation(GameObject unit, SpriteAnimation animation, Action callback, VisualEffectsManager effectsManager)
     {
-        Animator animator = unit.GetComponent<Animator>();
         string animationToPlay = GetAnimationName(animation);
 
+        Animator animator = unit.GetComponent<Animator>();
         animator.Play(animationToPlay);
-        effectsManager.animatingSprites.Add(new(animator, animation.ToString(), callback));
+
+        UnitAnimationManager animationManager = unit.GetComponent<UnitAnimationManager>();
+
+        animationManager.SaveAnimationCallback(animationToPlay, callback);
     }
 
     public static void PlayCustomAnimation(GameObject unit, string animation, Action callback, VisualEffectsManager effectsManager)
     {
         Animator animator = unit.GetComponent<Animator>();
-
         animator.Play(animation);
-        effectsManager.animatingSprites.Add(new(animator, animation, callback));
+
+        UnitAnimationManager animationManager = unit.GetComponent<UnitAnimationManager>();
+
+        animationManager.SaveAnimationCallback(animation, callback);
     }
 
     public static string GetAnimationName(SpriteAnimation animation)

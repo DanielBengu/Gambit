@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using static AnimationManager;
@@ -13,6 +14,8 @@ public class VisualEffectsManager : MonoBehaviour
     public List<AnimatingSpriteStruct> animatingSprites = new();
 
     public List<EffectsStruct> effects = new();
+
+    public Dictionary<int, Action> dictionaryCallback = new();
 
     private void Update()
     {

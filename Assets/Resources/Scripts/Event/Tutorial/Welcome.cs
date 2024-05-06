@@ -23,17 +23,24 @@ public class Welcome : EventParent
                 LoadCharacter(CurrentEventCount);
                 break;
             case 1:
-                var dialogueList = LoadDialogue(CurrentEventCount);
+                var dialogueList = LoadDialogue(1);
                 StartDialogue(dialogueList, LoadNextStep);
                 break;
             case 2:
                 LoadChoices(CurrentEventCount);
                 break;
             case 3:
-                var dialogueListThree = LoadDialogue(CurrentEventCount);
+                var dialogueListThree = LoadDialogue(3);
                 StartDialogue(dialogueListThree, LoadNextStep);
                 break;
             case 4:
+                EndEvent();
+                break;
+            case 6:
+                var dialogueSuicide = LoadDialogue(2);
+                StartDialogue(dialogueSuicide, gameManager.MakePlayerDie);
+                break;
+            case 7:
                 EndEvent();
                 break;
             default:
@@ -51,12 +58,18 @@ public class Welcome : EventParent
                 {
                     new(choices.transform.GetChild(0).gameObject, dialogueManager.languageManager.GetText(11), "Icon_Star", new(){ RaiseArmor, LoadNextStep }),
                     new(choices.transform.GetChild(1).gameObject, dialogueManager.languageManager.GetText(12), "Icon_Crown", new() { RaiseMaxHP, LoadNextStep }),
-                    new(choices.transform.GetChild(2).gameObject, dialogueManager.languageManager.GetText(13), "Icon_Skull", new() { gameManager.MakePlayerDie })
+                    new(choices.transform.GetChild(2).gameObject, dialogueManager.languageManager.GetText(13), "Icon_Skull", new() { SwitchToSuicide })
                 });
                 break;
             default:
                 break;
         }
+    }
+
+    void SwitchToSuicide()
+    {
+        CurrentEventCount = 5;
+        LoadNextStep();
     }
 
     public override List<DialogueSection> LoadDialogue(int dialogue)
@@ -67,6 +80,10 @@ public class Welcome : EventParent
             {
                 new(dialogueManager.languageManager.GetText(14), 0.05f, enemyObject),
                 new(dialogueManager.languageManager.GetText(15), 0.01f, enemyObject)
+            },
+            2 => new()
+            {
+                new(dialogueManager.languageManager.GetText(25), 0.07f, enemyObject),
             },
             3 => new()
             {

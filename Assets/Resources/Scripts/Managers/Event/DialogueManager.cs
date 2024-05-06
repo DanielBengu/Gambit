@@ -42,6 +42,6 @@ public class DialogueManager
 
         dialogueEvent = dialogue;
 
-        AnimationManager.PlayAnimation(character, AnimationManager.SpriteAnimation.UnitTalk, () => { }, effectsManager);
+        AnimationManager.PlayAnimation(character, AnimationManager.SpriteAnimation.UnitTalk, () => { });
     }
 }

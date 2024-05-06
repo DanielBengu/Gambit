@@ -29,8 +29,9 @@ public class UnitAnimationManager : MonoBehaviour
     {
         if (dictionaryCallback.ContainsKey(animation))
         {
-            dictionaryCallback[animation]();
+            Action callback = dictionaryCallback[animation];
             dictionaryCallback.Remove(animation);
+            callback();
         }
     }
 

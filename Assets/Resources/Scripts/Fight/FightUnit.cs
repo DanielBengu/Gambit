@@ -42,7 +42,9 @@ public class FightUnit : UnitData
 
     public List<Modifiers> CurrentModifiers { get; set; } = new();
 
-    public FightUnit(UnitData unit, bool isPlayer, Classes @class, List<GameCard> baseDeck, List<GameCard> currentDeck, int threshold = 0)
+    public Character Character { get; set; }
+
+    public FightUnit(UnitData unit, bool isPlayer, Classes @class, List<GameCard> baseDeck, List<GameCard> currentDeck, Character character, int threshold = 0)
     {
         MaxHP = unit.MaxHP;
         FightHP = unit.CurrentHP;
@@ -50,18 +52,23 @@ public class FightUnit : UnitData
         MaxScore = unit.MaxScore;
         Name = unit.Name;
 
+        _attacks = unit.NumberOfAttacks;
+        if (_attacks <= 0)
+            _attacks = 1;
+
         IsPlayer = isPlayer;
 
         FightCurrentDeck = currentDeck;
         FightBaseDeck = baseDeck;
 
         currentScore = 0;
-        _attacks = 1;
         _damageModifier = 0;
 
         Threshold = threshold;
 
         AssignClass(@class);
+
+        Character = character;
     }
 
     void AssignClass(Classes playerClass)
@@ -112,6 +119,9 @@ public class FightUnit : UnitData
                 break;
             case Stats.Attacks:
                 baseValue = _attacks;
+
+                if (baseValue <= 0)
+                    baseValue = 1;
                 break;
             case Stats.Damage:
                 baseValue = _damageModifier;
@@ -148,11 +158,17 @@ public class FightUnit : UnitData
         }
     }
 
-    public int ApplyDefenceModifiers(int incomingDamage)
+    public int ApplyDefenceModifiers(int incomingDamage, bool isPiercing)
     {
-        int damageAmount = incomingDamage - FightArmor;
+        int damageAmount = incomingDamage;
 
-        return damageAmount > 0 ? damageAmount : 0;
+        if (!isPiercing)
+            damageAmount -= FightArmor;
+
+        if(damageAmount < 0)
+            damageAmount = 0;
+
+        return damageAmount;
     }
 
     public int ApplyDamageModifiers(int baseDamage)

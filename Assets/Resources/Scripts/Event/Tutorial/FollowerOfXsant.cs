@@ -44,7 +44,7 @@ public class FollowerOfXsant : EventParent
                 StartDialogue(dialogueListFight, LoadNextStep);
                 break;
             case 21:
-                AnimationManager.PlayCustomAnimation(enemyObject, "IntroToIdle", LoadNextStep, effectsManager);
+                AnimationManager.PlayCustomAnimation(enemyObject, "IntroToIdle", LoadNextStep);
                 break;
             case 22:
                 LoadFight(0);

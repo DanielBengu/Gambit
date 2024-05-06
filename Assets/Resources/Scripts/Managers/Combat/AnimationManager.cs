@@ -5,22 +5,24 @@ using UnityEngine;
 
 public static class AnimationManager
 {
-    public static void PlayAnimation(GameObject unit, SpriteAnimation animation, Action callback, VisualEffectsManager effectsManager)
+    public static void PlayAnimation(GameObject unit, SpriteAnimation animation, Action callback)
     {
         string animationToPlay = GetAnimationName(animation);
 
         Animator animator = unit.GetComponent<Animator>();
-        animator.Play(animationToPlay);
+
+        animator.Play(animationToPlay, 0, 0f);
 
         UnitAnimationManager animationManager = unit.GetComponent<UnitAnimationManager>();
 
         animationManager.SaveAnimationCallback(animationToPlay, callback);
     }
 
-    public static void PlayCustomAnimation(GameObject unit, string animation, Action callback, VisualEffectsManager effectsManager)
+    public static void PlayCustomAnimation(GameObject unit, string animation, Action callback)
     {
         Animator animator = unit.GetComponent<Animator>();
-        animator.Play(animation);
+
+        animator.Play(animation, 0, 0f);
 
         UnitAnimationManager animationManager = unit.GetComponent<UnitAnimationManager>();
 

@@ -65,7 +65,7 @@ public abstract class EventParent
     {
         CharacterManager.LoadCharacter(characterName, enemyObject);
         if(playAnimation)
-            AnimationManager.PlayAnimation(enemyObject, AnimationManager.SpriteAnimation.UnitIntro, LoadNextStep, effectsManager);
+            AnimationManager.PlayAnimation(enemyObject, AnimationManager.SpriteAnimation.UnitIntro, LoadNextStep);
     }
 
     public void LoadChoiceManager(List<Choice> choices)

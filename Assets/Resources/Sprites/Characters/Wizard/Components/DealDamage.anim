@@ -36,33 +36,33 @@ AnimationClip:
       value: {fileID: 21300000, guid: 0b252de2d139cfd4a89936cf548b3cda, type: 3}
     - time: 0.5
       value: {fileID: 21300000, guid: 22fce3003db88d1428f501e97582205c, type: 3}
-    - time: 0.55
+    - time: 0.56666666
       value: {fileID: 21300000, guid: f385eaf66cf0da34b9ae2889bbfc341f, type: 3}
     - time: 0.6333333
       value: {fileID: 21300000, guid: 288da612feca696408a38870355904b2, type: 3}
-    - time: 0.68333334
+    - time: 0.7
       value: {fileID: 21300000, guid: 5d76de1ecbb4116459601546c27c42df, type: 3}
-    - time: 0.75
+    - time: 0.76666665
       value: {fileID: 21300000, guid: 8f5421eae23cceb4fa109457c3eaf6d7, type: 3}
-    - time: 0.8
+    - time: 0.8333333
       value: {fileID: 21300000, guid: dad8e9fe2183c6c4c9c908639fc15df2, type: 3}
-    - time: 0.8833333
+    - time: 0.9166667
       value: {fileID: 21300000, guid: 0139b111825fc1f479d05a64097cc17a, type: 3}
     - time: 0.98333335
       value: {fileID: 21300000, guid: 453e0a96288ff424598a7a2718de1a55, type: 3}
-    - time: 1.0333333
+    - time: 1.05
       value: {fileID: 21300000, guid: 48b329f014e43a14791d9891b93c625e, type: 3}
-    - time: 1.1333333
+    - time: 1.1166667
       value: {fileID: 21300000, guid: b4b78245bdae579499e770f2f4cd0aa2, type: 3}
-    - time: 1.1666666
+    - time: 1.1833333
       value: {fileID: 21300000, guid: 57c124cd9c519d74b894a42bf29ace8c, type: 3}
     - time: 1.25
       value: {fileID: 21300000, guid: 3d3bc50fac73dd146befaa6a909b5d3f, type: 3}
-    - time: 1.35
+    - time: 1.3166667
       value: {fileID: 21300000, guid: b8a89846aac7df548935b511bb551ac5, type: 3}
     - time: 1.4
       value: {fileID: 21300000, guid: 1f20d891aae71424aba8ed6e5076eeb8, type: 3}
-    - time: 1.4833333
+    - time: 1.4666667
       value: {fileID: 21300000, guid: 9edc5a8f376cca842bacf5612b43d7b0, type: 3}
     - time: 1.5333333
       value: {fileID: 21300000, guid: c2f4fa3332d469742807fc022b33597f, type: 3}
@@ -142,9 +142,9 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.55
-    functionName: PerformedAttack
-    data: 
+  - time: 0.56666666
+    functionName: StartCallback
+    data: DealDamage
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

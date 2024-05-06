@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using TMPro;
 using UnityEngine;
 
@@ -111,10 +112,83 @@ public class Dialogue
 
     void HandleCharacterTick(DialogueSection section, TextMeshProUGUI bubbleText)
     {
-        bubbleText.text += section.text[currentIndex];
+        if (currentIndex > section.text.Length)
+        {
+            currentIndex = section.text.Length;
+            return;
+        }
+
+        char nextChar = section.text[currentIndex];
+
+        if(nextChar == '<')
+        {
+            ApplyHTML(section, bubbleText);
+            return;
+        }
+
+        bubbleText.text += nextChar;
         currentIndex++;
 
         timer = 0f;
+    }
+
+    void ApplyHTML(DialogueSection section, TextMeshProUGUI bubbleText)
+    {
+        string remainingText = section.text[currentIndex..];
+
+        string htmlCommand = ParseHTMLCommand(remainingText);
+
+        if (!string.IsNullOrEmpty(htmlCommand))
+        {
+            bubbleText.text += htmlCommand;
+
+            currentIndex += htmlCommand.Length;
+            timer = 0f;
+        }
+    }
+
+    string ParseHTMLCommand(string text)
+    {
+        StringBuilder parsedHTML = new();
+        Stack<string> tagStack = new();
+
+        int currentIndex = 0;
+        while (currentIndex < text.Length)
+        {
+            if (text[currentIndex] == '<')
+            {
+                int endIndex = text.IndexOf('>', currentIndex);
+                if (endIndex != -1)
+                {
+                    string htmlTag = text.Substring(currentIndex, endIndex - currentIndex + 1);
+                    if (htmlTag.StartsWith("</"))
+                    {
+                        // Pop the corresponding opening tag and append both to the parsedHTML
+                        if (tagStack.Count > 0)
+                        {
+                            string openingTag = tagStack.Pop();
+                            parsedHTML.Append(openingTag);
+                            parsedHTML.Append(htmlTag);
+                        }
+                    }
+                    else
+                    {
+                        // Push opening tag onto the stack
+                        tagStack.Push(htmlTag);
+                        parsedHTML.Append(htmlTag); // Append the opening tag to the parsedHTML
+                    }
+
+                    currentIndex = endIndex + 1; // Move currentIndex past the tag
+                    continue;
+                }
+            }
+
+            // If it's not an HTML tag, simply append the character to the parsedHTML
+            parsedHTML.Append(text[currentIndex]);
+            currentIndex++;
+        }
+
+        return parsedHTML.ToString();
     }
 
     void StandardTickDialogue(DialogueSection dialogue, TextMeshProUGUI bubbleText)

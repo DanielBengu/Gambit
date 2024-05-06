@@ -112,7 +112,8 @@ public class MenuManager : MonoBehaviour
                 Armor = 2,
                 MaxHP = 10,
                 CurrentHP = 10,
-                MaxScore = 12
+                MaxScore = 12,
+                NumberOfAttacks = 2
             },
             CurrentRun = new()
             {

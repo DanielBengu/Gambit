@@ -27,4 +27,5 @@ public class UnitData
     public int MaxHP;
     public int CurrentHP;
     public int MaxScore;
+    public int NumberOfAttacks;
 }

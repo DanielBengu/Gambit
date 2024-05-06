@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
                 PlayCombat(enemy, SetNextSectionButtonClick);
 
                 CharacterManager.LoadCharacter(enemy.Name, enemyObj);
-                PlayAnimation(enemyObj, SpriteAnimation.UnitIntro, FightManager.SetupFightUI, effectsManager);
+                PlayAnimation(enemyObj, SpriteAnimation.UnitIntro, FightManager.SetupFightUI);
 
                 SetupBlackScreen(() => { });
                 break;
@@ -182,7 +182,7 @@ public class GameManager : MonoBehaviour
 
     public void MakePlayerDie()
     {
-        PlayAnimation(player, SpriteAnimation.UnitDeath, HandleGameDefeat, effectsManager);
+        PlayAnimation(player, SpriteAnimation.UnitDeath, HandleGameDefeat);
     }
 
     public void SetNextSectionButtonClick()

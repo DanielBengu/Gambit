@@ -1,19 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using static AnimationManager;
-using static FightManager;
-
 public class UnitAnimationManager : MonoBehaviour
 {
-    FightManager _fightManager;
-
-    FightManager FightManager { get { return GetManager(); }  }
-
-    public Character Character { get { return GetOwnCharacter(); } }
-
     public Dictionary<string, Action> dictionaryCallback = new();
 
 
@@ -35,26 +24,14 @@ public class UnitAnimationManager : MonoBehaviour
         }
     }
 
-    public void PerformedAttack()
+    public void StartEffect(string effect)
     {
-        Character enemy = Character == Character.Player ? Character.Enemy : Character.Player;
-
-        SpriteAnimation animation = FightManager.GetDamageAnimation(enemy);
-        FightManager.MakeUnitPerformAnimation(enemy, animation);
+        FightManager fm = GameObject.Find("GameManager").GetComponent<GameManager>().FightManager;
+        fm.StartAttackEffect(effect);
     }
 
-    public Character GetOwnCharacter()
+    public void Terminate()
     {
-        return name.Equals("Player") ? Character.Player : Character.Enemy;
-    }
-
-    public FightManager GetManager()
-    {
-        if (_fightManager != null)
-            return _fightManager;
-
-        _fightManager = GameObject.Find("GameManager").GetComponent<GameManager>().FightManager;
-
-        return _fightManager;
+        Destroy(gameObject);
     }
 }

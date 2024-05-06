@@ -415,7 +415,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1685143527161320348, guid: 576d2636d01ac2f47874292202bb287c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.61
+      value: 3.5
       objectReference: {fileID: 0}
     - target: {fileID: 1685143527161320348, guid: 576d2636d01ac2f47874292202bb287c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1451,6 +1451,7 @@ MonoBehaviour:
       MaxHP: 0
       CurrentHP: 0
       MaxScore: 0
+      NumberOfAttacks: 0
     CurrentRun:
       IsOngoing: 0
       MapId: 0
@@ -1938,7 +1939,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6160560176217049102, guid: 8caaa94531df4584aa32b7bd51a69e30, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.65
+      value: -8.5
       objectReference: {fileID: 0}
     - target: {fileID: 6160560176217049102, guid: 8caaa94531df4584aa32b7bd51a69e30, type: 3}
       propertyPath: m_LocalPosition.y

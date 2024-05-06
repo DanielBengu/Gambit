@@ -94,6 +94,26 @@ public class FightManager
         return finalDamageAmount;
     }
 
+    public void StartAttackEffect(string effectName)
+    {
+        if (attacks.Count == 0)
+            return;
+
+        switch (effectName)
+        {
+            case "wizard_earth_attack":
+                GameObject obj = Resources.Load<GameObject>($"Prefabs/Characters/Wizard/Effects/Earth Attack/Earth Attack Prefab");
+                Transform defenderTransform = attacks.First().defender.Character == Character.Player ? playerObj.transform : enemyObj.transform;
+                Transform attackerTransform = attacks.First().attacker.Character == Character.Player ? playerObj.transform : enemyObj.transform;
+                GameObject attackInstance = UnityEngine.Object.Instantiate(obj, defenderTransform.position, defenderTransform.rotation, playerObj.transform.parent);
+                Animator anim = attackInstance.GetComponent<Animator>();
+                anim.Play("Attack");
+                var script = attackInstance.GetComponent<UnitAnimationManager>();
+                script.dictionaryCallback = attackerTransform.GetComponent<UnitAnimationManager>().dictionaryCallback;
+                break;
+        }
+    }
+
     void DealDamage()
     {
         if (attacks.Count == 0)

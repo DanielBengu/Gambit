@@ -85,7 +85,7 @@ public class FightUnit : UnitData
                 Class = new Rogue();
                 break;
             case Classes.Wizard:
-                Class = new Warrior();
+                Class = new Wizard();
                 break;
             case Classes.Trickster:
                 Class = new Warrior();
@@ -119,9 +119,6 @@ public class FightUnit : UnitData
                 break;
             case Stats.Attacks:
                 baseValue = _attacks;
-
-                if (baseValue <= 0)
-                    baseValue = 1;
                 break;
             case Stats.Damage:
                 baseValue = _damageModifier;

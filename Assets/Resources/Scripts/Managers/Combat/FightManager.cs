@@ -99,19 +99,39 @@ public class FightManager
         if (attacks.Count == 0)
             return;
 
+        GameObject obj = null;
+        Transform defenderTransform = null;
+        Transform attackerTransform = null;
+
         switch (effectName)
         {
             case "wizard_earth_attack":
-                GameObject obj = Resources.Load<GameObject>($"Prefabs/Characters/Wizard/Effects/Earth Attack/Earth Attack Prefab");
-                Transform defenderTransform = attacks.First().defender.Character == Character.Player ? playerObj.transform : enemyObj.transform;
-                Transform attackerTransform = attacks.First().attacker.Character == Character.Player ? playerObj.transform : enemyObj.transform;
-                GameObject attackInstance = UnityEngine.Object.Instantiate(obj, defenderTransform.position, defenderTransform.rotation, playerObj.transform.parent);
-                Animator anim = attackInstance.GetComponent<Animator>();
-                anim.Play("Attack");
-                var script = attackInstance.GetComponent<UnitAnimationManager>();
-                script.dictionaryCallback = attackerTransform.GetComponent<UnitAnimationManager>().dictionaryCallback;
+                obj = Resources.Load<GameObject>($"Prefabs/Characters/Wizard/Effects/Earth Attack/Earth Attack Prefab");
+                defenderTransform = attacks.First().defender.Character == Character.Player ? playerObj.transform : enemyObj.transform;
+                attackerTransform = attacks.First().attacker.Character == Character.Player ? playerObj.transform : enemyObj.transform;
+                break;
+            case "wizard_fire_attack":
+                obj = Resources.Load<GameObject>($"Prefabs/Characters/Wizard/Effects/Fire Attack/Fire Attack Prefab");
+                defenderTransform = attacks.First().defender.Character == Character.Player ? playerObj.transform : enemyObj.transform;
+                attackerTransform = attacks.First().attacker.Character == Character.Player ? playerObj.transform : enemyObj.transform;
                 break;
         }
+
+        InstantiateEffect(obj, defenderTransform, attackerTransform.GetComponent<UnitAnimationManager>().dictionaryCallback);
+    }
+
+    void InstantiateEffect(GameObject obj, Transform parent, Dictionary<string, Action> callbacks)
+    {
+        if(obj == null || parent == null || callbacks == null) 
+            return;
+
+        GameObject attackInstance = UnityEngine.Object.Instantiate(obj, parent.position, parent.rotation, playerObj.transform.parent);
+
+        Animator anim = attackInstance.GetComponent<Animator>();
+        anim.Play("Attack");
+
+        var script = attackInstance.GetComponent<UnitAnimationManager>();
+        script.dictionaryCallback = callbacks;
     }
 
     void DealDamage()
@@ -302,7 +322,7 @@ public class FightManager
     CharacterStatus UpdateStatus(int score, int maximumScore)
     {
         if (score == maximumScore)
-            return CharacterStatus.Standing;
+            return CharacterStatus.StandingOnCrit;
 
         if (score > maximumScore)
             return CharacterStatus.Bust;
@@ -404,13 +424,13 @@ public class FightManager
                 if (Player.status != CharacterStatus.Playing)
                     gameUIManager.SetStandButtonInteractable(false);
                 gameUIManager.ShowCardDrawn(Character.Player, cardDrawn, Player.Class, effectsManager, PlayerCardAnimationCallback);
-                gameUIManager.UpdateStandUI(character, Player.status, Player.currentScore, Player.CurrentMaxScore);
+                gameUIManager.UpdateStandUI(character, Player.status, Player.currentScore, Player.CurrentMaxScore, Player.Attacks);
                 gameUIManager.UpdatePlayerInfo(Player.FightCurrentDeck.Count, GetCardsBustAmount(Player.FightCurrentDeck, Player.currentScore, Player.MaxScore));
                 break;
             case Character.Enemy:
                 GameCard enemyCardDrawn = DrawAndPlayRandomCard(Character.Enemy);
                 gameUIManager.ShowCardDrawn(Character.Enemy, enemyCardDrawn, Enemy.Class, effectsManager, EnemyCardAnimationCallback);
-                gameUIManager.UpdateStandUI(character, Enemy.status, Enemy.currentScore,Enemy.CurrentMaxScore);
+                gameUIManager.UpdateStandUI(character, Enemy.status, Enemy.currentScore,Enemy.CurrentMaxScore, Enemy.Attacks);
                 break;
         }
 
@@ -471,6 +491,7 @@ public class FightManager
     {
         Playing,
         Standing,
+        StandingOnCrit,
         Bust
     }
 

@@ -113,7 +113,7 @@ public class MenuManager : MonoBehaviour
                 MaxHP = 10,
                 CurrentHP = 10,
                 MaxScore = 12,
-                NumberOfAttacks = 2
+                NumberOfAttacks = 1
             },
             CurrentRun = new()
             {

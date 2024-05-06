@@ -216,7 +216,7 @@ public class GameUIManager : MonoBehaviour
 
     public void UpdateUI(Character character, FightUnit data)
     {
-        UpdateStandUI(character, data.status, data.currentScore, data.CurrentMaxScore);
+        UpdateStandUI(character, data.status, data.currentScore, data.CurrentMaxScore, data.Attacks);
 
         UpdateUnitHP(character, data.FightHP, data.FightMaxHP);
         UpdateArmor(character, data.FightArmor);
@@ -225,9 +225,9 @@ public class GameUIManager : MonoBehaviour
             UpdatePlayerInfo(data.FightCurrentDeck.Count, GetCardsBustAmount(data.FightCurrentDeck, data.currentScore, data.CurrentMaxScore));
     }
 
-    public void UpdateStandUI(Character slide, CharacterStatus status, int newScore, int maxScore)
+    public void UpdateStandUI(Character slide, CharacterStatus status, int newScore, int maxScore, int attacks)
     {
-        ChangeSlideValue(slide, status, newScore, maxScore);
+        ChangeSlideValue(slide, status, newScore, maxScore, attacks);
     }
 
     public void UpdatePlayerInfo(int deckCount, int bustAmount)
@@ -287,24 +287,39 @@ public class GameUIManager : MonoBehaviour
         eventUI.SetActive(false);
     }
 
-    public void ChangeSlideValue(Character slide, CharacterStatus status, int newValue, int maxScore)
+    public void ChangeSlideValue(Character slide, CharacterStatus status, int newValue, int maxScore, int attacks)
     {
         switch (slide) {
             case Character.Player:
 
                 playerSlider.value = newValue;
-                playerScoreText.text = status == CharacterStatus.Bust ? $"{newValue}\nBUST!" : newValue.ToString();
+                playerScoreText.text = GetScoreText(status, newValue, attacks);
                 playerScoreText.color = newValue == maxScore ? Color.yellow : Color.white;
                 playerSliderColor.color = newValue == maxScore ? Color.yellow : Color.white;
                 break;
             case Character.Enemy:
 
                 enemySlider.value = newValue;
-                enemyScoreText.text = status == CharacterStatus.Bust ? $"{newValue}\nBUST!" : newValue.ToString();
+                enemyScoreText.text = GetScoreText(status, newValue, attacks);
                 enemyScoreText.color = newValue == maxScore ? Color.yellow : Color.white;
                 enemySliderColor.color = newValue == maxScore ? Color.yellow : Color.white;
                 break;
         }
+    }
+
+    public string GetScoreText(CharacterStatus status, int newValue, int attacks)
+    {
+        if(status == CharacterStatus.Bust)
+        {
+            return $"{newValue}\nBUST!";
+        }
+
+        if (attacks <= 0)
+            return "0";
+        else if (attacks == 1)
+            return newValue.ToString();
+        else
+            return $"{newValue}x{attacks}";
     }
 
     public void ChangeDeckCount(int newValue)

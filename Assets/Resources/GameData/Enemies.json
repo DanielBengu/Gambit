@@ -21,7 +21,7 @@
       "Id": 1,
       "Name": "Tutorial Guy",
       "Armor": 0,
-      "HP": 100,
+      "HP": 1,
       "BaseMaxScore": 12,
       "BaseStandThreshold": -1,
       "UnitClass": -1,

@@ -6,6 +6,10 @@ internal class Basic : IClass
     public CardsManager.Classes Class { get; set; } = CardsManager.Classes.Basic;
     public Color CardColor { get; set; } = Color.white;
 
+    public void ResetTurn()
+    {
+    }
+
     public void PlayCardEffect(CardType cardType, FightUnit unit, FightUnit enemy)
     {
         switch (cardType)

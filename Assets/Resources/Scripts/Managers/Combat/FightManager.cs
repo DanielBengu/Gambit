@@ -76,14 +76,44 @@ public class FightManager
 
         int damage = CalculateDamage(attacker, defender, pointDifference, false);
 
-        for (int i = 0; i < attacker.Attacks; i++)
-            attacks.Enqueue(new(attacker, defender, damage, false, DealDamage, this));
+        SetAttacks(attacker, defender, damage);
 
         GameObject obj = attacker.Character == Character.Player ? playerObj : enemyObj;
 
         PlayAnimation(obj, SpriteAnimation.UnitDealingDamage, DealDamage);
 
         ResetTurn();
+    }
+
+    public void SetAttacks(FightUnit attacker, FightUnit defender, int damage)
+    {
+        for (int i = 0; i < attacker.Attacks; i++)
+            attacks.Enqueue(new(attacker, defender, damage, false, DealDamage, this));
+
+        AddBonusAttacks(attacker, defender);
+    }
+
+    void AddBonusAttacks(FightUnit attacker, FightUnit defender)
+    {
+        switch (attacker.Class.Class)
+        {
+            case Classes.Basic:
+            case Classes.Warrior:
+            case Classes.Wizard:
+            case Classes.Berserk:
+            case Classes.Poisoner:
+            case Classes.Archmage:
+            case Classes.Trickster:
+            default:
+                break;
+            case Classes.Rogue:
+                Rogue rogueClass = attacker.Class as Rogue;
+                foreach (var attack in rogueClass.GetBonusAttacks(attacker, defender, DealDamage, this))
+                {
+                    attacks.Enqueue(attack);
+                }
+                break;
+        }
     }
 
     int CalculateDamage(FightUnit attacker, FightUnit defender, int baseDamage, bool isPiercing)
@@ -227,6 +257,8 @@ public class FightManager
         unit.TickModifiers();
         unit.currentScore = 0;
         unit.status = CharacterStatus.Playing;
+
+        unit.Class.ResetTurn();
     }
 
     /*

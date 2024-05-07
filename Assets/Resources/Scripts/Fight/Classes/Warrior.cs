@@ -6,6 +6,9 @@ public class Warrior : IClass
     public CardsManager.Classes Class { get; set; } = CardsManager.Classes.Warrior;
     public Color CardColor { get; set; } = Color.red;
 
+    public void ResetTurn()
+    {
+    }
     public void PlayCardEffect(CardType cardType, FightUnit unit, FightUnit enemy)
     {
         switch (cardType)

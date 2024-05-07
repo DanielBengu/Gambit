@@ -1,9 +1,41 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+using static FightManager;
 
 public class Rogue : IClass
 {
+    public static int _aceAttackAmount = 3;
+
+
     public CardsManager.Classes Class { get; set; } = CardsManager.Classes.Rogue;
     public Color CardColor { get; set; } = Color.green;
+
+    public bool IsAce { get; set; }
+    public int AceAttackAmount { get { return GetAceAttackAmount(); } }
+
+    int GetAceAttackAmount()
+    {
+        return _aceAttackAmount;
+    }
+
+    public void ResetTurn()
+    {
+        IsAce = false;
+    }
+
+    public List<AttackStruct> GetBonusAttacks(FightUnit attacker, FightUnit defender, Action callback, FightManager manager)
+    {
+        if (!IsAce)
+            return new();
+
+        List<AttackStruct> atk = new()
+        {
+            new AttackStruct(attacker, defender, AceAttackAmount, true, callback, manager)
+        };
+
+        return atk;
+    }
 
     public void PlayCardEffect(CardType cardType, FightUnit unit, FightUnit enemy)
     {
@@ -17,6 +49,9 @@ public class Rogue : IClass
                 break;
             case CardType.King: 
                 PlayKing(unit, enemy);
+                break;
+            case CardType.Ace: 
+                PlayAce(unit, enemy);
                 break;
         }
     }
@@ -38,6 +73,7 @@ public class Rogue : IClass
 
     public void PlayAce(FightUnit unit, FightUnit enemy)
     {
+        IsAce = true;
         SetScoreToCrit(unit);
     }
 

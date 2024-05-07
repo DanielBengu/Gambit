@@ -16,4 +16,6 @@ public interface IClass
 
     public string GetCardText(CardType cardType);
     public Sprite GetCardIcon(CardType cardType);
+
+    public void ResetTurn();
 }

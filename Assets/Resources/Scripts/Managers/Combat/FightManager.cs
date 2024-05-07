@@ -304,15 +304,16 @@ public class FightManager
             case Character.Player:
                 int playerCardValue = GetCardPointValue(card);
 
-                HandlePoints(ref Player.status, character, ref Player.currentScore, Player.CurrentMaxScore, playerCardValue);
                 HandleSideEffects(character, Player.Class, card);
+                HandlePoints(ref Player.status, character, ref Player.currentScore, Player.CurrentMaxScore, playerCardValue);
+
                 Player.FightCurrentDeck.Remove(card);
                 break;
             case Character.Enemy:
                 int enemyCardValue = GetCardPointValue(card);
 
-                HandlePoints(ref Enemy.status, character, ref Enemy.currentScore, Enemy.CurrentMaxScore, enemyCardValue);
                 HandleSideEffects(character, Enemy.Class, card);
+                HandlePoints(ref Enemy.status, character, ref Enemy.currentScore, Enemy.CurrentMaxScore, enemyCardValue);
 
                 Enemy.FightCurrentDeck.Remove(card);
                 break;
@@ -546,7 +547,7 @@ public class FightManager
             this.attacker = attacker;
             this.defender = defender;
             
-            this.damageAmount = manager.CalculateDamage(attacker, defender, damageAmount, isPiercing);
+            this.damageAmount = damageAmount;
 
             this.callback = callback;
         }

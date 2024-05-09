@@ -427,7 +427,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1685143527161320348, guid: 576d2636d01ac2f47874292202bb287c, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1685143527161320348, guid: 576d2636d01ac2f47874292202bb287c, type: 3}
       propertyPath: m_LocalRotation.x
@@ -435,7 +435,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1685143527161320348, guid: 576d2636d01ac2f47874292202bb287c, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1685143527161320348, guid: 576d2636d01ac2f47874292202bb287c, type: 3}
       propertyPath: m_LocalRotation.z
@@ -447,7 +447,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1685143527161320348, guid: 576d2636d01ac2f47874292202bb287c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1685143527161320348, guid: 576d2636d01ac2f47874292202bb287c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -481,11 +481,6 @@ PrefabInstance:
 --- !u!4 &430402299 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1685143527161320348, guid: 576d2636d01ac2f47874292202bb287c, type: 3}
-  m_PrefabInstance: {fileID: 430402298}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &430402300 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5256360085883697309, guid: 576d2636d01ac2f47874292202bb287c, type: 3}
   m_PrefabInstance: {fileID: 430402298}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &469592587 stripped
@@ -1438,8 +1433,10 @@ MonoBehaviour:
   enemyManager: {fileID: 788273625}
   effectsManager: {fileID: 2014228545}
   languageManager: {fileID: 2058149798}
+  playerParent: {fileID: 672926810}
   player: {fileID: 672926809}
-  enemyObj: {fileID: 430402300}
+  enemyParent: {fileID: 430402299}
+  enemy: {fileID: 0}
   textBubble: {fileID: 830825908}
   nextSectionButton: {fileID: 2099854460}
   choicesObj: {fileID: 6759370305635180545}
@@ -1458,6 +1455,9 @@ MonoBehaviour:
       ClassId: 0
       CurrentFloor: 0
       CardList: []
+  currentEncounter:
+    Id: 0
+    Type: 0
 --- !u!114 &1900741757 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8830868172308842257, guid: 7b962fa0635b0c942b01d0fb8012cac5, type: 3}

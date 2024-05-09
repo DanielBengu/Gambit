@@ -10,6 +10,7 @@ using UnityEngine.UI;
 using static AnimationManager;
 using static CardsManager;
 using static FightManager;
+using static Map;
 
 public class GameManager : MonoBehaviour
 {
@@ -21,8 +22,10 @@ public class GameManager : MonoBehaviour
     public VisualEffectsManager effectsManager;
     public LanguageManager languageManager;
 
+    public Transform playerParent;
     public GameObject player;
-    public GameObject enemyObj;
+    public Transform enemyParent;
+    public GameObject enemy;
 
     public TextMeshProUGUI textBubble;
     public Button nextSectionButton;
@@ -31,6 +34,7 @@ public class GameManager : MonoBehaviour
     public Transform choicesPositionObj;
 
     public PlayerData playerData;
+    public EncounterData currentEncounter;
     Map currentMap;
 
     Action callbackFightVictory;
@@ -43,13 +47,12 @@ public class GameManager : MonoBehaviour
         playerData = SaveManager.LoadPlayerData();
         currentMap = JSONManager.GetFileFromJSON<MapData>(JSONManager.MAPS_PATH).Maps.Find(m => m.Id == playerData.CurrentRun.MapId);
 
-        HandleNextEncounter();
-
-        CharacterManager.LoadCharacter(playerData.CurrentRun.ClassId.ToString(), player);
+        string className = playerData.CurrentRun.ClassId.ToString();
+        player = LoadCharacter(className, playerParent);
 
         gameUIManager.SetPlayerSection(playerData.UnitData.Name, playerData.CurrentRun.ClassId.ToString(), playerData.UnitData.MaxHP, playerData.UnitData.CurrentHP, playerData.UnitData.Armor);
 
-        SetStrings();
+        HandleNextEncounter();
     }
 
     private void Update()
@@ -61,20 +64,24 @@ public class GameManager : MonoBehaviour
         EventManager?.Update();
     }
 
-    void SetStrings()
+    EncounterData GetEncounter(int encounterCount, EncounterData previousEncounter)
     {
-    }
-
-    EncounterData GetEncounter(int encounterCount)
-    {
-        EncounterData encounter = currentMap.CustomEncounters.Find(e => e.PositionOnMap == encounterCount) ?? DrawRandomEncounter();
+        EncounterData encounter = currentMap.CustomEncounters.Find(e => e.PositionOnMap == encounterCount) ?? DrawRandomEncounter(previousEncounter);
         return encounter;
     }
 
-    EncounterData DrawRandomEncounter()
+    EncounterData DrawRandomEncounter(EncounterData previousEncounter)
     {
-        int index = UnityEngine.Random.Range(0, currentMap.EncounterList.Count);
-        return currentMap.EncounterList[index];
+        TypeOfEncounter encounterTypeToAvoid = previousEncounter != null ? previousEncounter.Type : TypeOfEncounter.Default;
+        List<EncounterData> possibleEncounters = currentMap.EncounterList.Where(e => e.Type != encounterTypeToAvoid).ToList();
+        int index = UnityEngine.Random.Range(0, possibleEncounters.Count);
+        return possibleEncounters[index];
+    }
+
+    public static GameObject LoadCharacter(string charName, Transform character)
+    {
+        GameObject characterPrefab = CharacterManager.LoadCharacter(charName);
+        return Instantiate(characterPrefab, character.position, character.rotation, character);
     }
 
     void PlayEncounter(EncounterData encounter)
@@ -84,18 +91,19 @@ public class GameManager : MonoBehaviour
         switch (encounter.Type)
         {
 
-            case Map.TypeOfEncounter.Combat:
+            case TypeOfEncounter.Combat:
                 EnemyList enemyList = JSONManager.GetFileFromJSON<EnemyList>(JSONManager.ENEMIES_PATH);
-                EnemyData enemy = enemyList.Enemies.Find(e => e.Id == encounter.Id);
-                PlayCombat(enemy, SetNextSectionButtonClick);
+                EnemyData enemyData = enemyList.Enemies.Find(e => e.Id == encounter.Id);
 
-                CharacterManager.LoadCharacter(enemy.Name, enemyObj);
-                PlayAnimation(enemyObj, SpriteAnimation.UnitIntro, FightManager.SetupFightUI);
+                enemy = LoadCharacter(enemyData.Name, enemyParent);
+
+                PlayCombat(enemyData, SetNextSectionButtonClick);
+                PlayAnimation(enemy, SpriteAnimation.UnitIntro, FightManager.SetupFightUI);
 
                 SetupBlackScreen(() => { });
                 break;
 
-            case Map.TypeOfEncounter.Event:
+            case TypeOfEncounter.Event:
                 PlayEvent(encounter.Id);
 
                 SetupBlackScreen(() => { });
@@ -103,19 +111,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void PlayCombat(EnemyData enemy, Action callback)
+    public void PlayCombat(EnemyData enemyData, Action callback)
     {
         callbackFightVictory = callback;
 
-        enemy.BaseDecklist = enemy.IsCustomDecklist ? GetStartingDeck(0) : GetStartingDeck(0);
-        FightManager = new(enemy, playerData.CurrentRun.CardList, playerData.UnitData, playerData.CurrentRun.ClassId, gameUIManager, effectsManager, enemyManager, player, enemyObj, this);
+        enemyData.BaseDecklist = enemyData.IsCustomDecklist ? GetStartingDeck(0) : GetStartingDeck(0);
+        FightManager = new(enemyData, playerData.CurrentRun.CardList, playerData.UnitData, playerData.CurrentRun.ClassId, gameUIManager, effectsManager, enemyManager, player, enemy, this);
 
         Status = GameStatus.Fight;
     }
 
     void PlayEvent(int eventData){
 
-        EventManager = new(eventData, enemyObj, effectsManager, textBubble, gameUIManager, this, choicesObj, languageManager, choicesPositionObj);
+        EventManager = new(eventData, enemy, enemyParent, effectsManager, textBubble, gameUIManager, this, choicesObj, languageManager, choicesPositionObj);
 
         gameUIManager.SetupEventUI();
 
@@ -175,14 +183,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            EncounterData nextEncounter = GetEncounter(CurrentEncounterCount);
-            PlayEncounter(nextEncounter);
+            currentEncounter = GetEncounter(CurrentEncounterCount, currentEncounter);
+            PlayEncounter(currentEncounter);
         }
     }
 
     public void MakePlayerDie()
     {
-        PlayAnimation(player, SpriteAnimation.UnitDeath, HandleGameDefeat);
+        PlayAnimation(playerParent.gameObject, SpriteAnimation.UnitDeath, HandleGameDefeat);
     }
 
     public void SetNextSectionButtonClick()

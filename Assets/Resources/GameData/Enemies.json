@@ -2,11 +2,11 @@
   "Enemies": [
     {
       "Id": 0,
-      "Name": "Skeleton",
+      "Name": "Mephy",
       "Armor": 0,
-      "HP": 1,
+      "HP": 8,
       "BaseMaxScore": 12,
-      "BaseStandThreshold": 8,
+      "BaseStandThreshold": 7,
       "UnitClass": -1,
       "IsCustomDecklist": false,
       "Rewards": [
@@ -21,7 +21,7 @@
       "Id": 1,
       "Name": "Tutorial Guy",
       "Armor": 0,
-      "HP": 100,
+      "HP": 1,
       "BaseMaxScore": 12,
       "BaseStandThreshold": -1,
       "UnitClass": -1,

@@ -4,6 +4,7 @@ using UnityEngine;
 public class EventManager
 {
     readonly DialogueManager dialogueManager;
+    readonly Transform characterParent;
     readonly GameObject character;
     readonly GameManager gameManager;
     readonly GameUIManager gameUIManager;
@@ -16,13 +17,14 @@ public class EventManager
 
     EventParent currentEvent;
 
-    public EventManager(int eventData, GameObject character, VisualEffectsManager effectsManager, TextMeshProUGUI textBubble, GameUIManager gameUIManager, GameManager gameManager, GameObject choicesObj, LanguageManager languageManager, Transform choicesPositionObj)
+    public EventManager(int eventData, GameObject character, Transform characterParent, VisualEffectsManager effectsManager, TextMeshProUGUI textBubble, GameUIManager gameUIManager, GameManager gameManager, GameObject choicesObj, LanguageManager languageManager, Transform choicesPositionObj)
     {
         this.character = character;
         this.gameManager = gameManager;
         this.gameUIManager = gameUIManager;
         this.textBubble = textBubble;
         this.choicesObj = choicesObj;
+        this.characterParent = characterParent;
 
         choicePosition = choicesPositionObj;
 
@@ -61,9 +63,9 @@ public class EventManager
     {
         return id switch
         {
-            0 => new Welcome(character, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition),
-            1 => new FollowerOfXsant(character, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition),
-            _ => new EmptyEvent(character, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition)
+            0 => new Welcome(character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition),
+            1 => new FollowerOfXsant(character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition),
+            _ => new EmptyEvent(character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition)
         };
     }
 }

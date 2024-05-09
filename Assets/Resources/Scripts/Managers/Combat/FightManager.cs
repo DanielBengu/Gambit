@@ -88,7 +88,7 @@ public class FightManager
     public void SetAttacks(FightUnit attacker, FightUnit defender, int damage)
     {
         for (int i = 0; i < attacker.Attacks; i++)
-            attacks.Enqueue(new(attacker, defender, damage, false, DealDamage, this));
+            attacks.Enqueue(new(attacker, defender, damage, DealDamage));
 
         AddBonusAttacks(attacker, defender);
     }
@@ -108,7 +108,7 @@ public class FightManager
                 break;
             case Classes.Rogue:
                 Rogue rogueClass = attacker.Class as Rogue;
-                foreach (var attack in rogueClass.GetBonusAttacks(attacker, defender, DealDamage, this))
+                foreach (var attack in rogueClass.GetBonusAttacks(attacker, defender, DealDamage))
                 {
                     attacks.Enqueue(attack);
                 }
@@ -542,7 +542,7 @@ public class FightManager
         public int damageAmount;
         public Action callback;
 
-        public AttackStruct(FightUnit attacker, FightUnit defender, int damageAmount, bool isPiercing, Action callback, FightManager manager)
+        public AttackStruct(FightUnit attacker, FightUnit defender, int damageAmount, Action callback)
         {
             this.attacker = attacker;
             this.defender = defender;

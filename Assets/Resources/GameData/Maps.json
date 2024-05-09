@@ -10,7 +10,33 @@
         },
         {
           "Id": 1,
+          "Type": 1
+        },
+        {
+          "Id": 1,
           "Type": 0
+        }
+      ],
+      "NumberOfEncounters": 1,
+      "CustomEncounters": [
+        {
+          "PositionOnMap": 0,
+          "Type": "Combat",
+          "Id": 0
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "Name": "Forest",
+      "EncounterList": [
+        {
+          "Id": 0,
+          "type": "Combat"
+        },
+        {
+          "Id": 1,
+          "type": "Event"
         }
       ],
       "NumberOfEncounters": 3,
@@ -29,20 +55,6 @@
           "PositionOnMap": 2,
           "Type": 1,
           "Id": 1
-        }
-      ]
-    },
-    {
-      "Id": 1,
-      "Name": "Forest",
-      "EncounterList": [
-        {
-          "Id": 0,
-          "type": "Combat"
-        },
-        {
-          "Id": 1,
-          "type": "Event"
         }
       ]
     },

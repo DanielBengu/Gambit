@@ -11,6 +11,15 @@ public static class AnimationManager
 
         Animator animator = unit.GetComponent<Animator>();
 
+        if (!animator.HasState(0, Animator.StringToHash(animationToPlay)))
+        {
+            if(animation != SpriteAnimation.UnitIntro)
+                Debug.LogError("Animation '" + animationToPlay + "' not found in Animator controller of GameObject: " + unit.name);
+
+            callback();
+            return;
+        }
+
         animator.Play(animationToPlay, 0, 0f);
 
         UnitAnimationManager animationManager = unit.GetComponent<UnitAnimationManager>();

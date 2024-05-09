@@ -24,14 +24,14 @@ public class Rogue : IClass
         IsAce = false;
     }
 
-    public List<AttackStruct> GetBonusAttacks(FightUnit attacker, FightUnit defender, Action callback, FightManager manager)
+    public List<AttackStruct> GetBonusAttacks(FightUnit attacker, FightUnit defender, Action callback)
     {
         if (!IsAce)
             return new();
 
         List<AttackStruct> atk = new()
         {
-            new AttackStruct(attacker, defender, AceAttackAmount, true, callback, manager)
+            new AttackStruct(attacker, defender, AceAttackAmount, callback)
         };
 
         return atk;

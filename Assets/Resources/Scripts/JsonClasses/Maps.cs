@@ -30,6 +30,7 @@ public class Map
 
     public enum TypeOfEncounter
     {
+        Default = -1,
         Combat,
         Event
     }

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Runtime.InteropServices.WindowsRuntime;
+using UnityEngine;
+using static FightManager;
 
 
 static class CharacterManager
@@ -13,10 +15,9 @@ static class CharacterManager
         return Resources.Load<Sprite>($"Sprites/Characters/{characterName}/{characterName}");
     }
 
-    public static void LoadCharacter(string characterName, GameObject characterObject)
+    public static GameObject LoadCharacter(string characterName)
     {
-        characterObject.GetComponent<Animator>().runtimeAnimatorController = LoadAnimator(characterName);
-        characterObject.GetComponent<SpriteRenderer>().sprite = LoadSprite(characterName);
+        return Resources.Load<GameObject>($"Prefabs/Characters/{characterName}/{characterName}");
     }
 
     public static void ResetCharacter(GameObject characterObject, VisualEffectsManager visualEffectsManager)

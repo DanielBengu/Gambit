@@ -17,11 +17,12 @@ public abstract class EventParent
     internal readonly VisualEffectsManager effectsManager;
 
     public Action endEventCallback;
-    internal readonly GameObject enemyObject;
+    internal Transform enemyParent;
+    internal GameObject enemyObject;
     internal readonly GameObject choices;
     internal readonly Transform choicePosition;
 
-    public EventParent(GameObject enemyObject, Action callback, DialogueManager dialogueManager, VisualEffectsManager effectsManager, GameObject choices, GameManager gameManager, Transform choicePosition)
+    public EventParent(GameObject enemyObject, Transform enemyParent, Action callback, DialogueManager dialogueManager, VisualEffectsManager effectsManager, GameObject choices, GameManager gameManager, Transform choicePosition)
     {
         this.enemyObject = enemyObject;
         this.dialogueManager = dialogueManager;
@@ -30,6 +31,7 @@ public abstract class EventParent
         this.choices = choices;
         this.gameManager = gameManager;
         this.choicePosition = choicePosition;
+        this.enemyParent = enemyParent;
     }
 
     public void StartEvent()
@@ -63,7 +65,8 @@ public abstract class EventParent
 
     public void SetupCharacter(string characterName, bool playAnimation)
     {
-        CharacterManager.LoadCharacter(characterName, enemyObject);
+        enemyObject = GameManager.LoadCharacter(characterName, enemyParent);
+
         if(playAnimation)
             AnimationManager.PlayAnimation(enemyObject, AnimationManager.SpriteAnimation.UnitIntro, LoadNextStep);
     }

@@ -2,7 +2,7 @@
 
 internal class Wizard : IClass
 {
-    public CardsManager.Classes Class { get; set; } = CardsManager.Classes.Basic;
+    public CardsManager.Classes Class { get; set; } = CardsManager.Classes.Wizard;
     public Color CardColor { get; set; } = Color.cyan;
 
     public void ResetTurn()

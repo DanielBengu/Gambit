@@ -95,7 +95,7 @@ public class MenuManager : MonoBehaviour
         if (!DoesPrefExists(PlayerPrefsEnum.AlreadyLaunchedGame) || forceFirstStart)
         {
             mapToPlay = mapList.Maps.Find(m => m.Id == 0); //Tutorial world
-            playerClass = Classes.Rogue; //Tutorial starts with warrior
+            playerClass = Classes.Wizard; //Tutorial starts with warrior
             SetPref(PlayerPrefsEnum.AlreadyLaunchedGame, 1);
         }
         else

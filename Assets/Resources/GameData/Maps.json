@@ -17,12 +17,17 @@
           "Type": 0
         }
       ],
-      "NumberOfEncounters": 1,
+      "NumberOfEncounters": 2,
       "CustomEncounters": [
+        {
+          "PositionOnMap": 1,
+          "Type": "Combat",
+          "Id": 0
+        },
         {
           "PositionOnMap": 0,
           "Type": "Combat",
-          "Id": 0
+          "Id": 1
         }
       ]
     },

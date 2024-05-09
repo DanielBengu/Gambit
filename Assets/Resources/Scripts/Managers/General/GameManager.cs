@@ -47,6 +47,14 @@ public class GameManager : MonoBehaviour
         playerData = SaveManager.LoadPlayerData();
         currentMap = JSONManager.GetFileFromJSON<MapData>(JSONManager.MAPS_PATH).Maps.Find(m => m.Id == playerData.CurrentRun.MapId);
 
+        if (!playerData.CurrentRun.IsOngoing)
+        {
+            Debug.LogError("START FIGHT - NO RUN FOUND, BACK TO INTRO");
+            SceneManager.LoadScene(0);
+            return;
+        }
+            
+
         string className = playerData.CurrentRun.ClassId.ToString();
         player = LoadCharacter(className, playerParent);
 

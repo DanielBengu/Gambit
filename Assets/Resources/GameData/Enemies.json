@@ -21,7 +21,7 @@
       "Id": 1,
       "Name": "Hellion",
       "Armor": 0,
-      "HP": 20,
+      "HP": 1,
       "BaseMaxScore": 12,
       "BaseStandThreshold": 8,
       "UnitClass": -1,

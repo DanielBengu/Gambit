@@ -71,16 +71,19 @@ public class FightManager
     {
         int pointDifference = Mathf.Abs(Player.currentScore - Enemy.currentScore);
 
-        FightUnit attacker = Player.currentScore > Enemy.currentScore ? Player : Enemy;
-        FightUnit defender = Player.currentScore > Enemy.currentScore ? Enemy : Player;
+        if (pointDifference != 0)
+        {
+            FightUnit attacker = Player.currentScore > Enemy.currentScore ? Player : Enemy;
+            FightUnit defender = Player.currentScore > Enemy.currentScore ? Enemy : Player;
 
-        int damage = CalculateDamage(attacker, defender, pointDifference, false);
+            int damage = CalculateDamage(attacker, defender, pointDifference, false);
 
-        SetAttacks(attacker, defender, damage);
+            SetAttacks(attacker, defender, damage);
 
-        GameObject obj = attacker.Character == Character.Player ? playerObj : enemyObj;
+            GameObject obj = attacker.Character == Character.Player ? playerObj : enemyObj;
 
-        PlayAnimation(obj, SpriteAnimation.UnitDealingDamage, DealDamage);
+            PlayAnimation(obj, SpriteAnimation.UnitDealingDamage, DealDamage);
+        }
 
         ResetTurn();
     }

@@ -9,6 +9,7 @@ using static PlayerPrefsManager;
 public class MenuManager : MonoBehaviour
 {
     public bool forceFirstStart = false;
+    public Classes forceClass = Classes.Basic;
 
     public MenuOptions menuOptions;
     public VisualEffectsManager effectsManager;
@@ -95,7 +96,7 @@ public class MenuManager : MonoBehaviour
         if (!DoesPrefExists(PlayerPrefsEnum.AlreadyLaunchedGame) || forceFirstStart)
         {
             mapToPlay = mapList.Maps.Find(m => m.Id == 0); //Tutorial world
-            playerClass = Classes.Wizard; //Tutorial starts with warrior
+            playerClass = forceClass != Classes.Basic ? forceClass : Classes.Warrior; //Tutorial starts with warrior
             SetPref(PlayerPrefsEnum.AlreadyLaunchedGame, 1);
         }
         else

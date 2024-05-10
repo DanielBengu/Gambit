@@ -111,7 +111,7 @@ public class MenuManager : MonoBehaviour
                 Name = "TEMP",
                 Armor = 2,
                 MaxHP = 100,
-                CurrentHP = 10,
+                CurrentHP = 100,
                 MaxScore = 12,
                 NumberOfAttacks = 1
             },

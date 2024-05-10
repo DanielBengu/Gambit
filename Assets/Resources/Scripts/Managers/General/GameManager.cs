@@ -89,7 +89,7 @@ public class GameManager : MonoBehaviour
     public static GameObject LoadCharacter(string charName, Transform character)
     {
         GameObject characterPrefab = CharacterManager.LoadCharacter(charName);
-        return Instantiate(characterPrefab, character.position, character.rotation, character);
+        return Instantiate(characterPrefab, characterPrefab.transform.position, character.rotation, character);
     }
 
     void PlayEncounter(EncounterData encounter)

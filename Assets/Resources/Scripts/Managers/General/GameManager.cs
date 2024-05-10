@@ -72,6 +72,11 @@ public class GameManager : MonoBehaviour
         EventManager?.Update();
     }
 
+    public void LoadEnemy(GameObject enemy)
+    {
+        this.enemy = enemy;
+    }
+
     EncounterData GetEncounter(int encounterCount, EncounterData previousEncounter)
     {
         EncounterData encounter = currentMap.CustomEncounters.Find(e => e.PositionOnMap == encounterCount) ?? DrawRandomEncounter(previousEncounter);

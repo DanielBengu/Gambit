@@ -67,6 +67,8 @@ public abstract class EventParent
     {
         enemyObject = GameManager.LoadCharacter(characterName, enemyParent);
 
+        gameManager.LoadEnemy(enemyObject);
+
         if(playAnimation)
             AnimationManager.PlayAnimation(enemyObject, AnimationManager.SpriteAnimation.UnitIntro, LoadNextStep);
     }

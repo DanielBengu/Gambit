@@ -84,6 +84,7 @@
     <Compile Include="Assets\Resources\Scripts\Fight\Classes\Warrior.cs" />
     <Compile Include="Assets\Resources\Scripts\JsonClasses\Cards.cs" />
     <Compile Include="Assets\Resources\Scripts\Menu\MenuOptions.cs" />
+    <Compile Include="Assets\Resources\Scripts\Event\Tutorial\KaldorBoss.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\IClass.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\Classes\Rogue.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Combat\UnitAnimationManager.cs" />

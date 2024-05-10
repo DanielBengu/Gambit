@@ -31,7 +31,7 @@ public class EventManager
         eventId = eventData;
 
         visualEffectsManager = effectsManager;
-        dialogueManager = new(textBubble, effectsManager, languageManager);
+        dialogueManager = new(textBubble, languageManager);
 
         LoadEvent();
     }
@@ -65,6 +65,7 @@ public class EventManager
         {
             0 => new Welcome(character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition),
             1 => new FollowerOfXsant(character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition),
+            2 => new KaldorBoss(character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition),
             _ => new EmptyEvent(character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition)
         };
     }

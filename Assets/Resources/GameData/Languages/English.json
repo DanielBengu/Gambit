@@ -30,7 +30,7 @@
     },
     {
       "Id": 7,
-      "Value": "{0} the {1}"
+      "Value": "{0}"
     },
     {
       "Id": 8,
@@ -103,6 +103,18 @@
     {
       "Id": 25,
       "Value": "<b><i>Why?</i></b>"
+    },
+    {
+      "Id": 26,
+      "Value": "Kaldor"
+    },
+    {
+      "Id": 27,
+      "Value": "Congratulation for completing the tutorial, traveler"
+    },
+    {
+      "Id": 28,
+      "Value": "Unfortunately, your journey ends here."
     }
   ]
 }

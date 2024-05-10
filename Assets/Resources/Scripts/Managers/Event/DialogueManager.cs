@@ -8,16 +8,14 @@ using UnityEngine;
 public class DialogueManager
 {
     readonly TextMeshProUGUI bubbleText;
-    readonly VisualEffectsManager effectsManager;
     public readonly LanguageManager languageManager;
 
     Dialogue dialogueEvent;
 
-    public  DialogueManager(TextMeshProUGUI bubbleText, VisualEffectsManager effectsManager, LanguageManager languageManager)
+    public  DialogueManager(TextMeshProUGUI bubbleText, LanguageManager languageManager)
     {
         dialogueEvent = new Dialogue(true);
         this.bubbleText = bubbleText;
-        this.effectsManager = effectsManager;
         this.languageManager = languageManager;
     }
 

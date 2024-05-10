@@ -21,7 +21,7 @@
       "CustomEncounters": [
         {
           "PositionOnMap": 0,
-          "Type": "Combat",
+          "Type": 1,
           "Id": 2
         }
       ]

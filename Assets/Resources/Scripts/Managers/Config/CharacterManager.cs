@@ -24,6 +24,8 @@ static class CharacterManager
     {
         visualEffectsManager.RemoveFromLists(characterObject);
 
+        characterObject.SetActive(false);
+
         characterObject.GetComponent<Animator>().runtimeAnimatorController = null;
         characterObject.GetComponent<SpriteRenderer>().sprite = null;
     }

@@ -200,7 +200,7 @@ public class FightManager
             SpriteAnimation.UnitTakingDamage => () => { },
             SpriteAnimation.UnitDealingDamage => () => { },
             SpriteAnimation.UnitIdle => () => { },
-            SpriteAnimation.UnitDeath => character == Character.Player ? HandlePlayerDeath : HandlEnemyDeath,
+            SpriteAnimation.UnitDeath => character == Character.Player ? HandlePlayerDeath : HandleEnemyDeath,
             _ => () => { },
         };
     }
@@ -235,7 +235,7 @@ public class FightManager
         gameManager.HandleFightDefeat();
     }
 
-    public void HandlEnemyDeath()
+    public void HandleEnemyDeath()
     {
         CharacterManager.ResetCharacter(enemyObj, effectsManager);
         gameUIManager.TurnOfFightUI();

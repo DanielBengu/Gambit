@@ -31,19 +31,15 @@ public class MenuManager : MonoBehaviour
     {
         Transform cardLeftContents = GameObject.Find("Card_left").transform.GetChild(0);
         Transform cardCenterContents = GameObject.Find("Card_center").transform.GetChild(0);
-        Transform cardRightContents = GameObject.Find("Card_right").transform.GetChild(0);
+        //Transform cardRightContents = GameObject.Find("Card_right").transform.GetChild(0);
 
         TextMeshProUGUI newGameText = cardCenterContents.Find("New Game").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI continueText = cardLeftContents.Find("Continue").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI archiveText = cardRightContents.Find("Archive").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI creditsText = cardRightContents.Find("Credits").GetComponent<TextMeshProUGUI>();
 
         languageManager.SetLanguageValues(new()
         {
             new(0, newGameText, new object[0]),
             new(1, continueText, new object[0]),
-            new(2, archiveText, new object[0]),
-            new(3, creditsText, new object[0]),
         });
     }
 
@@ -62,8 +58,8 @@ public class MenuManager : MonoBehaviour
 
     void HandleCards(PlayerData data)
     {
-        if (GetPref<int>(PlayerPrefsEnum.HasWonAnyRun) != 1)
-            menuOptions.CoverCard(MenuOptions.CardPosition.Right);
+        /*if (GetPref<int>(PlayerPrefsEnum.HasWonAnyRun) != 1)
+            menuOptions.CoverCard(MenuOptions.CardPosition.Right);*/
 
         if (!data.CurrentRun.IsOngoing)
             menuOptions.CoverCard(MenuOptions.CardPosition.Left);

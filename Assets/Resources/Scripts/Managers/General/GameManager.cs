@@ -136,7 +136,7 @@ public class GameManager : MonoBehaviour
 
     void PlayEvent(int eventData){
 
-        EventManager = new(eventData, enemy, enemyParent, effectsManager, textBubble, gameUIManager, this, choicesObj, languageManager, choicesPositionObj);
+        EventManager = new(eventData, enemyParent, enemy, effectsManager, textBubble, gameUIManager, this, choicesObj, languageManager, choicesPositionObj);
 
         gameUIManager.SetupEventUI();
 

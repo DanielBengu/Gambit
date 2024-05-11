@@ -58,19 +58,19 @@
     },
     {
       "Id": 14,
-      "Value": "Hello! Welcome to the tutorial of GAMBIT!\n Choose your powerup:"
+      "Value": "Welcome to the introduction of GAMBIT"
     },
     {
       "Id": 15,
-      "Value": "THIS IS A SUPER FAST TEXT OMG WHY IS IT SO FAST AAAAAAA"
+      "Value": "My name is Eleonore and I'm the Archmage of the Kamris Woods"
     },
     {
       "Id": 16,
-      "Value": "Tutorial Guy"
+      "Value": "Tutorial Girl"
     },
     {
       "Id": 17,
-      "Value": "GREAT CHOICE!"
+      "Value": ""
     },
     {
       "Id": 18,
@@ -102,7 +102,7 @@
     },
     {
       "Id": 25,
-      "Value": "<b><i>Why?</i></b>"
+      "Value": ""
     },
     {
       "Id": 26,
@@ -115,6 +115,18 @@
     {
       "Id": 28,
       "Value": "Unfortunately, your journey ends here."
+    },
+    {
+      "Id": 29,
+      "Value": "I will reward you if successfull.\nTo help your quest, choose a blessing"
+    },
+    {
+      "Id": 30,
+      "Value": "Good Luck!"
+    },
+    {
+      "Id": 31,
+      "Value": "Help me clean this area and defeat <b>Kaldor the Titan</b>"
     }
   ]
 }

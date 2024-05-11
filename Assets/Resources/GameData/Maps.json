@@ -17,10 +17,15 @@
           "Type": 0
         }
       ],
-      "NumberOfEncounters": 1,
+      "NumberOfEncounters": 2,
       "CustomEncounters": [
         {
           "PositionOnMap": 0,
+          "Type": 1,
+          "Id": 0
+        },
+        {
+          "PositionOnMap": 1,
           "Type": 1,
           "Id": 2
         }

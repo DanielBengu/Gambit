@@ -3,9 +3,10 @@ using UnityEngine;
 
 public class EventManager
 {
+    private GameObject _character;
     readonly DialogueManager dialogueManager;
     readonly Transform characterParent;
-    readonly GameObject character;
+    GameObject Character { get { return GetEnemyCharacter(); } set { _character = value; } }
     readonly GameManager gameManager;
     readonly GameUIManager gameUIManager;
     readonly VisualEffectsManager visualEffectsManager;
@@ -17,14 +18,15 @@ public class EventManager
 
     EventParent currentEvent;
 
-    public EventManager(int eventData, GameObject character, Transform characterParent, VisualEffectsManager effectsManager, TextMeshProUGUI textBubble, GameUIManager gameUIManager, GameManager gameManager, GameObject choicesObj, LanguageManager languageManager, Transform choicesPositionObj)
+    public EventManager(int eventData, Transform characterParent, GameObject character,  VisualEffectsManager effectsManager, TextMeshProUGUI textBubble, GameUIManager gameUIManager, GameManager gameManager, GameObject choicesObj, LanguageManager languageManager, Transform choicesPositionObj)
     {
-        this.character = character;
+        this.characterParent = characterParent;
+        this.Character = character;
         this.gameManager = gameManager;
         this.gameUIManager = gameUIManager;
         this.textBubble = textBubble;
         this.choicesObj = choicesObj;
-        this.characterParent = characterParent;
+
 
         choicePosition = choicesPositionObj;
 
@@ -34,6 +36,21 @@ public class EventManager
         dialogueManager = new(textBubble, languageManager);
 
         LoadEvent();
+    }
+
+    public GameObject GetEnemyCharacter()
+    {
+        if(characterParent.childCount == 0) 
+            return null;
+
+
+        if(_character == null)
+        {
+            _character = characterParent.GetChild(0).gameObject;
+        }
+            
+
+        return _character;
     }
 
     public void LoadEvent()
@@ -49,7 +66,7 @@ public class EventManager
 
     void EndEvent()
     {
-        CharacterManager.ResetCharacter(character, visualEffectsManager);
+        CharacterManager.ResetCharacter(Character, visualEffectsManager);
 
         textBubble.transform.parent.gameObject.SetActive(false);
 
@@ -63,10 +80,10 @@ public class EventManager
     {
         return id switch
         {
-            0 => new Welcome(character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition),
-            1 => new FollowerOfXsant(character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition),
-            2 => new KaldorBoss(character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition),
-            _ => new EmptyEvent(character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition)
+            0 => new Welcome(Character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition),
+            1 => new FollowerOfXsant(Character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition),
+            2 => new KaldorBoss(Character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition),
+            _ => new EmptyEvent(Character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition)
         };
     }
 }

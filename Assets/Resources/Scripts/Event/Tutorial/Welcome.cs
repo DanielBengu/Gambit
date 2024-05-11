@@ -36,13 +36,6 @@ public class Welcome : EventParent
             case 4:
                 EndEvent();
                 break;
-            case 6:
-                var dialogueSuicide = LoadDialogue(2);
-                StartDialogue(dialogueSuicide, gameManager.MakePlayerDie);
-                break;
-            case 7:
-                EndEvent();
-                break;
             default:
                 Debug.LogError($"NO COUNT ({CurrentEventCount}) FOUND FOR EVENT {EventId}");
                 break;
@@ -58,18 +51,12 @@ public class Welcome : EventParent
                 {
                     new(choices.transform.GetChild(0).gameObject, dialogueManager.languageManager.GetText(11), "Icon_Star", new(){ RaiseArmor, LoadNextStep }),
                     new(choices.transform.GetChild(1).gameObject, dialogueManager.languageManager.GetText(12), "Icon_Crown", new() { RaiseMaxHP, LoadNextStep }),
-                    new(choices.transform.GetChild(2).gameObject, dialogueManager.languageManager.GetText(13), "Icon_Skull", new() { SwitchToSuicide })
+                    new(choices.transform.GetChild(2).gameObject, dialogueManager.languageManager.GetText(13), "Icon_Skull", new() { LoadNextStep })
                 });
                 break;
             default:
                 break;
         }
-    }
-
-    void SwitchToSuicide()
-    {
-        CurrentEventCount = 5;
-        LoadNextStep();
     }
 
     public override List<DialogueSection> LoadDialogue(int dialogue)
@@ -79,15 +66,13 @@ public class Welcome : EventParent
             1 => new()
             {
                 new(dialogueManager.languageManager.GetText(14), 0.05f, enemyObject),
-                new(dialogueManager.languageManager.GetText(15), 0.01f, enemyObject)
-            },
-            2 => new()
-            {
-                new(dialogueManager.languageManager.GetText(25), 0.07f, enemyObject),
+                new(dialogueManager.languageManager.GetText(15), 0.01f, enemyObject),
+                new(dialogueManager.languageManager.GetText(31), 0.01f, enemyObject),
+                new(dialogueManager.languageManager.GetText(29), 0.01f, enemyObject)
             },
             3 => new()
             {
-                new(dialogueManager.languageManager.GetText(17), 0.05f, enemyObject),
+                new(dialogueManager.languageManager.GetText(30), 0.05f, enemyObject),
             },
             _ => new()
             {

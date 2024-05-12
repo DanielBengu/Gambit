@@ -15,7 +15,7 @@ public class Card
 public class CardListData
 {
     public List<Card> StartingCardList;
-    public List<Card> TestCardList;
+    public List<Card> WarriorActionCardList;
 }
 
 [Serializable]
@@ -25,6 +25,15 @@ public class GameCard
     public CardType cardType;
     public int value;
     public Classes classId;
+}
+
+[Serializable]
+public class ActionCard
+{
+    public int Id;
+    public string Name;
+    public Classes ClassId;
+    public ActionType ActionId;
 }
 
 public enum CardType
@@ -40,4 +49,13 @@ public enum CardType
     Jack = 11,
     Queen = 12,
     King = 13
+}
+
+public enum ActionType
+{
+    Equip,
+    Attack,
+    Skill,
+    Artifact,
+    Modifier
 }

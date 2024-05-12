@@ -118,7 +118,8 @@ public class MenuManager : MonoBehaviour
                 MapId = mapToPlay.Id,
                 ClassId = playerClass,
                 CurrentFloor = 1,
-                CardList = GameManager.GetStartingDeck(playerClass)
+                CardList = GameManager.GetStartingDeck(playerClass),
+                ActionDeck = GameManager.GetStartingActionDeck(playerClass)
             }
         });
 

@@ -12,7 +12,7 @@ public class FightUnit : UnitData
 
     private readonly int _attacks;
     private readonly int _damageModifier;
-
+    private readonly int _actionCardDrawnForTurn;
     #endregion
 
     #region Stats
@@ -22,14 +22,28 @@ public class FightUnit : UnitData
     public int FightArmor { get { return GetUpdatedStat(Stats.Armor); } }
     public int Attacks { get { return GetUpdatedStat(Stats.Attacks); } }
     public int CurrentMaxScore { get { return GetUpdatedStat(Stats.MaxScore); } }
+    public int CardDrawnForTurn { get { return GetUpdatedStat(Stats.CardDrawnForTurn); } }
 
     #endregion
 
     public IClass Class { get; set; }
     public bool IsPlayer { get; set; }
 
+    #region Points deck
+
     public List<GameCard> FightCurrentDeck { get; set; }
     public List<GameCard> FightBaseDeck { get; set; }
+
+    #endregion
+
+    #region Action deck
+
+    public List<ActionCard> FightActionCurrentDeck { get; set; }
+    public List<ActionCard> FightActionBaseDeck { get; set; }
+
+    public List<ActionCard> FightCurrentHand { get; set; }
+
+    #endregion
 
     public int currentScore;
     
@@ -44,7 +58,7 @@ public class FightUnit : UnitData
 
     public Character Character { get; set; }
 
-    public FightUnit(UnitData unit, bool isPlayer, Classes @class, List<GameCard> baseDeck, List<GameCard> currentDeck, Character character, int threshold = 0)
+    public FightUnit(UnitData unit, bool isPlayer, Classes @class, List<GameCard> baseDeck, List<GameCard> currentDeck, List<ActionCard> baseActionDeck, List<ActionCard> currentActionDeck, Character character, int threshold = 0)
     {
         MaxHP = unit.MaxHP;
         FightHP = unit.CurrentHP;
@@ -61,8 +75,15 @@ public class FightUnit : UnitData
         FightCurrentDeck = currentDeck;
         FightBaseDeck = baseDeck;
 
+        FightActionBaseDeck = baseActionDeck;
+        FightActionCurrentDeck = currentActionDeck;
+
+        FightCurrentHand = new();
+
         currentScore = 0;
         _damageModifier = 0;
+
+        _actionCardDrawnForTurn = 3;
 
         Threshold = threshold;
 
@@ -122,6 +143,9 @@ public class FightUnit : UnitData
                 break;
             case Stats.Damage:
                 baseValue = _damageModifier;
+                break;
+            case Stats.CardDrawnForTurn: 
+                baseValue = _actionCardDrawnForTurn; 
                 break;
             default:
                 break;
@@ -214,6 +238,7 @@ public class FightUnit : UnitData
         Armor,
         MaxScore,
         Damage,
-        Attacks
+        Attacks,
+        CardDrawnForTurn
     }
 }

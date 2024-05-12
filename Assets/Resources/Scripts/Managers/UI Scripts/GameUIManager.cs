@@ -6,6 +6,7 @@ using static VisualEffectsManager.MovingObject;
 using static FightManager;
 using static CardsManager;
 using static UnityEngine.EventSystems.EventTrigger;
+using System.Collections.Generic;
 
 public class GameUIManager : MonoBehaviour
 {
@@ -52,6 +53,9 @@ public class GameUIManager : MonoBehaviour
     public GameObject scoreUI;
 
     public Image blackScreen;
+
+    public GameObject actionCardPrefab;
+    public GameObject cardSection;
     #endregion
 
     #endregion
@@ -112,6 +116,36 @@ public class GameUIManager : MonoBehaviour
         UpdateArmor(Character.Enemy, enemy.FightArmor);
         SetMaxSliderValue(Character.Enemy, enemy.CurrentMaxScore);
         UpdateMaxScore(Character.Enemy, enemy.CurrentMaxScore);
+    }
+
+    public void UpdateHand(List<ActionCard> currentHand)
+    {
+        for (int i = cardSection.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(cardSection.transform.GetChild(i).gameObject);
+        }
+
+        foreach (var card in currentHand)
+        {
+            AddCardToHand(card, currentHand.IndexOf(card), currentHand.Count);
+        }
+    }
+
+    public void AddCardToHand(ActionCard card, int positionInHand, int cardsInHand)
+    {
+        if (cardsInHand == -1) //to remove
+            return;
+        float cardPositionX = cardSection.transform.position.x - 2 + positionInHand * 2;
+        Vector3 cardPosition = new(cardPositionX, cardSection.transform.position.y, cardSection.transform.position.z);
+        var newCard = Instantiate(actionCardPrefab, cardPosition, actionCardPrefab.transform.rotation, cardSection.transform);
+        UpdateActionCardUI(newCard, card);
+    }
+
+    void UpdateActionCardUI(GameObject cardObj, ActionCard card)
+    {
+        cardObj.transform.Find("Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/Icons/Icon_Crown");
+        cardObj.transform.Find("Title").GetComponent<TextMeshProUGUI>().text = card.Name;
+        cardObj.transform.Find("Effect").GetComponent<TextMeshProUGUI>().text = card.ActionId.ToString();
     }
 
     public void SetPlayerSection(string name, string className, int maxHp, int currentHp, int armor)

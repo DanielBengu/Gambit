@@ -91,7 +91,7 @@ public class KaldorBoss : EventParent
                 EnemyList enemyList = JSONManager.GetFileFromJSON<EnemyList>(JSONManager.ENEMIES_PATH);
                 EnemyData enemy = enemyList.Enemies.Find(e => e.Id == 2);
                 gameManager.PlayCombat(enemy, gameManager.SetNextSectionButtonClick);
-                gameManager.FightManager.SetupFightUI();
+                gameManager.FightManager.SetupFightUIAndStartGame();
                 break;
             default:
                 break;

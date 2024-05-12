@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
                 enemy = LoadCharacter(enemyData.Name, enemyParent);
 
                 PlayCombat(enemyData, SetNextSectionButtonClick);
-                PlayAnimation(enemy, SpriteAnimation.UnitIntro, FightManager.SetupFightUI);
+                PlayAnimation(enemy, SpriteAnimation.UnitIntro, FightManager.SetupFightUIAndStartGame);
 
                 SetupBlackScreen(() => { });
                 break;
@@ -129,7 +129,7 @@ public class GameManager : MonoBehaviour
         callbackFightVictory = callback;
 
         enemyData.BaseDecklist = enemyData.IsCustomDecklist ? GetStartingDeck(0) : GetStartingDeck(0);
-        FightManager = new(enemyData, playerData.CurrentRun.CardList, playerData.UnitData, playerData.CurrentRun.ClassId, gameUIManager, effectsManager, enemyManager, player, enemy, this);
+        FightManager = new(enemyData, playerData.CurrentRun.CardList, playerData.CurrentRun.ActionDeck, playerData.UnitData, playerData.CurrentRun.ClassId, gameUIManager, effectsManager, enemyManager, player, enemy, this);
 
         Status = GameStatus.Fight;
     }
@@ -160,7 +160,7 @@ public class GameManager : MonoBehaviour
                 startingDeck.Add(new()
                 {
                     id = card.Id,
-                    cardType = GetCardType(card.Id),
+                    cardType = GetCardType<CardType>(card.Id),
                     classId = classOfDeck,
                     value = card.Id
                 });
@@ -170,7 +170,83 @@ public class GameManager : MonoBehaviour
         return startingDeck;
     }
 
+    public static List<ActionCard> GetStartingActionDeck(Classes classOfDeck)
+    {
+        List<ActionCard> startingDeck = new();
+
+        CardListData data = JSONManager.GetFileFromJSON<CardListData>(JSONManager.CARDS_PATH);
+        var cardData = GetActionCardList(classOfDeck, data);
+        foreach (var card in cardData)
+        {
+            for (int i = 0; i < card.Quantities; i++)
+            {
+                ActionCard cardToAdd = ConvertIdIntoCard(card.Id);
+                if(cardToAdd != null)
+                    startingDeck.Add(cardToAdd);
+            }
+        }
+
+        return startingDeck;
+    }
+
+    public static List<Card> GetActionCardList(Classes classOfDeck, CardListData cardData)
+    {
+        return classOfDeck switch
+        {
+            Classes.Warrior => cardData.WarriorActionCardList,
+            _ => cardData.WarriorActionCardList,
+        };
+    }
+
+    public static ActionCard ConvertIdIntoCard(int id)
+    {
+        return id switch
+        {
+            0 => new()
+            {
+                Id = 0,
+                Name = "Pointy stick",
+                ActionId = ActionType.Equip,
+                ClassId = Classes.Warrior
+            },
+            1 => new()
+            {
+                Id = 1,
+                Name = "Khauri Slash",
+                ActionId = ActionType.Attack,
+                ClassId = Classes.Warrior
+            },
+            2 => new()
+            {
+                Id = 2,
+                Name = "Stick Parry",
+                ActionId = ActionType.Skill,
+                ClassId = Classes.Warrior
+            },
+            3 => new()
+            {
+                Id = 0,
+                Name = "+2 Modifier",
+                ActionId = ActionType.Modifier,
+                ClassId = Classes.Basic
+            },
+            4 => new()
+            {
+                  Id = 1,
+                  Name = "+6 Modifier",
+                  ActionId = ActionType.Modifier,
+                  ClassId = Classes.Basic
+            },
+            _ => null
+        };
+    }
+
     public static List<GameCard> CopyDeck(List<GameCard> deck)
+    {
+        return deck.Select(c => CopyCard(c)).ToList();
+    }
+
+    public static List<ActionCard> CopyDeck(List<ActionCard> deck)
     {
         return deck.Select(c => CopyCard(c)).ToList();
     }
@@ -183,6 +259,17 @@ public class GameManager : MonoBehaviour
             classId = card.classId,
             id = card.id,
             value = card.value
+        };
+    }
+
+    public static ActionCard CopyCard(ActionCard card)
+    {
+        return new ActionCard()
+        {
+            ActionId = card.ActionId,
+            ClassId = card.ClassId,
+            Id = card.Id,
+            Name = card.Name,
         };
     }
 
@@ -274,9 +361,9 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-    static CardType GetCardType(int cardId)
+    static T GetCardType<T>(int cardId)
     {
-        return (CardType)Enum.Parse(typeof(CardType), cardId.ToString());
+        return (T)Enum.Parse(typeof(T), cardId.ToString());
     }
 
     public enum GameStatus

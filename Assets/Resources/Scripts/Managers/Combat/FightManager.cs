@@ -28,13 +28,13 @@ public class FightManager
 
     public TurnStatus CurrentTurn { get; set; }
 
-    public FightManager(EnemyData enemy, List<GameCard> playerStartingDeck, UnitData unit, Classes playerClass, GameUIManager gameUIManager, VisualEffectsManager effectsManager, EnemyManager enemyManager, GameObject player, GameObject enemyObj, GameManager gameManager)
+    public FightManager(EnemyData enemy, List<GameCard> playerStartingDeck, List<ActionCard> playerStartingActionDeck, UnitData unit, Classes playerClass, GameUIManager gameUIManager, VisualEffectsManager effectsManager, EnemyManager enemyManager, GameObject player, GameObject enemyObj, GameManager gameManager)
     {
         this.enemyManager = enemyManager;
         this.enemyManager.fightManager = this;
 
         Enemy = ConvertEnemyIntoUnit(enemy);
-        Player = new(unit, true, playerClass, GameManager.CopyDeck(playerStartingDeck), GameManager.CopyDeck(playerStartingDeck), Character.Player);
+        Player = new(unit, true, playerClass, GameManager.CopyDeck(playerStartingDeck), GameManager.CopyDeck(playerStartingDeck), GameManager.CopyDeck(playerStartingActionDeck), GameManager.CopyDeck(playerStartingActionDeck), Character.Player);
 
         CurrentTurn = TurnStatus.IntermediaryEffects;
 
@@ -47,10 +47,41 @@ public class FightManager
         this.gameManager = gameManager;
     }
 
-    public void SetupFightUI()
+    public void SetupFightUIAndStartGame()
     {
         int bustAmount = GetCardsBustAmount(Player.FightCurrentDeck, Player.currentScore, Player.MaxScore);
         gameUIManager.SetupFightUI(Enemy, Player, Player.FightCurrentDeck.Count, bustAmount);
+
+        StartPlayerTurn();
+    }
+
+    public void StartPlayerTurn()
+    {
+        DrawTurnHand();
+    }
+
+    public void DrawTurnHand()
+    {
+        for (int i = 0; i < Player.CardDrawnForTurn; i++)
+        {
+            Player.FightCurrentHand.Add(DrawActionCardFromDeck(Player));
+        }
+
+        gameUIManager.UpdateHand(Player.FightCurrentHand);
+    }
+
+    public ActionCard DrawActionCardFromDeck(FightUnit unit)
+    {
+        if (unit.FightActionCurrentDeck.Count == 0)
+            ResetActionDeck(unit.Character);
+
+        int cardIndex = UnityEngine.Random.Range(0, unit.FightActionCurrentDeck.Count);
+
+        ActionCard cardDrawn = unit.FightActionCurrentDeck[cardIndex];
+        
+        unit.FightActionCurrentDeck.Remove(cardDrawn);
+
+        return cardDrawn;
     }
 
     FightUnit ConvertEnemyIntoUnit(EnemyData enemy)
@@ -64,7 +95,7 @@ public class FightManager
             MaxScore = enemy.BaseMaxScore
         };
 
-        return new(unit, false, enemy.UnitClass, GameManager.CopyDeck(enemy.BaseDecklist), GameManager.CopyDeck(enemy.BaseDecklist), Character.Enemy, enemy.BaseStandThreshold);
+        return new(unit, false, enemy.UnitClass, GameManager.CopyDeck(enemy.BaseDecklist), GameManager.CopyDeck(enemy.BaseDecklist), new(), new(),  Character.Enemy, enemy.BaseStandThreshold);
     }
 
     public void HandleEndTurn()
@@ -247,6 +278,8 @@ public class FightManager
         ResetUnitTurn(Player);
         ResetUnitTurn(Enemy);
 
+        DrawTurnHand();
+
         CurrentTurn = TurnStatus.PlayerTurn;
 
         gameUIManager.UpdateUI(Character.Enemy, Enemy);
@@ -262,6 +295,8 @@ public class FightManager
         unit.status = CharacterStatus.Playing;
 
         unit.Class.ResetTurn();
+
+        unit.FightCurrentHand.Clear();
     }
 
     /*
@@ -402,6 +437,19 @@ public class FightManager
                 break;
             case Character.Enemy:
                 Enemy.FightCurrentDeck = GameManager.CopyDeck(Enemy.FightBaseDeck);
+                break;
+        }
+    }
+
+    public void ResetActionDeck(Character character)
+    {
+        switch (character)
+        {
+            case Character.Player:
+                Player.FightActionCurrentDeck = GameManager.CopyDeck(Player.FightActionBaseDeck);
+                break;
+            case Character.Enemy:
+                Enemy.FightActionCurrentDeck = GameManager.CopyDeck(Enemy.FightActionBaseDeck);
                 break;
         }
     }

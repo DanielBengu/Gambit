@@ -17,6 +17,7 @@ public class CurrentRun
     public Classes ClassId;
     public int CurrentFloor;
     public List<GameCard> CardList;
+    public List<ActionCard> ActionDeck;
 }
 
 [System.Serializable]

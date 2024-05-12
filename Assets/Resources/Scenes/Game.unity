@@ -309,6 +309,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &425745589 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2879532015693942908, guid: 7b962fa0635b0c942b01d0fb8012cac5, type: 3}
+  m_PrefabInstance: {fileID: 1640589823809758547}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &469592587 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4690208311277749719, guid: 241a76db4a5a9bd42bae14071857e52a, type: 3}
@@ -956,6 +961,8 @@ MonoBehaviour:
   hitOrStandUI: {fileID: 1942598765}
   scoreUI: {fileID: 145935882}
   blackScreen: {fileID: 978560793}
+  actionCardPrefab: {fileID: 4896288060793630517, guid: 396440ff4b457d645885715ea810e513, type: 3}
+  cardSection: {fileID: 425745589}
   eventUI: {fileID: 1491457889}
   languageManager: {fileID: 2058149798}
 --- !u!1 &1038227716 stripped

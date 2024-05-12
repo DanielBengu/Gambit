@@ -205,35 +205,40 @@ public class GameManager : MonoBehaviour
             0 => new()
             {
                 Id = 0,
-                Name = "Pointy stick",
+                NameIdValue = 32,
+                DescriptionIdValue = 38,
                 ActionId = ActionType.Equip,
                 ClassId = Classes.Warrior
             },
             1 => new()
             {
                 Id = 1,
-                Name = "Khauri Slash",
+                NameIdValue = 33,
+                DescriptionIdValue = 39,
                 ActionId = ActionType.Attack,
                 ClassId = Classes.Warrior
             },
             2 => new()
             {
                 Id = 2,
-                Name = "Stick Parry",
+                NameIdValue = 34,
+                DescriptionIdValue = 40,
                 ActionId = ActionType.Skill,
                 ClassId = Classes.Warrior
             },
             3 => new()
             {
                 Id = 0,
-                Name = "+2 Modifier",
+                NameIdValue = 36,
+                DescriptionIdValue = 41,
                 ActionId = ActionType.Modifier,
                 ClassId = Classes.Basic
             },
             4 => new()
             {
                   Id = 1,
-                  Name = "+6 Modifier",
+                  NameIdValue = 37,
+                  DescriptionIdValue = 42,
                   ActionId = ActionType.Modifier,
                   ClassId = Classes.Basic
             },
@@ -269,7 +274,7 @@ public class GameManager : MonoBehaviour
             ActionId = card.ActionId,
             ClassId = card.ClassId,
             Id = card.Id,
-            Name = card.Name,
+            NameIdValue = card.NameIdValue,
         };
     }
 

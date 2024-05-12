@@ -83,7 +83,7 @@ public class FightUnit : UnitData
         currentScore = 0;
         _damageModifier = 0;
 
-        _actionCardDrawnForTurn = 3;
+        _actionCardDrawnForTurn = 5;
 
         Threshold = threshold;
 

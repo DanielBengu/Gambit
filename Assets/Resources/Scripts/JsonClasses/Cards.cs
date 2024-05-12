@@ -31,7 +31,8 @@ public class GameCard
 public class ActionCard
 {
     public int Id;
-    public string Name;
+    public int NameIdValue;
+    public int DescriptionIdValue;
     public Classes ClassId;
     public ActionType ActionId;
 }

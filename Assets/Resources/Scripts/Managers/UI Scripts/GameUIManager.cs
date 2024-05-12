@@ -135,17 +135,34 @@ public class GameUIManager : MonoBehaviour
     {
         if (cardsInHand == -1) //to remove
             return;
-        float cardPositionX = cardSection.transform.position.x - 2 + positionInHand * 2;
-        Vector3 cardPosition = new(cardPositionX, cardSection.transform.position.y, cardSection.transform.position.z);
-        var newCard = Instantiate(actionCardPrefab, cardPosition, actionCardPrefab.transform.rotation, cardSection.transform);
+
+        float vertexPositionX = (cardsInHand - 1) / 2f;
+        float x = positionInHand - vertexPositionX;
+        float c = - x * 10;
+
+        float cardRotationZ = c;
+        float cardPositionX = cardSection.transform.position.x - 2.5f + (positionInHand * 1.2f);
+        float cardPositionY = cardSection.transform.position.y - (Math.Abs(c) / 20);
+
+        Vector3 cardPosition = new(cardPositionX, cardPositionY, cardSection.transform.position.z);
+        Quaternion newRotation = Quaternion.Euler(actionCardPrefab.transform.localRotation.x, actionCardPrefab.transform.localRotation.y, cardRotationZ);
+        var newCard = Instantiate(actionCardPrefab, cardPosition, newRotation, cardSection.transform);
         UpdateActionCardUI(newCard, card);
     }
 
     void UpdateActionCardUI(GameObject cardObj, ActionCard card)
     {
         cardObj.transform.Find("Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/Icons/Icon_Crown");
-        cardObj.transform.Find("Title").GetComponent<TextMeshProUGUI>().text = card.Name;
-        cardObj.transform.Find("Effect").GetComponent<TextMeshProUGUI>().text = card.ActionId.ToString();
+
+        languageManager.SetLanguageValues(new()
+        {
+            new(card.NameIdValue, cardObj.transform.Find("Title").GetComponent<TextMeshProUGUI>(), new object[0]{ }),
+        });
+
+        languageManager.SetLanguageValues(new()
+        {
+            new(card.DescriptionIdValue, cardObj.transform.Find("Effect").GetComponent<TextMeshProUGUI>(), new object[0]{ }),
+        });
     }
 
     public void SetPlayerSection(string name, string className, int maxHp, int currentHp, int armor)

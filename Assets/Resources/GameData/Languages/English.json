@@ -127,6 +127,50 @@
     {
       "Id": 31,
       "Value": "Help me clean this area and defeat <b>Kaldor the Titan</b>"
+    },
+    {
+      "Id": 32,
+      "Value": "Pointy stick"
+    },
+    {
+      "Id": 33,
+      "Value": "Khauri Slash"
+    },
+    {
+      "Id": 34,
+      "Value": "Khauri Slash"
+    },
+    {
+      "Id": 35,
+      "Value": "Stick Parry"
+    },
+    {
+      "Id": 36,
+      "Value": "+2 Modifier"
+    },
+    {
+      "Id": 37,
+      "Value": "+6 Modifier"
+    },
+    {
+      "Id": 38,
+      "Value": "Lower enemy armor by 2 this turn"
+    },
+    {
+      "Id": 39,
+      "Value": "+2 damage this turn"
+    },
+    {
+      "Id": 40,
+      "Value": "+2 armor this turn"
+    },
+    {
+      "Id": 41,
+      "Value": "Adds +2 to current score"
+    },
+    {
+      "Id": 42,
+      "Value": "Adds +6 to current score"
     }
   ]
 }

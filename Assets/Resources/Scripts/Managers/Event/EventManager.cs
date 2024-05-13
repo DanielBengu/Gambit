@@ -83,6 +83,7 @@ public class EventManager
             0 => new Welcome(Character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition),
             1 => new FollowerOfXsant(Character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition),
             2 => new KaldorBoss(Character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition),
+            3 => new Alchemist(Character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition),
             _ => new EmptyEvent(Character, characterParent, EndEvent, dialogueManager, visualEffectsManager, choicesObj, gameManager, choicePosition)
         };
     }

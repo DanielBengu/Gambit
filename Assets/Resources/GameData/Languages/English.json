@@ -70,7 +70,7 @@
     },
     {
       "Id": 17,
-      "Value": ""
+      "Value": "Alchemist"
     },
     {
       "Id": 18,
@@ -102,7 +102,7 @@
     },
     {
       "Id": 25,
-      "Value": ""
+      "Value": "Wanna buy something?"
     },
     {
       "Id": 26,
@@ -171,6 +171,18 @@
     {
       "Id": 42,
       "Value": "Adds +6 to current score"
+    },
+    {
+      "Id": 43,
+      "Value": "SKIP"
+    },
+    {
+      "Id": 44,
+      "Value": "Add Health Potion\n{0} Health"
+    },
+    {
+      "Id": 45,
+      "Value": "Add Poison Potion\nDeals {0} damage"
     }
   ]
 }

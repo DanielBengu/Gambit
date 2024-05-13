@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Assets.Resources.Scripts.Fight;
+using System;
 using UnityEngine;
 
 public class Warrior : IClass
 {
     public CardsManager.Classes Class { get; set; } = CardsManager.Classes.Warrior;
     public Color CardColor { get; set; } = Color.red;
-
     public void ResetTurn()
     {
     }
-    public void PlayCardEffect(CardType cardType, FightUnit unit, FightUnit enemy)
+    public void PlayCardEffect(CardType cardType, FightUnit unit, FightUnit enemy, GameCard card)
     {
         switch (cardType)
         {
@@ -21,6 +21,9 @@ public class Warrior : IClass
                 break;
             case CardType.King: 
                 PlayKing(unit, enemy);
+                break;
+            case CardType.Potion:
+                CardsHandler.HandleBasicCards(cardType, unit, card);
                 break;
         }
     }
@@ -71,6 +74,8 @@ public class Warrior : IClass
                 return "GAIN 2 ARMOR";
             case CardType.King:
                 return "GAIN 3 ARMOR";
+            case CardType.Potion:
+                return "POTION";
             default:
                 Debug.LogError($"Card {cardType} not implemented for {Class}");
                 return string.Empty;
@@ -93,6 +98,7 @@ public class Warrior : IClass
             case CardType.Jack:
             case CardType.Queen:
             case CardType.King:
+            case CardType.Potion:
                 return Resources.Load<Sprite>($"Sprites/Icons/Cards/{cardType}");
             default:
                 Debug.LogError($"Card {cardType} not implemented for {Class}");

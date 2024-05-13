@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Resources.Scripts.Fight;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using static FightManager;
@@ -37,7 +38,7 @@ public class Rogue : IClass
         return atk;
     }
 
-    public void PlayCardEffect(CardType cardType, FightUnit unit, FightUnit enemy)
+    public void PlayCardEffect(CardType cardType, FightUnit unit, FightUnit enemy, GameCard card)
     {
         switch (cardType)
         {
@@ -52,6 +53,9 @@ public class Rogue : IClass
                 break;
             case CardType.Ace: 
                 PlayAce(unit, enemy);
+                break;
+            case CardType.Potion:
+                CardsHandler.HandleBasicCards(cardType, unit, card);
                 break;
         }
     }

@@ -263,7 +263,8 @@ public class GameManager : MonoBehaviour
             cardType = card.cardType,
             classId = card.classId,
             id = card.id,
-            value = card.value
+            value = card.value,
+            destroyOnPlay = true
         };
     }
 

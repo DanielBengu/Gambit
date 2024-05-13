@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Resources.Scripts.Fight;
+using UnityEngine;
 
 internal class Wizard : IClass
 {
@@ -9,7 +10,7 @@ internal class Wizard : IClass
     {
     }
 
-    public void PlayCardEffect(CardType cardType, FightUnit unit, FightUnit enemy)
+    public void PlayCardEffect(CardType cardType, FightUnit unit, FightUnit enemy, GameCard card)
     {
         switch (cardType)
         {
@@ -21,6 +22,9 @@ internal class Wizard : IClass
                 break;
             case CardType.King: 
                 PlayKing(unit, enemy);
+                break;
+            case CardType.Potion:
+                CardsHandler.HandleBasicCards(cardType, unit, card);
                 break;
         }
     }

@@ -25,6 +25,7 @@ public class GameCard
     public CardType cardType;
     public int value;
     public Classes classId;
+    public bool destroyOnPlay;
 }
 
 [Serializable]
@@ -49,7 +50,8 @@ public enum CardType
     Six,
     Jack = 11,
     Queen = 12,
-    King = 13
+    King = 13,
+    Potion
 }
 
 public enum ActionType

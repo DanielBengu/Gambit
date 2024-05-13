@@ -84,6 +84,7 @@
     <Compile Include="Assets\Resources\Scripts\Managers\General\InputManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\Classes\Warrior.cs" />
     <Compile Include="Assets\Resources\Scripts\JsonClasses\Cards.cs" />
+    <Compile Include="Assets\Resources\Scripts\Event\Tutorial\Alchemist.cs" />
     <Compile Include="Assets\ActionCardInstance.cs" />
     <Compile Include="Assets\Resources\Scripts\Menu\MenuOptions.cs" />
     <Compile Include="Assets\Resources\Scripts\Event\Tutorial\KaldorBoss.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Assets\Resources\Scripts\Fight\FightUnit.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Config\JSONManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Event\DialogueManager.cs" />
+    <Compile Include="Assets\Resources\Scripts\Fight\CardsHandler.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\Classes\Basic.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\Classes\Wizard.cs" />
     <Compile Include="Assets\Resources\Scripts\JsonClasses\LanguageClass.cs" />

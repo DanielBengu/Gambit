@@ -387,6 +387,12 @@ public class GameUIManager : MonoBehaviour
 
     public void ShowCardDrawn(Character character, GameCard card, IClass unitClass, VisualEffectsManager animationManager, Action callback)
     {
+        if (card == null)
+        {
+            callback();
+            return;
+        }
+
         switch (character)
         {
             case Character.Player:

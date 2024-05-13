@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Resources.Scripts.Fight;
+using System;
 using UnityEngine;
 
 internal class Basic : IClass
@@ -10,7 +11,7 @@ internal class Basic : IClass
     {
     }
 
-    public void PlayCardEffect(CardType cardType, FightUnit unit, FightUnit enemy)
+    public void PlayCardEffect(CardType cardType, FightUnit unit, FightUnit enemy, GameCard card)
     {
         switch (cardType)
         {
@@ -22,6 +23,9 @@ internal class Basic : IClass
                 break;
             case CardType.King: 
                 PlayKing(unit, enemy);
+                break;
+            case CardType.Potion:
+                CardsHandler.HandleBasicCards(cardType, unit, card);
                 break;
         }
     }

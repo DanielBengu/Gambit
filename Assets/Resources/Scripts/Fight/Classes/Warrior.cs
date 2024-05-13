@@ -6,10 +6,17 @@ public class Warrior : IClass
 {
     public CardsManager.Classes Class { get; set; } = CardsManager.Classes.Warrior;
     public Color CardColor { get; set; } = Color.red;
+    public CardsHandler CardsHandler { get; set; }
+
+    public Warrior(FightManager manager)
+    {
+        CardsHandler = new(manager);
+    }
+
     public void ResetTurn()
     {
     }
-    public void PlayCardEffect(CardType cardType, FightUnit unit, FightUnit enemy, GameCard card)
+    public void PlayCardEffect(CardType cardType, FightUnit unit, GameObject unitObj, FightUnit enemy, GameObject enemyObj, GameCard card)
     {
         switch (cardType)
         {
@@ -23,7 +30,7 @@ public class Warrior : IClass
                 PlayKing(unit, enemy);
                 break;
             case CardType.Potion:
-                CardsHandler.HandleBasicCards(cardType, unit, card);
+                CardsHandler.HandleBasicCards(cardType, unit, unitObj, enemy, enemyObj, card);
                 break;
         }
     }

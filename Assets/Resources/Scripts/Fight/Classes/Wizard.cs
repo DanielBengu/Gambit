@@ -5,12 +5,19 @@ internal class Wizard : IClass
 {
     public CardsManager.Classes Class { get; set; } = CardsManager.Classes.Wizard;
     public Color CardColor { get; set; } = Color.cyan;
+    public CardsHandler CardsHandler { get; set; }
+
+    public Wizard(FightManager manager)
+    {
+        CardsHandler = new(manager);
+    }
+
 
     public void ResetTurn()
     {
     }
 
-    public void PlayCardEffect(CardType cardType, FightUnit unit, FightUnit enemy, GameCard card)
+    public void PlayCardEffect(CardType cardType, FightUnit unit, GameObject unitObj, FightUnit enemy, GameObject enemyObj, GameCard card)
     {
         switch (cardType)
         {
@@ -24,7 +31,7 @@ internal class Wizard : IClass
                 PlayKing(unit, enemy);
                 break;
             case CardType.Potion:
-                CardsHandler.HandleBasicCards(cardType, unit, card);
+                CardsHandler.HandleBasicCards(cardType, unit, unitObj, enemy, enemyObj, card);
                 break;
         }
     }

@@ -14,6 +14,12 @@ public class Rogue : IClass
 
     public bool IsAce { get; set; }
     public int AceAttackAmount { get { return GetAceAttackAmount(); } }
+    public CardsHandler CardsHandler { get; set; }
+
+    public Rogue(FightManager manager)
+    {
+        CardsHandler = new(manager);
+    }
 
     int GetAceAttackAmount()
     {
@@ -38,7 +44,7 @@ public class Rogue : IClass
         return atk;
     }
 
-    public void PlayCardEffect(CardType cardType, FightUnit unit, FightUnit enemy, GameCard card)
+    public void PlayCardEffect(CardType cardType, FightUnit unit, GameObject unitObj, FightUnit enemy, GameObject enemyObj, GameCard card)
     {
         switch (cardType)
         {
@@ -55,7 +61,7 @@ public class Rogue : IClass
                 PlayAce(unit, enemy);
                 break;
             case CardType.Potion:
-                CardsHandler.HandleBasicCards(cardType, unit, card);
+                CardsHandler.HandleBasicCards(cardType, unit, unitObj, enemy, enemyObj, card);
                 break;
         }
     }

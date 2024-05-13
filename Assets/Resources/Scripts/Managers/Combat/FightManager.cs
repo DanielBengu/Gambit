@@ -34,7 +34,7 @@ public class FightManager
         this.enemyManager.fightManager = this;
 
         Enemy = ConvertEnemyIntoUnit(enemy);
-        Player = new(unit, true, playerClass, GameManager.CopyDeck(playerStartingDeck), GameManager.CopyDeck(playerStartingDeck), GameManager.CopyDeck(playerStartingActionDeck), GameManager.CopyDeck(playerStartingActionDeck), Character.Player);
+        Player = new(unit, true, playerClass, GameManager.CopyDeck(playerStartingDeck), GameManager.CopyDeck(playerStartingDeck), GameManager.CopyDeck(playerStartingActionDeck), GameManager.CopyDeck(playerStartingActionDeck), Character.Player, this);
 
         CurrentTurn = TurnStatus.IntermediaryEffects;
 
@@ -95,7 +95,7 @@ public class FightManager
             MaxScore = enemy.BaseMaxScore
         };
 
-        return new(unit, false, enemy.UnitClass, GameManager.CopyDeck(enemy.BaseDecklist), GameManager.CopyDeck(enemy.BaseDecklist), new(), new(),  Character.Enemy, enemy.BaseStandThreshold);
+        return new(unit, false, enemy.UnitClass, GameManager.CopyDeck(enemy.BaseDecklist), GameManager.CopyDeck(enemy.BaseDecklist), new(), new(),  Character.Enemy, this, enemy.BaseStandThreshold);
     }
 
     public void HandleEndTurn()
@@ -378,15 +378,15 @@ public class FightManager
         switch (character)
         {
             case Character.Player:
-                unitClass.PlayCardEffect(card.cardType, Player, Enemy, card);
+                unitClass.PlayCardEffect(card.cardType, Player, playerObj, Enemy, enemyObj, card);
                 break;
             case Character.Enemy:
-                unitClass.PlayCardEffect(card.cardType, Enemy, Player, card);
+                unitClass.PlayCardEffect(card.cardType, Enemy, enemyObj, Player, playerObj, card);
                 break;
         }
     }
 
-    public static void HealCharacter(FightUnit unit, int healAmount)
+    public void HealCharacter(FightUnit unit, int healAmount)
     {
         unit.FightHP += healAmount;
 
@@ -394,9 +394,11 @@ public class FightManager
             unit.FightHP = unit.FightMaxHP;
     }
 
-    public static void DamageCharacter(FightUnit unit, int damage)
+    public void DamageCharacter(FightUnit unit, GameObject unitObj, int damage)
     {
         unit.FightHP -= damage;
+
+        HandleCharacterHPVariation(unit, unitObj);
     }
 
     public bool IsBust(int currentScore, int valueToAdd, int unitMaxScore)

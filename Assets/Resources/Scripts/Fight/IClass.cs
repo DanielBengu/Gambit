@@ -7,8 +7,10 @@ public interface IClass
 {
     public Classes Class { get; set; }
     public Color CardColor { get; set; }
+    public CardsHandler CardsHandler { get; set; }
 
-    public void PlayCardEffect(CardType cardType, FightUnit unit, FightUnit enemy, GameCard card);
+
+    public void PlayCardEffect(CardType cardType, FightUnit unit, GameObject unitObj, FightUnit enemy, GameObject enemyObj, GameCard card);
 
     public void PlayJack(FightUnit unit, FightUnit enemy);
     public void PlayQueen(FightUnit unit, FightUnit enemy);

@@ -12,6 +12,9 @@ public class EnemyManager : MonoBehaviour
 
     public void PlayEnemyTurn()
     {
+        if (Enemy.FightHP <= 0)
+            return;
+
         fightManager.PlayUnitCard(Character.Enemy);
     }
 

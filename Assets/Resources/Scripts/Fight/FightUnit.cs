@@ -58,7 +58,7 @@ public class FightUnit : UnitData
 
     public Character Character { get; set; }
 
-    public FightUnit(UnitData unit, bool isPlayer, Classes @class, List<GameCard> baseDeck, List<GameCard> currentDeck, List<ActionCard> baseActionDeck, List<ActionCard> currentActionDeck, Character character, int threshold = 0)
+    public FightUnit(UnitData unit, bool isPlayer, Classes @class, List<GameCard> baseDeck, List<GameCard> currentDeck, List<ActionCard> baseActionDeck, List<ActionCard> currentActionDeck, Character character, FightManager manager, int threshold = 0)
     {
         MaxHP = unit.MaxHP;
         FightHP = unit.CurrentHP;
@@ -87,38 +87,38 @@ public class FightUnit : UnitData
 
         Threshold = threshold;
 
-        AssignClass(@class);
+        AssignClass(@class, manager);
 
         Character = character;
     }
 
-    void AssignClass(Classes playerClass)
+    void AssignClass(Classes playerClass, FightManager manager)
     {
         switch (playerClass)
         {
             case Classes.Basic:
-                Class = new Basic();
+                Class = new Basic(manager);
                 break;
             case Classes.Warrior:
-                Class = new Warrior();
+                Class = new Warrior(manager);
                 break;
             case Classes.Rogue:
-                Class = new Rogue();
+                Class = new Rogue(manager);
                 break;
             case Classes.Wizard:
-                Class = new Wizard();
+                Class = new Wizard(manager);
                 break;
             case Classes.Trickster:
-                Class = new Warrior();
+                Class = new Warrior(manager);
                 break;
             case Classes.Berserk:
-                Class = new Warrior();
+                Class = new Warrior(manager);
                 break;
             case Classes.Archmage:
-                Class = new Warrior();
+                Class = new Warrior(manager);
                 break;
             case Classes.Poisoner:
-                Class = new Warrior();
+                Class = new Warrior(manager);
                 break;
         }
     }

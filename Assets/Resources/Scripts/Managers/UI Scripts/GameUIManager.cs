@@ -100,6 +100,7 @@ public class GameUIManager : MonoBehaviour
         enemyInfoUI.SetActive(true);
         hitOrStandUI.SetActive(true);
         scoreUI.SetActive(true);
+        cardSection.SetActive(true);
 
         SetUnitTitle(enemyTitleText, enemy.Name, enemy.Class.Class.ToString());
         SetUnitTitle(playerTitleText, player.Name, player.Class.Class.ToString());
@@ -138,7 +139,7 @@ public class GameUIManager : MonoBehaviour
         float c = - x * 10;
 
         float cardRotationZ = c;
-        float cardPositionX = cardSection.transform.position.x - 2.5f + (positionInHand * 1.2f);
+        float cardPositionX = cardSection.transform.position.x + (x * 1.2f);
         float cardPositionY = cardSection.transform.position.y - (Math.Abs(c) / 20);
 
         Vector3 cardPosition = new(cardPositionX, cardPositionY, cardSection.transform.position.z);
@@ -333,6 +334,7 @@ public class GameUIManager : MonoBehaviour
         enemyInfoUI.SetActive(false);
         hitOrStandUI.SetActive(false);
         scoreUI.SetActive(false);
+        cardSection.SetActive(false);
     }
 
     public void TurnOffEventUI()

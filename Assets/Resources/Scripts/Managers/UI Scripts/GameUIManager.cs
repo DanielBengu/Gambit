@@ -118,7 +118,7 @@ public class GameUIManager : MonoBehaviour
         UpdateMaxScore(Character.Enemy, enemy.CurrentMaxScore);
     }
 
-    public void UpdateHand(List<ActionCard> currentHand)
+    public void UpdateHand(List<ActionCard> currentHand, FightManager manager)
     {
         for (int i = cardSection.transform.childCount - 1; i >= 0; i--)
         {
@@ -127,15 +127,12 @@ public class GameUIManager : MonoBehaviour
 
         foreach (var card in currentHand)
         {
-            AddCardToHand(card, currentHand.IndexOf(card), currentHand.Count);
+            AddCardToHand(card, currentHand.IndexOf(card), currentHand.Count, manager);
         }
     }
 
-    public void AddCardToHand(ActionCard card, int positionInHand, int cardsInHand)
+    public void AddCardToHand(ActionCard card, int positionInHand, int cardsInHand, FightManager manager)
     {
-        if (cardsInHand == -1) //to remove
-            return;
-
         float vertexPositionX = (cardsInHand - 1) / 2f;
         float x = positionInHand - vertexPositionX;
         float c = - x * 10;
@@ -148,6 +145,11 @@ public class GameUIManager : MonoBehaviour
         Quaternion newRotation = Quaternion.Euler(actionCardPrefab.transform.localRotation.x, actionCardPrefab.transform.localRotation.y, cardRotationZ);
         var newCard = Instantiate(actionCardPrefab, cardPosition, newRotation, cardSection.transform);
         UpdateActionCardUI(newCard, card);
+
+        var script = newCard.GetComponent<ActionCardInstance>();
+        script.LoadActionCard(card, manager);
+
+        return ;
     }
 
     void UpdateActionCardUI(GameObject cardObj, ActionCard card)

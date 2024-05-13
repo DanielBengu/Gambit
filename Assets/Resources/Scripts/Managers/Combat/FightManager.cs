@@ -67,7 +67,7 @@ public class FightManager
             Player.FightCurrentHand.Add(DrawActionCardFromDeck(Player));
         }
 
-        gameUIManager.UpdateHand(Player.FightCurrentHand);
+        gameUIManager.UpdateHand(Player.FightCurrentHand, this);
     }
 
     public ActionCard DrawActionCardFromDeck(FightUnit unit)
@@ -520,6 +520,26 @@ public class FightManager
 
         gameUIManager.UpdateUI(Character.Enemy, Enemy);
         gameUIManager.UpdateUI(Character.Player, Player);
+    }
+
+    public void PlayActionCard(ActionCard card, Character character)
+    {
+        FightUnit unit = null;
+        switch (character)
+        {
+            case Character.Player:
+                unit = Player;
+                break;
+            case Character.Enemy:
+                unit = Enemy;
+                break;
+        }
+        ActionCardArchive.ApplyEffect(card.Id, unit);
+        unit.FightCurrentHand.Remove(card);
+        gameUIManager.UpdateHand(unit.FightCurrentHand, this);
+
+        HandlePoints(ref unit.status, unit.Character, ref unit.currentScore, unit.CurrentMaxScore, 0);
+        gameUIManager.UpdateUI(unit.Character, unit);
     }
 
     public bool IsGameOnStandby()

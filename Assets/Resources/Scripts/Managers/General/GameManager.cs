@@ -228,7 +228,7 @@ public class GameManager : MonoBehaviour
             },
             3 => new()
             {
-                Id = 0,
+                Id = 3,
                 NameIdValue = 36,
                 DescriptionIdValue = 41,
                 ActionId = ActionType.Modifier,
@@ -236,7 +236,7 @@ public class GameManager : MonoBehaviour
             },
             4 => new()
             {
-                  Id = 1,
+                  Id = 4,
                   NameIdValue = 37,
                   DescriptionIdValue = 42,
                   ActionId = ActionType.Modifier,
@@ -275,6 +275,7 @@ public class GameManager : MonoBehaviour
             ClassId = card.ClassId,
             Id = card.Id,
             NameIdValue = card.NameIdValue,
+            DescriptionIdValue = card.DescriptionIdValue,
         };
     }
 

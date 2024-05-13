@@ -51,8 +51,8 @@ public class Alchemist : EventParent
                 LoadChoiceManager(new()
                 {
                     new(choices.transform.GetChild(0).gameObject, string.Format(dialogueManager.languageManager.GetText(44), 2), "Icon_Star", new()   { BuyHealthPotion, LoadNextStep }),
+                    new(choices.transform.GetChild(2).gameObject, string.Format(dialogueManager.languageManager.GetText(45), 2), "Icon_Skull", new()  { BuyPoisonPotion, LoadNextStep }),
                     new(choices.transform.GetChild(1).gameObject, dialogueManager.languageManager.GetText(43), "Icon_Crown", new()  { LoadNextStep }),
-                    new(choices.transform.GetChild(2).gameObject, string.Format(dialogueManager.languageManager.GetText(45), 2), "Icon_Skull", new()  { BuyPoisonPotion, LoadNextStep })
                 });
                 break;
             default:

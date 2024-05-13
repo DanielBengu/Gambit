@@ -65,8 +65,8 @@ public class FollowerOfXsant : EventParent
                 LoadChoiceManager(new()
                 {
                     new(choices.transform.GetChild(0).gameObject, dialogueManager.languageManager.GetText(20), "Icon_Star", new(){ SwitchToFight }),
+                    new(choices.transform.GetChild(2).gameObject, dialogueManager.languageManager.GetText(22), "Icon_Skull", new() { SwitchToFight }),
                     new(choices.transform.GetChild(1).gameObject, dialogueManager.languageManager.GetText(21), "Icon_Crown", new() { LoadNextStep }),
-                    new(choices.transform.GetChild(2).gameObject, dialogueManager.languageManager.GetText(22), "Icon_Skull", new() { SwitchToFight })
                 });
                 break;
             default:

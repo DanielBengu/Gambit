@@ -5,6 +5,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static ChoiceManager;
 
 public class ChoiceManager
 {
@@ -16,21 +17,14 @@ public class ChoiceManager
         this.choices = choices;
         this.centerPoint = centerPoint;
 
-        foreach (var choice in choices)
+        for(int i = 0; i < choices.Count; i++)
         {
-            choice.AddCallback(ResetAllChoices);
-        }
+            var choice = choices[i];
+            var choiceTransform = choice.GetObject().transform;
 
-        SetCardsPosition(choices.Select(c => c.GetObject().transform).ToList());
-    }
-    public void SetCardsPosition(List<Transform> cardPositions)
-    {
-        foreach (var card in cardPositions)
-        {
-            card.LookAt(centerPoint);
-            card.SetPositionAndRotation(card.position, new Quaternion(0, 0, card.rotation.z, card.rotation.w));
+            choice.AddCallback(ResetAllChoices);
+            choice.GetObject().transform.SetPositionAndRotation(GameUIManager.GetCardPosition(i, choices.Count, choiceTransform.position, 0.05f), GameUIManager.GetCardRotation(i, choices.Count, choiceTransform.rotation.x, choiceTransform.rotation.y));
         }
-            
     }
 
     public void ResetAllChoices()

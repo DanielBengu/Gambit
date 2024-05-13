@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using static VisualEffectsManager.MovingObject;
 using static FightManager;
-using static CardsManager;
-using static UnityEngine.EventSystems.EventTrigger;
 using System.Collections.Generic;
 
 public class GameUIManager : MonoBehaviour
@@ -134,16 +132,9 @@ public class GameUIManager : MonoBehaviour
 
     public void AddCardToHand(ActionCard card, int positionInHand, int cardsInHand, FightManager manager)
     {
-        float vertexPositionX = (cardsInHand - 1) / 2f;
-        float x = positionInHand - vertexPositionX;
-        float c = - x * 10;
+        Vector3 cardPosition = GetCardPosition(positionInHand, cardsInHand, cardSection.transform.position, 1f);
+        Quaternion newRotation = GetCardRotation(positionInHand, cardsInHand, cardSection.transform.rotation.x, cardSection.transform.rotation.y);
 
-        float cardRotationZ = c;
-        float cardPositionX = cardSection.transform.position.x + (x * 1.2f);
-        float cardPositionY = cardSection.transform.position.y - (Math.Abs(c) / 20);
-
-        Vector3 cardPosition = new(cardPositionX, cardPositionY, cardSection.transform.position.z);
-        Quaternion newRotation = Quaternion.Euler(actionCardPrefab.transform.localRotation.x, actionCardPrefab.transform.localRotation.y, cardRotationZ);
         var newCard = Instantiate(actionCardPrefab, cardPosition, newRotation, cardSection.transform);
         UpdateActionCardUI(newCard, card);
 
@@ -151,6 +142,27 @@ public class GameUIManager : MonoBehaviour
         script.LoadActionCard(card, manager);
 
         return ;
+    }
+
+    public static Vector3 GetCardPosition(int position, int cardNumber, Vector3 basePosition, float scale)
+    {
+        float vertexPositionX = (cardNumber - 1) / 2f;
+        float x = position - vertexPositionX;
+        float c = - x * 10;
+
+        float cardPositionX = basePosition.x + (x * 1.2f * scale);
+        float cardPositionY = basePosition.y - (Math.Abs(c) / 20 * scale);
+
+        return new(cardPositionX, cardPositionY, basePosition.z);
+    }
+
+    public static Quaternion GetCardRotation(int position, int cardNumber, float rotationX, float rotationY)
+    {
+        float vertexPositionX = (cardNumber - 1) / 2f;
+        float x = position - vertexPositionX;
+        float c = - x * 10;
+
+        return Quaternion.Euler(rotationX, rotationY, c);
     }
 
     void UpdateActionCardUI(GameObject cardObj, ActionCard card)

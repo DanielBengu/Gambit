@@ -51,7 +51,6 @@ public class Welcome : EventParent
                 {
                     new(choices.transform.GetChild(0).gameObject, dialogueManager.languageManager.GetText(11), "Icon_Star", new(){ RaiseArmor, LoadNextStep }),
                     new(choices.transform.GetChild(1).gameObject, dialogueManager.languageManager.GetText(12), "Icon_Crown", new() { RaiseMaxHP, LoadNextStep }),
-                    new(choices.transform.GetChild(2).gameObject, dialogueManager.languageManager.GetText(13), "Icon_Skull", new() { LoadNextStep })
                 });
                 break;
             default:

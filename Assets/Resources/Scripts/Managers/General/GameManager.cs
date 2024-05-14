@@ -53,13 +53,14 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(0);
             return;
         }
-            
 
         string className = playerData.CurrentRun.ClassId.ToString();
         player = LoadCharacter(className, playerParent);
 
         gameUIManager.SetPlayerSection(playerData.UnitData.Name, playerData.CurrentRun.ClassId.ToString(), playerData.UnitData.MaxHP, playerData.UnitData.CurrentHP, playerData.UnitData.Armor);
+        gameUIManager.UpdateGoldAmount(playerData.CurrentRun.GoldAmount);
 
+        CurrentEncounterCount = playerData.CurrentRun.CurrentFloor;
         HandleNextEncounter();
     }
 
@@ -307,9 +308,23 @@ public class GameManager : MonoBehaviour
 
     #region Handle Game Status
 
-    public void HandleFightVictory()
+    public void HandleFightVictory(List<Reward> rewards)
     {
+        foreach(Reward reward in rewards)
+            if (reward.reward == TypeOfReward.Gold)
+                playerData.CurrentRun.GoldAmount += reward.amount;
+
+        gameUIManager.UpdateGoldAmount(playerData.CurrentRun.GoldAmount);
+
+        HandleEncounterVictory();
+
         callbackFightVictory();
+    }
+
+    public void HandleEncounterVictory()
+    {
+        playerData.CurrentRun.CurrentFloor = CurrentEncounterCount;
+        SaveManager.SavePlayerData(playerData);
     }
 
     public void HandleFightDefeat()
@@ -320,6 +335,7 @@ public class GameManager : MonoBehaviour
 
     public void HandleEventVictory()
     {
+        HandleEncounterVictory();
         SetNextSectionButtonClick();
     }
 

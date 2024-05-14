@@ -16,6 +16,7 @@ public class CurrentRun
     public int MapId;
     public Classes ClassId;
     public int CurrentFloor;
+    public int GoldAmount;
     public List<GameCard> CardList;
     public List<ActionCard> ActionDeck;
 }

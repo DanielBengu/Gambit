@@ -117,9 +117,10 @@ public class MenuManager : MonoBehaviour
                 IsOngoing = true,
                 MapId = mapToPlay.Id,
                 ClassId = playerClass,
-                CurrentFloor = 1,
+                CurrentFloor = -1,
                 CardList = GameManager.GetStartingDeck(playerClass),
-                ActionDeck = GameManager.GetStartingActionDeck(playerClass)
+                ActionDeck = GameManager.GetStartingActionDeck(playerClass),
+                GoldAmount = 0
             }
         });
 

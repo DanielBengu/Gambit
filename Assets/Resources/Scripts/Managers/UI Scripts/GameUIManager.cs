@@ -20,6 +20,8 @@ public class GameUIManager : MonoBehaviour
 
     public Transform playerCardDestination;
     public Image playerCardImage;
+
+    public TextMeshProUGUI goldAmountText;
     #endregion
 
     #region Fight UI
@@ -185,6 +187,11 @@ public class GameUIManager : MonoBehaviour
         SetUnitTitle(playerTitleText, name, className);
         UpdateArmor(Character.Player, armor);
         UpdateUnitHP(Character.Player, currentHp, maxHp);
+    }
+
+    public void UpdateGoldAmount(int gold)
+    {
+        goldAmountText.text = $"Gold: {gold}";
     }
 
     public void SetUnitTitle(TextMeshProUGUI textObj, string name, string unitClass)

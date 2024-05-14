@@ -34,7 +34,7 @@ public class FightManager
         this.enemyManager.fightManager = this;
 
         Enemy = ConvertEnemyIntoUnit(enemy);
-        Player = new(unit, true, playerClass, GameManager.CopyDeck(playerStartingDeck), GameManager.CopyDeck(playerStartingDeck), GameManager.CopyDeck(playerStartingActionDeck), GameManager.CopyDeck(playerStartingActionDeck), Character.Player, this);
+        Player = new(unit, true, playerClass, GameManager.CopyDeck(playerStartingDeck), GameManager.CopyDeck(playerStartingDeck), GameManager.CopyDeck(playerStartingActionDeck), GameManager.CopyDeck(playerStartingActionDeck), Character.Player, this, enemy.Rewards);
 
         CurrentTurn = TurnStatus.IntermediaryEffects;
 
@@ -95,7 +95,7 @@ public class FightManager
             MaxScore = enemy.BaseMaxScore
         };
 
-        return new(unit, false, enemy.UnitClass, GameManager.CopyDeck(enemy.BaseDecklist), GameManager.CopyDeck(enemy.BaseDecklist), new(), new(),  Character.Enemy, this, enemy.BaseStandThreshold);
+        return new(unit, false, enemy.UnitClass, GameManager.CopyDeck(enemy.BaseDecklist), GameManager.CopyDeck(enemy.BaseDecklist), new(), new(),  Character.Enemy, this, enemy.Rewards, enemy.BaseStandThreshold);
     }
 
     public void HandleEndTurn()
@@ -274,7 +274,7 @@ public class FightManager
     {
         CharacterManager.ResetCharacter(enemyObj, effectsManager);
         gameUIManager.TurnOfFightUI();
-        gameManager.HandleFightVictory();
+        gameManager.HandleFightVictory(Enemy.DefeatReward);
     }
 
     void ResetTurn()

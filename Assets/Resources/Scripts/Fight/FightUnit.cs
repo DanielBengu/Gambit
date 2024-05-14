@@ -58,7 +58,7 @@ public class FightUnit : UnitData
 
     public Character Character { get; set; }
 
-    public FightUnit(UnitData unit, bool isPlayer, Classes @class, List<GameCard> baseDeck, List<GameCard> currentDeck, List<ActionCard> baseActionDeck, List<ActionCard> currentActionDeck, Character character, FightManager manager, int threshold = 0)
+    public FightUnit(UnitData unit, bool isPlayer, Classes @class, List<GameCard> baseDeck, List<GameCard> currentDeck, List<ActionCard> baseActionDeck, List<ActionCard> currentActionDeck, Character character, FightManager manager, List<Reward> rewardList, int threshold = 0)
     {
         MaxHP = unit.MaxHP;
         FightHP = unit.CurrentHP;
@@ -90,6 +90,8 @@ public class FightUnit : UnitData
         AssignClass(@class, manager);
 
         Character = character;
+
+        DefeatReward = rewardList;
     }
 
     void AssignClass(Classes playerClass, FightManager manager)

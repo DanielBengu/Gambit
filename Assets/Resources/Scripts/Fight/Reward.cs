@@ -1,4 +1,7 @@
-﻿public class Reward
+﻿using System;
+
+[Serializable]
+public class Reward
 {
     public TypeOfReward reward;
     public int rewardId;

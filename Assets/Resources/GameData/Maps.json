@@ -21,7 +21,7 @@
           "Type": 0
         }
       ],
-      "NumberOfEncounters": 3,
+      "NumberOfEncounters": 4,
       "CustomEncounters": [
         {
           "PositionOnMap": 0,
@@ -30,11 +30,16 @@
         },
         {
           "PositionOnMap": 1,
-          "Type": 1,
+          "Type": 0,
           "Id": 3
         },
         {
           "PositionOnMap": 2,
+          "Type": 1,
+          "Id": 3
+        },
+        {
+          "PositionOnMap": 3,
           "Type": 1,
           "Id": 2
         }

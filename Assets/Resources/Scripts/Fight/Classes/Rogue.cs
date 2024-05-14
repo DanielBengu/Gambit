@@ -8,15 +8,10 @@ public class Rogue : IClass
 {
     public static int _aceAttackAmount = 3;
 
-
-    public CardsManager.Classes Class { get; set; } = CardsManager.Classes.Rogue;
-    public Color CardColor { get; set; } = Color.green;
-
     public bool IsAce { get; set; }
     public int AceAttackAmount { get { return GetAceAttackAmount(); } }
-    public CardsHandler CardsHandler { get; set; }
 
-    public Rogue(FightManager manager)
+    public Rogue(FightManager manager) : base(manager, CardsManager.Classes.Rogue, Color.green)
     {
         CardsHandler = new(manager);
     }
@@ -26,7 +21,7 @@ public class Rogue : IClass
         return _aceAttackAmount;
     }
 
-    public void ResetTurn()
+    public override void ResetTurn()
     {
         IsAce = false;
     }
@@ -44,44 +39,22 @@ public class Rogue : IClass
         return atk;
     }
 
-    public void PlayCardEffect(CardType cardType, FightUnit unit, GameObject unitObj, FightUnit enemy, GameObject enemyObj, GameCard card)
-    {
-        switch (cardType)
-        {
-            case CardType.Jack:
-                PlayJack(unit, enemy);
-                break;
-            case CardType.Queen: 
-                PlayQueen(unit, enemy);
-                break;
-            case CardType.King: 
-                PlayKing(unit, enemy);
-                break;
-            case CardType.Ace: 
-                PlayAce(unit, enemy);
-                break;
-            case CardType.Potion:
-                CardsHandler.HandleBasicCards(cardType, unit, unitObj, enemy, enemyObj, card);
-                break;
-        }
-    }
-
-    public void PlayJack(FightUnit unit, FightUnit enemy)
+    public override void PlayJack(FightUnit unit, FightUnit enemy)
     {
         AddScoreWithoutBusting(unit, 1);
     }
 
-    public void PlayQueen(FightUnit unit, FightUnit enemy)
+    public override void PlayQueen(FightUnit unit, FightUnit enemy)
     {
         AddScoreWithoutBusting(unit, 2);
     }
 
-    public void PlayKing(FightUnit unit, FightUnit enemy)
+    public override void PlayKing(FightUnit unit, FightUnit enemy)
     {
         AddScoreWithoutBusting(unit, 3);
     }
 
-    public void PlayAce(FightUnit unit, FightUnit enemy)
+    public override void PlayAce(FightUnit unit, FightUnit enemy)
     {
         IsAce = true;
         SetScoreToCrit(unit);
@@ -100,7 +73,7 @@ public class Rogue : IClass
             unit.currentScore = unit.CurrentMaxScore;
     }
 
-    public string GetCardText(CardType cardType)
+    public override string GetCardText(CardType cardType)
     {
         switch (cardType)
         {
@@ -132,7 +105,7 @@ public class Rogue : IClass
         }
     }
 
-    public Sprite GetCardIcon(CardType cardType)
+    public override Sprite GetCardIcon(CardType cardType)
     {
         switch (cardType)
         {
@@ -148,6 +121,7 @@ public class Rogue : IClass
             case CardType.Jack:
             case CardType.Queen:
             case CardType.King:
+            case CardType.Potion:
                 return Resources.Load<Sprite>($"Sprites/Icons/Cards/{cardType}");
             default:
                 Debug.LogError($"Card {cardType} not implemented for {Class}");

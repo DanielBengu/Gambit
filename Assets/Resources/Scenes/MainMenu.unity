@@ -2067,7 +2067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forceFirstStart: 1
-  forceClass: 0
+  forceClass: 1
   menuOptions: {fileID: 1026402712}
   effectsManager: {fileID: 1902701756}
   languageManager: {fileID: 1868454212}

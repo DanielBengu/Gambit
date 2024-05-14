@@ -1193,11 +1193,11 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1904394690}
   - {fileID: 978560792}
   - {fileID: 16210053}
   - {fileID: 225143149}
   - {fileID: 1491457890}
+  - {fileID: 1904394690}
   - {fileID: 777815716}
   - {fileID: 2099854459}
   m_Father: {fileID: 0}
@@ -1309,6 +1309,7 @@ MonoBehaviour:
       ClassId: 0
       CurrentFloor: 0
       CardList: []
+      ActionDeck: []
   currentEncounter:
     Id: 0
     Type: 0
@@ -1982,6 +1983,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1487178160}
     m_Modifications:
+    - target: {fileID: 122419541078045510, guid: 241a76db4a5a9bd42bae14071857e52a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 358
+      objectReference: {fileID: 0}
     - target: {fileID: 355853377848829608, guid: 241a76db4a5a9bd42bae14071857e52a, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1990,6 +1995,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: b1358591426aa074682a26e98cbccc94, type: 3}
+    - target: {fileID: 1709897410438516260, guid: 241a76db4a5a9bd42bae14071857e52a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 424.00003
+      objectReference: {fileID: 0}
     - target: {fileID: 2189712794485658694, guid: 241a76db4a5a9bd42bae14071857e52a, type: 3}
       propertyPath: m_Name
       value: Player Section
@@ -2082,6 +2091,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3935577693989579364, guid: 241a76db4a5a9bd42bae14071857e52a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 341.40002
+      objectReference: {fileID: 0}
     - target: {fileID: 4649780243211617924, guid: 241a76db4a5a9bd42bae14071857e52a, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 631
@@ -2101,6 +2114,30 @@ PrefabInstance:
     - target: {fileID: 6792320770724015615, guid: 241a76db4a5a9bd42bae14071857e52a, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -4.0999985
+      objectReference: {fileID: 0}
+    - target: {fileID: 7109210243742813124, guid: 241a76db4a5a9bd42bae14071857e52a, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7109210243742813124, guid: 241a76db4a5a9bd42bae14071857e52a, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7109210243742813124, guid: 241a76db4a5a9bd42bae14071857e52a, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7109210243742813124, guid: 241a76db4a5a9bd42bae14071857e52a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 13.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7109210243742813124, guid: 241a76db4a5a9bd42bae14071857e52a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -53
+      objectReference: {fileID: 0}
+    - target: {fileID: 8916408555857205935, guid: 241a76db4a5a9bd42bae14071857e52a, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 417.00003
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

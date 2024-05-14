@@ -4,58 +4,36 @@ using UnityEngine;
 
 public class Warrior : IClass
 {
-    public CardsManager.Classes Class { get; set; } = CardsManager.Classes.Warrior;
-    public Color CardColor { get; set; } = Color.red;
-    public CardsHandler CardsHandler { get; set; }
-
-    public Warrior(FightManager manager)
+    public Warrior(FightManager manager): base(manager, CardsManager.Classes.Warrior, Color.red)
     {
         CardsHandler = new(manager);
     }
 
-    public void ResetTurn()
+    public override void ResetTurn()
     {
-    }
-    public void PlayCardEffect(CardType cardType, FightUnit unit, GameObject unitObj, FightUnit enemy, GameObject enemyObj, GameCard card)
-    {
-        switch (cardType)
-        {
-            case CardType.Jack:
-                PlayJack(unit, enemy);
-                break;
-            case CardType.Queen: 
-                PlayQueen(unit, enemy);
-                break;
-            case CardType.King: 
-                PlayKing(unit, enemy);
-                break;
-            case CardType.Potion:
-                CardsHandler.HandleBasicCards(cardType, unit, unitObj, enemy, enemyObj, card);
-                break;
-        }
     }
 
-    public void PlayJack(FightUnit unit, FightUnit enemy)
+    public override void PlayJack(FightUnit unit, FightUnit enemy)
     {
         unit.CurrentModifiers.Add(new(FightUnit.Stats.Armor, 1, 1));
     }
 
-    public void PlayQueen(FightUnit unit, FightUnit enemy)
+    public override void PlayQueen(FightUnit unit, FightUnit enemy)
     {
         unit.CurrentModifiers.Add(new(FightUnit.Stats.Armor, 1, 2));
     }
 
-    public void PlayKing(FightUnit unit, FightUnit enemy)
+    public override void PlayKing(FightUnit unit, FightUnit enemy)
     {
         unit.CurrentModifiers.Add(new(FightUnit.Stats.Armor, 1, 3));
     }
 
-    public void PlayAce(FightUnit unit, FightUnit enemy)
+    public override void PlayAce(FightUnit unit, FightUnit enemy)
     {
         unit.CurrentModifiers.Add(new(FightUnit.Stats.Attacks, 1, 2));
     }
 
-    public string GetCardText(CardType cardType)
+    public override string GetCardText(CardType cardType)
     {
         switch (cardType)
         {
@@ -89,7 +67,7 @@ public class Warrior : IClass
         }
     }
 
-    public Sprite GetCardIcon(CardType cardType)
+    public override Sprite GetCardIcon(CardType cardType)
     {
         switch (cardType)
         {

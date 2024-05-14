@@ -23,7 +23,7 @@ public class ChoiceManager
             var choiceTransform = choice.GetObject().transform;
 
             choice.AddCallback(ResetAllChoices);
-            choice.GetObject().transform.SetPositionAndRotation(GameUIManager.GetCardPosition(i, choices.Count, choiceTransform.position, 0.05f), GameUIManager.GetCardRotation(i, choices.Count, choiceTransform.rotation.x, choiceTransform.rotation.y));
+            choice.GetObject().transform.SetPositionAndRotation(GameUIManager.GetCardPosition(i, choices.Count, centerPoint.position, 2.3f), GameUIManager.GetCardRotation(i, choices.Count, choiceTransform.rotation.x, choiceTransform.rotation.y));
         }
     }
 

@@ -3,57 +3,34 @@ using UnityEngine;
 
 internal class Wizard : IClass
 {
-    public CardsManager.Classes Class { get; set; } = CardsManager.Classes.Wizard;
-    public Color CardColor { get; set; } = Color.cyan;
-    public CardsHandler CardsHandler { get; set; }
-
-    public Wizard(FightManager manager)
+    public Wizard(FightManager manager) : base(manager, CardsManager.Classes.Wizard, Color.cyan)
     {
         CardsHandler = new(manager);
     }
 
 
-    public void ResetTurn()
+    public override void ResetTurn()
     {
     }
 
-    public void PlayCardEffect(CardType cardType, FightUnit unit, GameObject unitObj, FightUnit enemy, GameObject enemyObj, GameCard card)
-    {
-        switch (cardType)
-        {
-            case CardType.Jack:
-                PlayJack(unit, enemy);
-                break;
-            case CardType.Queen: 
-                PlayQueen(unit, enemy);
-                break;
-            case CardType.King: 
-                PlayKing(unit, enemy);
-                break;
-            case CardType.Potion:
-                CardsHandler.HandleBasicCards(cardType, unit, unitObj, enemy, enemyObj, card);
-                break;
-        }
-    }
-
-    public void PlayJack(FightUnit unit, FightUnit enemy)
+    public override void PlayJack(FightUnit unit, FightUnit enemy)
     {
     }
 
-    public void PlayQueen(FightUnit unit, FightUnit enemy)
+    public override void PlayQueen(FightUnit unit, FightUnit enemy)
     {
     }
 
-    public void PlayKing(FightUnit unit, FightUnit enemy)
+    public override void PlayKing(FightUnit unit, FightUnit enemy)
     {
     }
 
-    public void PlayAce(FightUnit unit, FightUnit enemy)
+    public override void PlayAce(FightUnit unit, FightUnit enemy)
     {
 
     }
 
-    public string GetCardText(CardType cardType)
+    public override string GetCardText(CardType cardType)
     {
         switch (cardType)
         {
@@ -79,13 +56,15 @@ internal class Wizard : IClass
                 return "GAIN 2 ARMOR";
             case CardType.King:
                 return "GAIN 3 ARMOR";
+            case CardType.Potion:
+                return "POTION";
             default:
                 Debug.LogError($"Card {cardType} not implemented for {Class}");
                 return string.Empty;
         }
     }
 
-    public Sprite GetCardIcon(CardType cardType)
+    public override Sprite GetCardIcon(CardType cardType)
     {
         switch (cardType)
         {
@@ -101,6 +80,7 @@ internal class Wizard : IClass
             case CardType.Jack:
             case CardType.Queen:
             case CardType.King:
+            case CardType.Potion:
                 return Resources.Load<Sprite>($"Sprites/Icons/Cards/{cardType}");
             default:
                 Debug.LogError($"Card {cardType} not implemented for {Class}");

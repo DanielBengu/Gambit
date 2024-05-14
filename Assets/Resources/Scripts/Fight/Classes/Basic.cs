@@ -4,56 +4,33 @@ using UnityEngine;
 
 internal class Basic : IClass
 {
-    public CardsManager.Classes Class { get; set; } = CardsManager.Classes.Basic;
-    public Color CardColor { get; set; } = Color.white;
-    public CardsHandler CardsHandler { get; set; }
-
-    public Basic(FightManager manager)
+    public Basic(FightManager manager) : base(manager, CardsManager.Classes.Basic, Color.white)
     {
         CardsHandler = new(manager);
     }
 
-    public void ResetTurn()
+    public override void ResetTurn()
     {
     }
 
-    public void PlayCardEffect(CardType cardType, FightUnit unit, GameObject unitObj, FightUnit enemy, GameObject enemyObj, GameCard card)
-    {
-        switch (cardType)
-        {
-            case CardType.Jack:
-                PlayJack(unit, enemy);
-                break;
-            case CardType.Queen: 
-                PlayQueen(unit, enemy);
-                break;
-            case CardType.King: 
-                PlayKing(unit, enemy);
-                break;
-            case CardType.Potion:
-                CardsHandler.HandleBasicCards(cardType, unit, unitObj, enemy, enemyObj, card);
-                break;
-        }
-    }
-
-    public void PlayJack(FightUnit unit, FightUnit enemy)
+    public override void PlayJack(FightUnit unit, FightUnit enemy)
     {
     }
 
-    public void PlayQueen(FightUnit unit, FightUnit enemy)
+    public override void PlayQueen(FightUnit unit, FightUnit enemy)
     {
     }
 
-    public void PlayKing(FightUnit unit, FightUnit enemy)
+    public override void PlayKing(FightUnit unit, FightUnit enemy)
     {
     }
 
-    public void PlayAce(FightUnit unit, FightUnit enemy)
+    public override void PlayAce(FightUnit unit, FightUnit enemy)
     {
 
     }
 
-    public string GetCardText(CardType cardType)
+    public override string GetCardText(CardType cardType)
     {
         switch (cardType)
         {
@@ -85,7 +62,7 @@ internal class Basic : IClass
         }
     }
 
-    public Sprite GetCardIcon(CardType cardType)
+    public override Sprite GetCardIcon(CardType cardType)
     {
         return null;
     }

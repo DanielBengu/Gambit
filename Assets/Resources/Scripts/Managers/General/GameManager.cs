@@ -257,6 +257,11 @@ public class GameManager : MonoBehaviour
         return deck.Select(c => CopyCard(c)).ToList();
     }
 
+    public void StartMessage()
+    {
+
+    }
+
     public static GameCard CopyCard(GameCard card)
     {
         return new GameCard()

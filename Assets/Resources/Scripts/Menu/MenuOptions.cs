@@ -26,7 +26,9 @@ public class MenuOptions : MonoBehaviour
 
     public GameObject cardPrefab;
 
-    readonly List<Tuple<Transform, Transform>> movements = new();
+    public GameObject gameTitle;
+
+    readonly List<CardAnimationStruct> movements = new();
 
     public List<GameObject> characterCards = new();
 
@@ -37,11 +39,11 @@ public class MenuOptions : MonoBehaviour
     {
         for (int i = 0; i < movements.Count; i++)
         {
-            MoveCard(movements[i].Item1, movements[i].Item2, out bool destinationReached);
+            MoveCard(movements[i].source, movements[i].target, movements[i].speed, out bool destinationReached);
             if (destinationReached)
             {
-                if (movements[i].Item2.name == "TEMP")
-                    Destroy(movements[i].Item2.gameObject);
+                if (movements[i].target.name == "TEMP")
+                    Destroy(movements[i].target.gameObject);
 
                 movements.RemoveAt(i);
                 i--;
@@ -49,13 +51,13 @@ public class MenuOptions : MonoBehaviour
         }
     }
 
-    void MoveCard(Transform source, Transform destination, out bool reachedDestination)
+    void MoveCard(Transform source, Transform destination, float speed, out bool reachedDestination)
     {
         // Calculate the direction to move towards the destination
         Vector3 direction = (destination.position - source.position).normalized;
 
         // Move towards the destination
-        source.Translate(cardMovementSpeed * Time.deltaTime * direction);
+        source.Translate(speed * Time.deltaTime * direction);
 
         // Check if the object reached the destination
         reachedDestination = Vector3.Distance(source.position, destination.position) < 0.1f;
@@ -71,28 +73,40 @@ public class MenuOptions : MonoBehaviour
         Transform runContent = cardLeft.transform.GetChild(0);
         TextMeshProUGUI playerData = runContent.Find("RunInfo").GetComponent<TextMeshProUGUI>();
         string className = data.CurrentRun.ClassId.ToString();
-        playerData.text = $"{className} - {data.CurrentRun.CurrentFloor}F";
+        playerData.text = $"{className} - {data.CurrentRun.CurrentFloor + 1}F";
     }
 
     public void StartChooseCharacterAnimation()
     {
         int numberOfClasses = Enum.GetValues(typeof(Classes)).Length;
-
         for (int i = 0; i < numberOfClasses - 1; i++)
         {
             GameObject characterCard = Instantiate(cardPrefab, outScreenPosition.position, outScreenPosition.rotation, characterParent);
 
             Classes classOfCard = (Classes)i;
-            LoadCharacterCard(characterCard, classOfCard.ToString());
-            LoadScript(characterCard, classOfCard);
+            bool isClassUnlocked = IsClassUnlocked(classOfCard);
+
+            LoadCharacterCard(characterCard, classOfCard.ToString(), isClassUnlocked);
+            LoadScript(characterCard, classOfCard, isClassUnlocked);
 
             characterCards.Add(characterCard);
 
             Vector3 cardPosition = GetCardPositionOnTable(i);
 
-            GameObject temp = CreateTempObject(cardPosition); 
-            StartCardAnimation(characterCard.transform, temp.transform);
+            GameObject temp = CreateTempObject(cardPosition);
+            float speed = 5 + ((10 - i) / 2);
+            StartCardAnimation(characterCard.transform, temp.transform, speed);
         }
+    }
+
+    public bool IsClassUnlocked(Classes classOfCard)
+    {
+        return SaveManager.GetUnlockedClasses().Contains(classOfCard);
+    }
+
+    public void ChangeTitleVisibility(bool setActive)
+    {
+        gameTitle.SetActive(setActive);
     }
 
     GameObject CreateTempObject(Vector3 position)
@@ -104,19 +118,26 @@ public class MenuOptions : MonoBehaviour
         return temp;
     }
 
-    public void LoadScript(GameObject characterCard, Classes classOfCard)
+    public void LoadScript(GameObject characterCard, Classes classOfCard, bool isUnlocked)
     {
         MenuCharacterCard cardScript = characterCard.GetComponent<MenuCharacterCard>();
-        cardScript.LoadManager(MenuManager, classOfCard);
+        cardScript.LoadManager(MenuManager, classOfCard, isUnlocked);
     }
 
-    public void LoadCharacterCard(GameObject card, string characterName)
+    public void LoadCharacterCard(GameObject card, string characterName, bool isUnlocked)
     {
-        TextMeshProUGUI title = card.transform.Find("Title").GetComponent<TextMeshProUGUI>();
         Image sprite = card.transform.Find("Sprite").GetComponent<Image>();
+        TextMeshProUGUI title = card.transform.Find("Title").GetComponent<TextMeshProUGUI>();
 
-        title.text = characterName;
-        sprite.sprite = Resources.Load<Sprite>($"Sprites/Characters/{characterName}/{characterName}");
+        if (isUnlocked)
+        {
+            title.text = characterName;
+            sprite.sprite = Resources.Load<Sprite>($"Sprites/Characters/{characterName}/{characterName}");
+            return;
+        }
+
+        sprite.sprite = Resources.Load<Sprite>($"Sprites/Icons/Icon_Star");
+        title.text = string.Empty;
     }
 
     public Vector3 GetCardPositionOnTable(int cardIndex)
@@ -130,21 +151,21 @@ public class MenuOptions : MonoBehaviour
 
     public void StartMenuAnimation()
     {
-        StartCardAnimation(cardLeft.transform, basePositionLeft);
-        StartCardAnimation(cardFront.transform, basePositionCenter);
-        StartCardAnimation(cardRight.transform, basePositionRight);
+        StartCardAnimation(cardLeft.transform, basePositionLeft, 5f);
+        StartCardAnimation(cardFront.transform, basePositionCenter, 5f);
+        StartCardAnimation(cardRight.transform, basePositionRight, 5f);
     }
 
     public void StartMenuClearAnimation()
     {
-        StartCardAnimation(cardLeft.transform, outScreenPosition);
-        StartCardAnimation(cardFront.transform, outScreenPosition);
-        StartCardAnimation(cardRight.transform, outScreenPosition);
+        StartCardAnimation(cardLeft.transform, outScreenPosition, 5f);
+        StartCardAnimation(cardFront.transform, outScreenPosition, 5f);
+        StartCardAnimation(cardRight.transform, outScreenPosition, 5f);
     }
 
-    public void StartCardAnimation(Transform source, Transform target)
+    public void StartCardAnimation(Transform source, Transform target, float speed)
     {
-        movements.Add(new(source, target));
+        movements.Add(new(source, target, speed));
     }
 
     public void CoverCard(CardPosition card)
@@ -173,5 +194,19 @@ public class MenuOptions : MonoBehaviour
         Left,
         Center,
         Right
+    }
+
+    public struct CardAnimationStruct
+    {
+        public Transform source;
+        public Transform target;
+        public float speed;
+
+        public CardAnimationStruct(Transform source, Transform target, float speed)
+        {
+            this.source = source; 
+            this.target = target; 
+            this.speed = speed;
+        }
     }
 }

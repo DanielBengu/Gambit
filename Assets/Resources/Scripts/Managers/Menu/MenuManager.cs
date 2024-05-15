@@ -8,6 +8,8 @@ using static PlayerPrefsManager;
 
 public class MenuManager : MonoBehaviour
 {
+    static readonly int TUTORIAL_WORLD_ID = 0;
+
     public bool forceFirstStart = false;
     public Classes forceClass = Classes.Basic;
 
@@ -19,6 +21,9 @@ public class MenuManager : MonoBehaviour
 
     void Start()
     {
+        if (forceFirstStart)
+            RemovePref(PlayerPrefsEnum.AlreadyLaunchedGame);
+
         FirstGameStart();
 
         menuOptions.StartMenuAnimation();
@@ -58,9 +63,6 @@ public class MenuManager : MonoBehaviour
 
     void HandleCards(PlayerData data)
     {
-        /*if (GetPref<int>(PlayerPrefsEnum.HasWonAnyRun) != 1)
-            menuOptions.CoverCard(MenuOptions.CardPosition.Right);*/
-
         if (!data.CurrentRun.IsOngoing)
             menuOptions.CoverCard(MenuOptions.CardPosition.Left);
         else
@@ -69,11 +71,16 @@ public class MenuManager : MonoBehaviour
 
     void FirstGameStart()
     {
-        if (DoesPrefExists(PlayerPrefsEnum.AlreadyLaunchedGame) && !forceFirstStart)
+        if (DoesPrefExists(PlayerPrefsEnum.AlreadyLaunchedGame))
             return;
 
         SetPref(PlayerPrefsEnum.HasWonAnyRun, 0);
         SetPref(PlayerPrefsEnum.Language, (int)LanguageManager.Language.English);
+
+        SetPref(PlayerPrefsEnum.BerserkUnlocked, 0);
+        SetPref(PlayerPrefsEnum.ArchmageUnlocked, 0);
+        SetPref(PlayerPrefsEnum.PoisonerUnlocked, 0);
+        SetPref(PlayerPrefsEnum.TricksterUnlocked, 0);
 
         SaveManager.SavePlayerData(new()
         {
@@ -84,23 +91,29 @@ public class MenuManager : MonoBehaviour
         });
     }
 
-    public void StartGame(Classes classOfCard = Classes.Basic)
+    public void StartGame(Classes playerClass)
     {
         MapData mapList = JSONManager.GetFileFromJSON<MapData>(JSONManager.MAPS_PATH);
-        Map mapToPlay;
-        Classes playerClass = Classes.Basic;
-        if (!DoesPrefExists(PlayerPrefsEnum.AlreadyLaunchedGame) || forceFirstStart)
-        {
-            mapToPlay = mapList.Maps.Find(m => m.Id == 0); //Tutorial world
-            playerClass = forceClass != Classes.Basic ? forceClass : Classes.Warrior; //Tutorial starts with warrior
-            SetPref(PlayerPrefsEnum.AlreadyLaunchedGame, 1);
-        }
-        else
-        {
-            mapToPlay = StartRandomMap(mapList);
-            playerClass = classOfCard; //To change with class selected
-        }
+        Map mapToPlay = StartRandomMap(mapList);
 
+        SaveNewRunData(mapToPlay.Id, playerClass);
+        SwitchToRun(mapToPlay);
+    }
+
+    public void StartTutorial()
+    {
+        MapData mapList = JSONManager.GetFileFromJSON<MapData>(JSONManager.MAPS_PATH);
+        Map mapToPlay = mapList.Maps.Find(m => m.Id == TUTORIAL_WORLD_ID);
+
+        Classes playerClass = Classes.Warrior;
+        SetPref(PlayerPrefsEnum.AlreadyLaunchedGame, 1);
+
+        SaveNewRunData(mapToPlay.Id, playerClass);
+        SwitchToRun(mapToPlay);
+    }
+
+    void SaveNewRunData(int mapId, Classes classId)
+    {
         SaveManager.SavePlayerData(new()
         {
             UnitData = new()
@@ -115,15 +128,18 @@ public class MenuManager : MonoBehaviour
             CurrentRun = new()
             {
                 IsOngoing = true,
-                MapId = mapToPlay.Id,
-                ClassId = playerClass,
+                MapId = mapId,
+                ClassId = classId,
                 CurrentFloor = -1,
-                CardList = GameManager.GetStartingDeck(playerClass),
-                ActionDeck = GameManager.GetStartingActionDeck(playerClass),
+                CardList = GameManager.GetStartingDeck(classId),
+                ActionDeck = GameManager.GetStartingActionDeck(classId),
                 GoldAmount = 0
             }
         });
+    }
 
+    void SwitchToRun(Map mapToPlay)
+    {
         Debug.Log($"Launching world {mapToPlay.Name} (id: {mapToPlay.Id})");
         effectsManager.effects.Add(new()
         {
@@ -137,7 +153,16 @@ public class MenuManager : MonoBehaviour
     public void StartNewGameButtonClick()
     {
         menuOptions.StartMenuClearAnimation();
-        menuOptions.StartChooseCharacterAnimation();
+
+        if (DoesPrefExists(PlayerPrefsEnum.AlreadyLaunchedGame))
+        {
+            menuOptions.StartChooseCharacterAnimation();
+            menuOptions.ChangeTitleVisibility(false);
+        }
+        else
+        {
+            StartTutorial();
+        }
     }
 
     public void LoadSceneGame()

@@ -53,10 +53,19 @@ public static class PlayerPrefsManager
         PlayerPrefs.Save();
     }
 
+    public static void RemovePref(PlayerPrefsEnum pref)
+    {
+        PlayerPrefs.DeleteKey(pref.ToString());
+    }
+
     public enum PlayerPrefsEnum
     {
         AlreadyLaunchedGame,
         HasWonAnyRun,
-        Language
+        Language,
+        BerserkUnlocked,
+        ArchmageUnlocked,
+        PoisonerUnlocked,
+        TricksterUnlocked,
     }
 }

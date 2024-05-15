@@ -1122,6 +1122,7 @@ MonoBehaviour:
   outScreenPosition: {fileID: 1111142349}
   characterParent: {fileID: 1861243350}
   cardPrefab: {fileID: 4896288060793630517, guid: b377ff9421971c34cbb4d2518fc48f6c, type: 3}
+  gameTitle: {fileID: 1710986386}
   characterCards: []
   cardMovementSpeed: 7
   cardBackside: {fileID: 21300000, guid: 02b413f2fb7d73b46b4d61fbc1f16b6b, type: 3}
@@ -1758,12 +1759,12 @@ MonoBehaviour:
   m_fontSize: 120
   m_fontSizeBase: 120
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 120
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1791,7 +1792,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -449.8034, w: 0}
+  m_margin: {x: 0, y: 0, z: -449.8034, w: -158.53949}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -2145,7 +2146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   forceFirstStart: 0
-  forceClass: -1
+  forceClass: 0
   menuOptions: {fileID: 1026402712}
   effectsManager: {fileID: 1902701756}
   languageManager: {fileID: 1868454212}
@@ -2266,8 +2267,8 @@ PrefabInstance:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 519420032}
   - {fileID: 1141259404}
   - {fileID: 588001637}
   - {fileID: 1304457092}
   - {fileID: 1832651078}
+  - {fileID: 519420032}

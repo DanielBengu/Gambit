@@ -7,15 +7,18 @@ public class MenuCharacterCard : MonoBehaviour
 {
     MenuManager manager;
     Classes classOfCard;
+    bool isUnlocked;
 
-    public void LoadManager(MenuManager manager, Classes classOfCard)
+    public void LoadManager(MenuManager manager, Classes classOfCard, bool isUnlocked)
     {
         this.manager = manager;
         this.classOfCard = classOfCard;
+        this.isUnlocked = isUnlocked;
     }
 
     private void OnMouseDown()
     {
-        manager.StartGame(classOfCard);
+        if(isUnlocked)
+            manager.StartGame(classOfCard);
     }
 }

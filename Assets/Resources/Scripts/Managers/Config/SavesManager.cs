@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.IO;
+using static CardsManager;
+using System.Collections.Generic;
 
 public static class SaveManager
 {
@@ -52,5 +54,29 @@ public static class SaveManager
         File.WriteAllText(_playerDataFilePath, jsonData);
 
         Debug.Log($"Run completed, save file reset");
+    }
+
+    public static List<Classes> GetUnlockedClasses()
+    {
+        List<Classes> classes = new()
+        {
+            Classes.Warrior,
+            Classes.Rogue,
+            Classes.Wizard
+        };
+
+        if(PlayerPrefsManager.GetPref<int>(PlayerPrefsManager.PlayerPrefsEnum.BerserkUnlocked) == 1)
+            classes.Add(Classes.Berserk);
+
+        if (PlayerPrefsManager.GetPref<int>(PlayerPrefsManager.PlayerPrefsEnum.ArchmageUnlocked) == 1)
+            classes.Add(Classes.Archmage);
+
+        if (PlayerPrefsManager.GetPref<int>(PlayerPrefsManager.PlayerPrefsEnum.TricksterUnlocked) == 1)
+            classes.Add(Classes.Trickster);
+
+        if (PlayerPrefsManager.GetPref<int>(PlayerPrefsManager.PlayerPrefsEnum.PoisonerUnlocked) == 1)
+            classes.Add(Classes.Poisoner);
+
+        return classes;
     }
 }

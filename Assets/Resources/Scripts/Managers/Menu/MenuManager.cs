@@ -21,7 +21,7 @@ public class MenuManager : MonoBehaviour
     {
         FirstGameStart();
 
-        menuOptions.StartCardAnimation();
+        menuOptions.StartMenuAnimation();
 
         HandleSaves();
         SetStrings();
@@ -84,7 +84,7 @@ public class MenuManager : MonoBehaviour
         });
     }
 
-    public void StartNewGameButtonClick()
+    public void StartGame(Classes classOfCard = Classes.Basic)
     {
         MapData mapList = JSONManager.GetFileFromJSON<MapData>(JSONManager.MAPS_PATH);
         Map mapToPlay;
@@ -98,7 +98,7 @@ public class MenuManager : MonoBehaviour
         else
         {
             mapToPlay = StartRandomMap(mapList);
-            playerClass = Classes.Basic; //To change with class selected
+            playerClass = classOfCard; //To change with class selected
         }
 
         SaveManager.SavePlayerData(new()
@@ -132,6 +132,12 @@ public class MenuManager : MonoBehaviour
             effect = VisualEffectsManager.Effects.MenuStartGame
         });
         blackScreen.SetActive(true);
+    }
+
+    public void StartNewGameButtonClick()
+    {
+        menuOptions.StartMenuClearAnimation();
+        menuOptions.StartChooseCharacterAnimation();
     }
 
     public void LoadSceneGame()

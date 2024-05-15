@@ -1,9 +1,17 @@
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static CardsManager;
+using static MenuOptions;
 
 public class MenuOptions : MonoBehaviour
 {
+    public GameObject Canvas;
+
+    public MenuManager MenuManager;
+
     public GameObject cardFront;
     public GameObject cardLeft;
     public GameObject cardRight;
@@ -12,42 +20,32 @@ public class MenuOptions : MonoBehaviour
     public Transform basePositionRight;
     public Transform basePositionCenter;
 
-    private bool isMovingLeft = false;
-    private bool isMovingCenter = false;
-    private bool isMovingRight = false;
+    public Transform outScreenPosition;
+
+    public Transform characterParent;
+
+    public GameObject cardPrefab;
+
+    readonly List<Tuple<Transform, Transform>> movements = new();
+
+    public List<GameObject> characterCards = new();
 
     public float cardMovementSpeed = 5f; // Speed of movement
     public Sprite cardBackside;
 
     void Update()
     {
-        if (isMovingLeft)
-            MoveCardTowardsBasePosition(CardPosition.Left);
-        if (isMovingCenter)
-            MoveCardTowardsBasePosition(CardPosition.Center);
-        if (isMovingRight)
-            MoveCardTowardsBasePosition(CardPosition.Right);
-    }
-
-    void MoveCardTowardsBasePosition(CardPosition card)
-    {
-        switch (card)
+        for (int i = 0; i < movements.Count; i++)
         {
-            case CardPosition.Left:
-                MoveCard(cardLeft.transform, basePositionLeft, out bool reachedDestinationLeft);
-                if (reachedDestinationLeft)
-                    isMovingLeft = false;
-                break;
-            case CardPosition.Center:
-                MoveCard(cardFront.transform, basePositionCenter, out bool reachedDestinationCenter);
-                if (reachedDestinationCenter)
-                    isMovingCenter = false;
-                break;
-            case CardPosition.Right:
-                MoveCard(cardRight.transform, basePositionRight, out bool reachedDestinationRight);
-                if (reachedDestinationRight)
-                    isMovingRight = false;
-                break;
+            MoveCard(movements[i].Item1, movements[i].Item2, out bool destinationReached);
+            if (destinationReached)
+            {
+                if (movements[i].Item2.name == "TEMP")
+                    Destroy(movements[i].Item2.gameObject);
+
+                movements.RemoveAt(i);
+                i--;
+            }
         }
     }
 
@@ -75,11 +73,78 @@ public class MenuOptions : MonoBehaviour
         string className = data.CurrentRun.ClassId.ToString();
         playerData.text = $"{className} - {data.CurrentRun.CurrentFloor}F";
     }
-    public void StartCardAnimation()
+
+    public void StartChooseCharacterAnimation()
     {
-        isMovingLeft = true;
-        isMovingCenter = true;
-        isMovingRight = true;
+        int numberOfClasses = Enum.GetValues(typeof(Classes)).Length;
+
+        for (int i = 0; i < numberOfClasses - 1; i++)
+        {
+            GameObject characterCard = Instantiate(cardPrefab, outScreenPosition.position, outScreenPosition.rotation, characterParent);
+
+            Classes classOfCard = (Classes)i;
+            LoadCharacterCard(characterCard, classOfCard.ToString());
+            LoadScript(characterCard, classOfCard);
+
+            characterCards.Add(characterCard);
+
+            Vector3 cardPosition = GetCardPositionOnTable(i);
+
+            GameObject temp = CreateTempObject(cardPosition); 
+            StartCardAnimation(characterCard.transform, temp.transform);
+        }
+    }
+
+    GameObject CreateTempObject(Vector3 position)
+    {
+        GameObject temp = new("TEMP");
+        temp.transform.parent = Canvas.transform;
+        temp.transform.localPosition = position;
+
+        return temp;
+    }
+
+    public void LoadScript(GameObject characterCard, Classes classOfCard)
+    {
+        MenuCharacterCard cardScript = characterCard.GetComponent<MenuCharacterCard>();
+        cardScript.LoadManager(MenuManager, classOfCard);
+    }
+
+    public void LoadCharacterCard(GameObject card, string characterName)
+    {
+        TextMeshProUGUI title = card.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        Image sprite = card.transform.Find("Sprite").GetComponent<Image>();
+
+        title.text = characterName;
+        sprite.sprite = Resources.Load<Sprite>($"Sprites/Characters/{characterName}/{characterName}");
+    }
+
+    public Vector3 GetCardPositionOnTable(int cardIndex)
+    {
+        if(cardIndex <= 2)
+            return new Vector3(-500 + (500 * cardIndex), 250, 0);
+        
+
+        return new Vector3(-750 + (500 * (cardIndex - 3)), -250, 0);
+    }
+
+    public void StartMenuAnimation()
+    {
+        StartCardAnimation(cardLeft.transform, basePositionLeft);
+        StartCardAnimation(cardFront.transform, basePositionCenter);
+        StartCardAnimation(cardRight.transform, basePositionRight);
+    }
+
+    public void StartMenuClearAnimation()
+    {
+        StartCardAnimation(cardLeft.transform, outScreenPosition);
+        StartCardAnimation(cardFront.transform, outScreenPosition);
+        StartCardAnimation(cardRight.transform, outScreenPosition);
+    }
+
+    public void StartCardAnimation(Transform source, Transform target)
+    {
+        movements.Add(new(source, target));
     }
 
     public void CoverCard(CardPosition card)

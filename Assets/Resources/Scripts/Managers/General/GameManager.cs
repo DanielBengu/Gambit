@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 {
     public FightManager FightManager { get; set; }
     public EventManager EventManager { get; set; }
+    public UnlockManager UnlockManager { get; set; }
 
     public GameUIManager gameUIManager;
     public EnemyManager enemyManager;
@@ -39,13 +40,18 @@ public class GameManager : MonoBehaviour
 
     Action callbackFightVictory;
 
+    #region Unlock section
+
+    public GameObject unlockParent;
+
+    #endregion
+
     public GameStatus Status { get; set; }
     public int CurrentEncounterCount { get; set; } = -1;
 
     void Start()
     {
-        playerData = SaveManager.LoadPlayerData();
-        currentMap = JSONManager.GetFileFromJSON<MapData>(JSONManager.MAPS_PATH).Maps.Find(m => m.Id == playerData.CurrentRun.MapId);
+        LoadData();
 
         if (!playerData.CurrentRun.IsOngoing)
         {
@@ -54,6 +60,18 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        LoadGameSetup();
+    }
+
+    void LoadData()
+    {
+        playerData = SaveManager.LoadPlayerData();
+        currentMap = JSONManager.GetFileFromJSON<MapData>(JSONManager.MAPS_PATH).Maps.Find(m => m.Id == playerData.CurrentRun.MapId);
+        UnlockManager = new(unlockParent);
+    }
+
+    void LoadGameSetup()
+    {
         string className = playerData.CurrentRun.ClassId.ToString();
         player = LoadCharacter(className, playerParent);
 
@@ -62,6 +80,7 @@ public class GameManager : MonoBehaviour
 
         CurrentEncounterCount = playerData.CurrentRun.CurrentFloor;
         HandleNextEncounter();
+        SetupBlackScreen(TurnOffBlackScreen, VisualEffectsManager.Effects.LightenBlackScreen);
     }
 
     private void Update()
@@ -113,14 +132,10 @@ public class GameManager : MonoBehaviour
 
                 PlayCombat(enemyData, SetNextSectionButtonClick);
                 PlayAnimation(enemy, SpriteAnimation.UnitIntro, FightManager.SetupFightUIAndStartGame);
-
-                SetupBlackScreen(() => { });
                 break;
 
             case TypeOfEncounter.Event:
                 PlayEvent(encounter.Id);
-
-                SetupBlackScreen(() => { });
                 break;
         }
     }
@@ -144,9 +159,9 @@ public class GameManager : MonoBehaviour
         Status = GameStatus.Event;
     }
 
-    void SetupBlackScreen(Action callback)
+    void SetupBlackScreen(Action callback, VisualEffectsManager.Effects screen)
     {
-        gameUIManager.SetupBlackScreen(true, effectsManager, callback);
+        gameUIManager.SetupBlackScreen(true, screen, effectsManager, callback);
     }
 
     public static List<GameCard> GetStartingDeck(Classes classOfDeck)
@@ -259,7 +274,7 @@ public class GameManager : MonoBehaviour
 
     public void StartMessage()
     {
-
+        SetupBlackScreen(() => { }, VisualEffectsManager.Effects.DarkenBlackScreen);
     }
 
     public static GameCard CopyCard(GameCard card)
@@ -284,6 +299,11 @@ public class GameManager : MonoBehaviour
             NameIdValue = card.NameIdValue,
             DescriptionIdValue = card.DescriptionIdValue,
         };
+    }
+
+    void TurnOffBlackScreen()
+    {
+        gameUIManager.blackScreen.gameObject.SetActive(false);
     }
 
     void HandleNextEncounter()
@@ -352,14 +372,23 @@ public class GameManager : MonoBehaviour
 
     public void HandleGameVictory()
     {
+        SetupBlackScreen(UnlockCard, VisualEffectsManager.Effects.DarkenBlackScreen);
+    }
+
+    void UnlockCard()
+    {
+        UnlockManager.UnlockCard(UnlockManager.UnlockableType.Character, (int)Classes.Berserk, TerminateAndReturnToMenu);
+    }
+
+    void TerminateAndReturnToMenu()
+    {
         SaveManager.TerminateSave();
         SceneManager.LoadScene(0);
     }
 
     public void HandleGameDefeat()
     {
-        SaveManager.TerminateSave();
-        SceneManager.LoadScene(0);
+        TerminateAndReturnToMenu();
     }
 
     #endregion

@@ -77,19 +77,19 @@ public class GameUIManager : MonoBehaviour
         enemySlider.value = 0;
     }
 
-    public void SetupBlackScreen(bool active, VisualEffectsManager effectsManager, Action callback)
+    public void SetupBlackScreen(bool active, VisualEffectsManager.Effects effect, VisualEffectsManager effectsManager, Action callback)
     {
         blackScreen.gameObject.SetActive(active);
 
         Color resetColor = blackScreen.color;
-        resetColor.a = 1f; // Reset alpha to fully opaque
+        resetColor.a = effect == VisualEffectsManager.Effects.LightenBlackScreen ? 1f : 0.2f; // Reset alpha to starting opacity
         blackScreen.color = resetColor;
 
         if (active)
             effectsManager.effects.Add(new()
             {
                 obj = blackScreen.gameObject,
-                effect = VisualEffectsManager.Effects.FightStartup,
+                effect = effect,
                 callback = callback
             });
     }

@@ -75,7 +75,7 @@ public class VisualEffectsManager : MonoBehaviour
             EffectsStruct effect = effects[i];
             switch (effect.effect)
             {
-                case Effects.FightStartup:
+                case Effects.LightenBlackScreen:
                     Image startupBlackoutImage = effect.obj.GetComponent<Image>();
                     Color currentColor = startupBlackoutImage.color;
                     currentColor.a -= Time.deltaTime * 0.5f; // Adjust the rate of transparency loss as needed
@@ -83,8 +83,18 @@ public class VisualEffectsManager : MonoBehaviour
                     if (currentColor.a <= 0.1f)
                     {
                         effect.callback();
-
-                        startupBlackoutImage.gameObject.SetActive(false);
+                        effects.RemoveAt(i);
+                        i--;
+                    }
+                    break;
+                case Effects.DarkenBlackScreen:
+                    Image startupLightenImage = effect.obj.GetComponent<Image>();
+                    Color currentColorLighten = startupLightenImage.color;
+                    currentColorLighten.a += Time.deltaTime * 0.5f; // Adjust the rate of transparency loss as needed
+                    startupLightenImage.color = currentColorLighten;
+                    if (currentColorLighten.a >= 0.8f)
+                    {
+                        effect.callback();
                         effects.RemoveAt(i);
                         i--;
                     }
@@ -119,7 +129,8 @@ public class VisualEffectsManager : MonoBehaviour
 
     public enum Effects
     {
-        FightStartup,
+        LightenBlackScreen,
+        DarkenBlackScreen,
         MenuStartGame
     }
 

@@ -72,8 +72,11 @@ public class MenuOptions : MonoBehaviour
     {
         Transform runContent = cardLeft.transform.GetChild(0);
         TextMeshProUGUI playerData = runContent.Find("RunInfo").GetComponent<TextMeshProUGUI>();
+        Image classImage = runContent.Find("Class Image").GetComponent<Image>();
         string className = data.CurrentRun.ClassId.ToString();
+
         playerData.text = $"{className} - {data.CurrentRun.CurrentFloor + 1}F";
+        classImage.sprite = Resources.Load<Sprite>($"Sprites/Characters/{className}/{className}");
     }
 
     public void StartChooseCharacterAnimation()
@@ -129,15 +132,17 @@ public class MenuOptions : MonoBehaviour
         Image sprite = card.transform.Find("Sprite").GetComponent<Image>();
         TextMeshProUGUI title = card.transform.Find("Title").GetComponent<TextMeshProUGUI>();
 
+        sprite.sprite = Resources.Load<Sprite>($"Sprites/Characters/{characterName}/{characterName}");
+
+
         if (isUnlocked)
         {
             title.text = characterName;
-            sprite.sprite = Resources.Load<Sprite>($"Sprites/Characters/{characterName}/{characterName}");
             return;
         }
 
-        sprite.sprite = Resources.Load<Sprite>($"Sprites/Icons/Icon_Star");
-        title.text = string.Empty;
+        title.text = "LOCKED";
+        sprite.color = Color.black;
     }
 
     public Vector3 GetCardPositionOnTable(int cardIndex)

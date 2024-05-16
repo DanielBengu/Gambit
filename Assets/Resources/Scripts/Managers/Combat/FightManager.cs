@@ -135,7 +135,7 @@ public class FightManager
             case Classes.Warrior:
             case Classes.Wizard:
             case Classes.Berserk:
-            case Classes.Poisoner:
+            case Classes.Ranger:
             case Classes.Archmage:
             case Classes.Trickster:
             default:

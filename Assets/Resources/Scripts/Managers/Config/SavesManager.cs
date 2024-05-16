@@ -74,8 +74,8 @@ public static class SaveManager
         if (PlayerPrefsManager.GetPref<int>(PlayerPrefsManager.PlayerPrefsEnum.TricksterUnlocked) == 1)
             classes.Add(Classes.Trickster);
 
-        if (PlayerPrefsManager.GetPref<int>(PlayerPrefsManager.PlayerPrefsEnum.PoisonerUnlocked) == 1)
-            classes.Add(Classes.Poisoner);
+        if (PlayerPrefsManager.GetPref<int>(PlayerPrefsManager.PlayerPrefsEnum.RangerUnlocked) == 1)
+            classes.Add(Classes.Ranger);
 
         return classes;
     }

@@ -68,7 +68,7 @@ public static class PlayerPrefsManager
         WizardUnlocked,
         BerserkUnlocked,
         ArchmageUnlocked,
-        PoisonerUnlocked,
+        RangerUnlocked,
         TricksterUnlocked,
     }
 }

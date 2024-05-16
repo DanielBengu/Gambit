@@ -119,7 +119,7 @@ public class FightUnit : UnitData
             case Classes.Archmage:
                 Class = new Warrior(manager);
                 break;
-            case Classes.Poisoner:
+            case Classes.Ranger:
                 Class = new Warrior(manager);
                 break;
         }

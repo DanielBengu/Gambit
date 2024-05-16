@@ -20,7 +20,7 @@ public class CardsManager
         Rogue,
         Wizard,
         Berserk,
-        Poisoner,
+        Ranger,
         Archmage,
         Trickster
     }

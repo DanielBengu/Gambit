@@ -11,7 +11,7 @@ public class MenuManager : MonoBehaviour
     public static readonly int TUTORIAL_WORLD_ID = 0;
 
     public bool forceFirstStart = false;
-    public Classes forceClass = Classes.Basic;
+    public bool unlockAllClasses = false;
 
     public MenuOptions menuOptions;
     public VisualEffectsManager effectsManager;
@@ -26,10 +26,24 @@ public class MenuManager : MonoBehaviour
 
         FirstGameStart();
 
+        if (unlockAllClasses)
+            UnlockAllClasses();
+
         menuOptions.StartMenuAnimation();
 
         HandleSaves();
         SetStrings();
+    }
+
+    void UnlockAllClasses()
+    {
+        SetPref(PlayerPrefsEnum.WarriorUnlocked, 1);
+        SetPref(PlayerPrefsEnum.RogueUnlocked, 1);
+        SetPref(PlayerPrefsEnum.WizardUnlocked, 1);
+        SetPref(PlayerPrefsEnum.BerserkUnlocked, 1);
+        SetPref(PlayerPrefsEnum.ArchmageUnlocked, 1);
+        SetPref(PlayerPrefsEnum.RangerUnlocked, 1);
+        SetPref(PlayerPrefsEnum.TricksterUnlocked, 1);
     }
 
     void SetStrings()
@@ -82,7 +96,7 @@ public class MenuManager : MonoBehaviour
         SetPref(PlayerPrefsEnum.WizardUnlocked, 0);
         SetPref(PlayerPrefsEnum.BerserkUnlocked, 0);
         SetPref(PlayerPrefsEnum.ArchmageUnlocked, 0);
-        SetPref(PlayerPrefsEnum.PoisonerUnlocked, 0);
+        SetPref(PlayerPrefsEnum.RangerUnlocked, 0);
         SetPref(PlayerPrefsEnum.TricksterUnlocked, 0);
 
         SaveManager.SavePlayerData(new()

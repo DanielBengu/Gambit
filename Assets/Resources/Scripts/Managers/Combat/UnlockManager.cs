@@ -4,7 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static CardsManager;
-using static Unity.Collections.AllocatorManager;
 
 public class UnlockManager
 {
@@ -70,7 +69,7 @@ public class UnlockManager
             Classes.Berserk => PlayerPrefsManager.PlayerPrefsEnum.BerserkUnlocked,
             Classes.Trickster => PlayerPrefsManager.PlayerPrefsEnum.TricksterUnlocked,
             Classes.Archmage => PlayerPrefsManager.PlayerPrefsEnum.ArchmageUnlocked,
-            Classes.Poisoner => PlayerPrefsManager.PlayerPrefsEnum.PoisonerUnlocked,
+            Classes.Ranger => PlayerPrefsManager.PlayerPrefsEnum.RangerUnlocked,
             _ => PlayerPrefsManager.PlayerPrefsEnum.WarriorUnlocked
         };
 
@@ -107,7 +106,7 @@ public class UnlockManager
                 unlocksQueue.Enqueue(new(UnlockableType.Character, (int)Classes.Berserk));
                 break;
             case Classes.Rogue:
-                unlocksQueue.Enqueue(new(UnlockableType.Character, (int)Classes.Trickster));
+                unlocksQueue.Enqueue(new(UnlockableType.Character, (int)Classes.Ranger));
                 break;
             case Classes.Wizard:
                 unlocksQueue.Enqueue(new(UnlockableType.Character, (int)Classes.Archmage));

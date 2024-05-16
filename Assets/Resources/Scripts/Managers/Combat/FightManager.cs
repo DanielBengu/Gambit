@@ -550,21 +550,29 @@ public class FightManager
     public void PlayActionCard(ActionCard card, Character character)
     {
         FightUnit unit = null;
+        GameObject obj = playerObj;
         switch (character)
         {
             case Character.Player:
                 unit = Player;
+                obj = playerObj;
                 break;
             case Character.Enemy:
                 unit = Enemy;
+                obj = enemyObj;
                 break;
         }
         ActionCardArchive.ApplyEffect(card.Id, unit);
+        string animation = ActionCardArchive.GetAnimation(card.Id);
+
         unit.FightCurrentHand.Remove(card);
         gameUIManager.UpdateHand(unit.FightCurrentHand, this);
 
         HandlePoints(ref unit.status, unit.Character, ref unit.currentScore, unit.CurrentMaxScore, 0);
         gameUIManager.UpdateUI(unit.Character, unit);
+
+        if (animation != string.Empty)
+            PlayAnimation(obj, SpriteAnimation.UnitDefend, () => { });
     }
 
     public bool IsGameOnStandby()

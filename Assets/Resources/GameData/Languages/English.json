@@ -138,7 +138,7 @@
     },
     {
       "Id": 34,
-      "Value": "Khauri Slash"
+      "Value": "Sylvan Bow"
     },
     {
       "Id": 35,
@@ -183,6 +183,26 @@
     {
       "Id": 45,
       "Value": "Add Poison Potion\nDeals {0} damage"
+    },
+    {
+      "Id": 46,
+      "Value": "Elemental Wand"
+    },
+    {
+      "Id": 47,
+      "Value": "Water Bullet"
+    },
+    {
+      "Id": 48,
+      "Value": "Wave Block"
+    },
+    {
+      "Id": 49,
+      "Value": "Take Aim"
+    },
+    {
+      "Id": 50,
+      "Value": "Oak Roots"
     }
   ]
 }

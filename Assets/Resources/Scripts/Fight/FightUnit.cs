@@ -8,11 +8,18 @@ using static FightManager;
 
 public class FightUnit : UnitData
 {
+    #region Static data
+
+    static readonly int BASE_CARD_DRAW_TURN = 3;
+
+    #endregion
+
     #region Private Fields
 
     private readonly int _attacks;
     private readonly int _damageModifier;
     private readonly int _actionCardDrawnForTurn;
+
     #endregion
 
     #region Stats
@@ -83,7 +90,7 @@ public class FightUnit : UnitData
         currentScore = 0;
         _damageModifier = 0;
 
-        _actionCardDrawnForTurn = 5;
+        _actionCardDrawnForTurn = BASE_CARD_DRAW_TURN;
 
         Threshold = threshold;
 

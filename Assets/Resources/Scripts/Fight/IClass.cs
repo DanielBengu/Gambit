@@ -36,6 +36,21 @@ public abstract class IClass
         }
     }
 
+    public static Color GetCardBackgroundColor(Classes classOfUnit)
+    {
+        return classOfUnit switch
+        {
+            Classes.Warrior => Color.red,
+            Classes.Rogue => Color.yellow,
+            Classes.Wizard => Color.blue,
+            Classes.Ranger => Color.green,
+            Classes.Berserk => Color.magenta,
+            Classes.Archmage => Color.white,
+            Classes.Trickster => Color.cyan,
+            _ => Color.grey,
+        };
+    }
+
     public abstract void PlayJack(FightUnit unit, FightUnit enemy);
     public abstract void PlayQueen(FightUnit unit, FightUnit enemy);
     public abstract void PlayKing(FightUnit unit, FightUnit enemy);

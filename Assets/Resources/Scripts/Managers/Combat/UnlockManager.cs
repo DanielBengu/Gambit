@@ -62,16 +62,7 @@ public class UnlockManager
     {
         var instance = UnityEngine.Object.Instantiate(characterCardUnlock, unlockParent.transform);
 
-        PlayerPrefsManager.PlayerPrefsEnum unlock = classUnlocked switch { 
-            Classes.Warrior => PlayerPrefsManager.PlayerPrefsEnum.WarriorUnlocked,
-            Classes.Rogue => PlayerPrefsManager.PlayerPrefsEnum.RogueUnlocked,
-            Classes.Wizard => PlayerPrefsManager.PlayerPrefsEnum.WizardUnlocked,
-            Classes.Berserk => PlayerPrefsManager.PlayerPrefsEnum.BerserkUnlocked,
-            Classes.Trickster => PlayerPrefsManager.PlayerPrefsEnum.TricksterUnlocked,
-            Classes.Archmage => PlayerPrefsManager.PlayerPrefsEnum.ArchmageUnlocked,
-            Classes.Ranger => PlayerPrefsManager.PlayerPrefsEnum.RangerUnlocked,
-            _ => PlayerPrefsManager.PlayerPrefsEnum.WarriorUnlocked
-        };
+        PlayerPrefsManager.PlayerPrefsEnum unlock = GetPrefFromClass(classUnlocked);
 
         LoadCharacterCard(instance, classUnlocked);
         LoadCharacterScript(instance, unlock, callback);
@@ -91,27 +82,50 @@ public class UnlockManager
         obj.GetComponent<UnlockableCardScript>().LoadScript(callback, unlock);
     }
 
+    public PlayerPrefsManager.PlayerPrefsEnum GetPrefFromClass(Classes cl)
+    {
+        return cl switch
+        {
+            Classes.Warrior => PlayerPrefsManager.PlayerPrefsEnum.WarriorUnlocked,
+            Classes.Rogue => PlayerPrefsManager.PlayerPrefsEnum.RogueUnlocked,
+            Classes.Wizard => PlayerPrefsManager.PlayerPrefsEnum.WizardUnlocked,
+            Classes.Berserk => PlayerPrefsManager.PlayerPrefsEnum.BerserkUnlocked,
+            Classes.Trickster => PlayerPrefsManager.PlayerPrefsEnum.TricksterUnlocked,
+            Classes.Archmage => PlayerPrefsManager.PlayerPrefsEnum.ArchmageUnlocked,
+            Classes.Ranger => PlayerPrefsManager.PlayerPrefsEnum.RangerUnlocked,
+            _ => PlayerPrefsManager.PlayerPrefsEnum.WarriorUnlocked
+        };
+    }
+
     public void LoadUnlocksIntoQueue(PlayerData playerData, Map mapCompleted)
     {
         if(mapCompleted.Id == MenuManager.TUTORIAL_WORLD_ID)
         {
-            unlocksQueue.Enqueue(new(UnlockableType.Character, (int)Classes.Rogue));
-            unlocksQueue.Enqueue(new(UnlockableType.Character, (int)Classes.Wizard));
+            EnqueueClassIfNotUnlocked(Classes.Rogue);
+            EnqueueClassIfNotUnlocked(Classes.Wizard);
             return;
         }
 
         switch (playerData.CurrentRun.ClassId)
         {
             case Classes.Warrior:
-                unlocksQueue.Enqueue(new(UnlockableType.Character, (int)Classes.Berserk));
+                EnqueueClassIfNotUnlocked(Classes.Berserk);
                 break;
             case Classes.Rogue:
-                unlocksQueue.Enqueue(new(UnlockableType.Character, (int)Classes.Ranger));
+                EnqueueClassIfNotUnlocked(Classes.Ranger);
                 break;
             case Classes.Wizard:
-                unlocksQueue.Enqueue(new(UnlockableType.Character, (int)Classes.Archmage));
+                EnqueueClassIfNotUnlocked(Classes.Archmage);
                 break;
         }
+    }
+
+    public void EnqueueClassIfNotUnlocked(Classes classUnit)
+    {
+        PlayerPrefsManager.PlayerPrefsEnum unlock = GetPrefFromClass(classUnit);
+
+        if(PlayerPrefsManager.GetPref<int>(unlock) == 0)
+            unlocksQueue.Enqueue(new(UnlockableType.Character, (int)classUnit));
     }
 
     public enum UnlockableType

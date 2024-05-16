@@ -180,6 +180,8 @@ public class GameUIManager : MonoBehaviour
         {
             new(card.DescriptionIdValue, cardObj.transform.Find("Effect").GetComponent<TextMeshProUGUI>(), new object[0]{ }),
         });
+
+        cardObj.GetComponent<Image>().color = IClass.GetCardBackgroundColor(card.ClassId);
     }
 
     public void SetPlayerSection(string name, string className, int maxHp, int currentHp, int armor)

@@ -16,6 +16,8 @@ public class CardListData
 {
     public List<Card> StartingCardList;
     public List<Card> WarriorActionCardList;
+    public List<Card> WizardActionCardList;
+    public List<Card> RangerActionCardList;
 }
 
 [Serializable]

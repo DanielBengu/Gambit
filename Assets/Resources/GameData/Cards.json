@@ -78,5 +78,60 @@
       "Name": "+6 Modifier",
       "Quantities": 1
     }
+  ],
+
+  "WizardActionCardList": [
+    {
+      "Id": 5,
+      "Name": "Elemental Wand",
+      "Quantities": 1
+    },
+    {
+      "Id": 6,
+      "Name": "Water Bullet",
+      "Quantities": 3
+    },
+    {
+      "Id": 7,
+      "Name": "Wave Block",
+      "Quantities": 3
+    },
+    {
+      "Id": 3,
+      "Name": "+2 Modifier",
+      "Quantities": 2
+    },
+    {
+      "Id": 4,
+      "Name": "+6 Modifier",
+      "Quantities": 1
+    }
+  ],
+  "RangerActionCardList": [
+    {
+      "Id": 8,
+      "Name": "Sylvan Bow",
+      "Quantities": 1
+    },
+    {
+      "Id": 9,
+      "Name": "Take Aim",
+      "Quantities": 3
+    },
+    {
+      "Id": 10,
+      "Name": "Oak Roots",
+      "Quantities": 3
+    },
+    {
+      "Id": 3,
+      "Name": "+2 Modifier",
+      "Quantities": 2
+    },
+    {
+      "Id": 4,
+      "Name": "+6 Modifier",
+      "Quantities": 1
+    }
   ]
 }

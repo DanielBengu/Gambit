@@ -191,75 +191,18 @@ public class GameManager : MonoBehaviour
         List<ActionCard> startingDeck = new();
 
         CardListData data = JSONManager.GetFileFromJSON<CardListData>(JSONManager.CARDS_PATH);
-        var cardData = GetActionCardList(classOfDeck, data);
+        var cardData = ActionCardArchive.GetActionCardList(classOfDeck, data);
         foreach (var card in cardData)
         {
             for (int i = 0; i < card.Quantities; i++)
             {
-                ActionCard cardToAdd = ConvertIdIntoCard(card.Id);
+                ActionCard cardToAdd = ActionCardArchive.ConvertIdIntoCard(card.Id);
                 if(cardToAdd != null)
                     startingDeck.Add(cardToAdd);
             }
         }
 
         return startingDeck;
-    }
-
-    public static List<Card> GetActionCardList(Classes classOfDeck, CardListData cardData)
-    {
-        return classOfDeck switch
-        {
-            Classes.Warrior => cardData.WarriorActionCardList,
-            _ => cardData.WarriorActionCardList,
-        };
-    }
-
-    public static ActionCard ConvertIdIntoCard(int id)
-    {
-        return id switch
-        {
-            0 => new()
-            {
-                Id = 0,
-                NameIdValue = 32,
-                DescriptionIdValue = 38,
-                ActionId = ActionType.Equip,
-                ClassId = Classes.Warrior
-            },
-            1 => new()
-            {
-                Id = 1,
-                NameIdValue = 33,
-                DescriptionIdValue = 39,
-                ActionId = ActionType.Attack,
-                ClassId = Classes.Warrior
-            },
-            2 => new()
-            {
-                Id = 2,
-                NameIdValue = 34,
-                DescriptionIdValue = 40,
-                ActionId = ActionType.Skill,
-                ClassId = Classes.Warrior
-            },
-            3 => new()
-            {
-                Id = 3,
-                NameIdValue = 36,
-                DescriptionIdValue = 41,
-                ActionId = ActionType.Modifier,
-                ClassId = Classes.Basic
-            },
-            4 => new()
-            {
-                  Id = 4,
-                  NameIdValue = 37,
-                  DescriptionIdValue = 42,
-                  ActionId = ActionType.Modifier,
-                  ClassId = Classes.Basic
-            },
-            _ => null
-        };
     }
 
     public static List<GameCard> CopyDeck(List<GameCard> deck)

@@ -74,7 +74,7 @@ public class Dialogue
             return;
         }
 
-        if (IsSectionCompleted() && InputManager.IsClick())
+        if (IsSectionCompleted() && InputManager.IsClickDown())
         {
             SetupNextDialogue(bubbleText);
             return;

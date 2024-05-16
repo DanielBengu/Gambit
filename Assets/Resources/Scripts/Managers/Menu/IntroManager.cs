@@ -30,7 +30,7 @@ public class IntroManager : MonoBehaviour
 
     private void Update()
     {
-        if(InputManager.IsClick())
+        if(InputManager.IsClickDown())
             OnVideoEnd(videoPlayer);
     }
 }

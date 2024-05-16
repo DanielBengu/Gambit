@@ -21,7 +21,7 @@ public class DialogueManager
 
     public void TickDialogue()
     {
-        if (InputManager.IsClick())
+        if (InputManager.IsClickDown())
         {
             dialogueEvent.HandleClick(bubbleText);
             return;

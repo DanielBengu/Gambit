@@ -377,7 +377,7 @@ public class GameManager : MonoBehaviour
 
     void UnlockCard()
     {
-        UnlockManager.UnlockCard(UnlockManager.UnlockableType.Character, (int)Classes.Berserk, TerminateAndReturnToMenu);
+        UnlockManager.ManageUnlocksByMapCompletion(playerData, currentMap, TerminateAndReturnToMenu);
     }
 
     void TerminateAndReturnToMenu()

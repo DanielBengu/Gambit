@@ -8,7 +8,7 @@ using static PlayerPrefsManager;
 
 public class MenuManager : MonoBehaviour
 {
-    static readonly int TUTORIAL_WORLD_ID = 0;
+    public static readonly int TUTORIAL_WORLD_ID = 0;
 
     public bool forceFirstStart = false;
     public Classes forceClass = Classes.Basic;
@@ -77,6 +77,9 @@ public class MenuManager : MonoBehaviour
         SetPref(PlayerPrefsEnum.HasWonAnyRun, 0);
         SetPref(PlayerPrefsEnum.Language, (int)LanguageManager.Language.English);
 
+        SetPref(PlayerPrefsEnum.WarriorUnlocked, 1);
+        SetPref(PlayerPrefsEnum.RogueUnlocked, 0);
+        SetPref(PlayerPrefsEnum.WizardUnlocked, 0);
         SetPref(PlayerPrefsEnum.BerserkUnlocked, 0);
         SetPref(PlayerPrefsEnum.ArchmageUnlocked, 0);
         SetPref(PlayerPrefsEnum.PoisonerUnlocked, 0);

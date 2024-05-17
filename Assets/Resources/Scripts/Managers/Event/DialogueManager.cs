@@ -40,6 +40,6 @@ public class DialogueManager
 
         dialogueEvent = dialogue;
 
-        AnimationManager.PlayAnimation(character, AnimationManager.SpriteAnimation.UnitIdle, () => { });
+        AnimationManager.PlayAnimation(character, AnimationManager.SpriteAnimation.Idle, () => { });
     }
 }

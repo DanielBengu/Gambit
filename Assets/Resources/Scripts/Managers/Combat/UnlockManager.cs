@@ -27,6 +27,13 @@ public class UnlockManager
 
         LoadUnlocksIntoQueue(playerData, mapCompleted);
 
+        //No unlocks
+        if(unlocksQueue.Count == 0)
+        {
+            callback();
+            return;
+        }
+
         StartQueueUnload();
     }
 

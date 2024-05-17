@@ -42,9 +42,9 @@ public static class AnimationManager
     {
         return animation switch
         {
-            SpriteAnimation.UnitDealingDamage => "DealDamage",
+            SpriteAnimation.UnitDealDamage => "DealDamage",
             SpriteAnimation.UnitTakingDamage => "TakeDamage",
-            SpriteAnimation.UnitIdle => "Idle",
+            SpriteAnimation.Idle => "Idle",
             SpriteAnimation.UnitDeath => "Death",
             SpriteAnimation.UnitTalk => "Talk_Start",
             SpriteAnimation.UnitIntro => "Intro",
@@ -55,9 +55,9 @@ public static class AnimationManager
 
     public enum SpriteAnimation
     {
-        UnitIdle,
+        Idle,
         UnitTakingDamage,
-        UnitDealingDamage,
+        UnitDealDamage,
         UnitDeath,
         UnitTalk,
         UnitIntro,

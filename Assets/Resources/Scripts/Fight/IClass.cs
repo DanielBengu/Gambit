@@ -30,6 +30,9 @@ public abstract class IClass
             case CardType.King:
                 PlayKing(unit, enemy);
                 break;
+            case CardType.Ace: 
+                PlayAce(unit, enemy);
+                break;
             case CardType.Potion:
                 CardsHandler.HandleBasicCards(cardType, unit, unitObj, enemy, enemyObj, card);
                 break;

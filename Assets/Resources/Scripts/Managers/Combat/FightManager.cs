@@ -113,7 +113,12 @@ public class FightManager
 
             GameObject obj = attacker.Character == Character.Player ? playerObj : enemyObj;
 
-            PlayAnimation(obj, SpriteAnimation.UnitDealingDamage, DealDamage);
+            string animation = GetAnimationName(SpriteAnimation.UnitDealDamage);
+
+            if (attacker.Class.Class == Classes.Warrior && attacks.Count > 1)
+                animation = "MultipleAttackStart";
+
+            PlayCustomAnimation(obj, animation, DealDamage);
         }
 
         ResetTurn();
@@ -215,9 +220,37 @@ public class FightManager
 
         if(attacks.Count > 0)
         {
+            string animation = GetAttackAnimation(attack.attacker);
             GameObject newAttacker = attacks.First().attacker.Character == Character.Player ? playerObj: enemyObj;
-            PlayAnimation(newAttacker, SpriteAnimation.UnitDealingDamage, attacks.First().callback);
+            PlayCustomAnimation(newAttacker, animation, attacks.First().callback);
         }
+    }
+
+    public string GetAttackAnimation(FightUnit attacker)
+    {
+        if (attacker.Class.Class != Classes.Warrior)
+            return SpriteAnimation.UnitDealDamage.ToString();
+
+        if (attacks.Count == 1)
+            return "MultipleAttackEnd";
+        else
+            return "MultipleAttackSingleAttack";
+    }
+
+    bool IsInMultipleAttackAnimation(GameObject attackerObj)
+    {
+        if (!attackerObj.TryGetComponent<Animator>(out var animator))
+        {
+            Debug.LogError("Animator component not found on attacker object.");
+            return false;
+        }
+
+        AnimatorStateInfo currentAnimationState = animator.GetCurrentAnimatorStateInfo(0);
+
+        if (currentAnimationState.IsName("MultipleAttackStart") || currentAnimationState.IsName("MultipleAttackSingleAttack"))
+            return true;
+
+        return false;
     }
 
     public Action GetAnimationCallback(SpriteAnimation animation, Character character)
@@ -225,8 +258,8 @@ public class FightManager
         return animation switch
         {
             SpriteAnimation.UnitTakingDamage => () => { },
-            SpriteAnimation.UnitDealingDamage => () => { },
-            SpriteAnimation.UnitIdle => () => { },
+            SpriteAnimation.UnitDealDamage => () => { },
+            SpriteAnimation.Idle => () => { },
             SpriteAnimation.UnitDeath => character == Character.Player ? HandlePlayerDeath : HandleEnemyDeath,
             _ => () => { },
         };

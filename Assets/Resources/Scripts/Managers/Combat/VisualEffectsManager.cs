@@ -58,7 +58,7 @@ public class VisualEffectsManager : MonoBehaviour
 
             string currentAnimationName = anim.objectToAnimate.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
-            if (currentAnimationName == GetAnimationName(SpriteAnimation.UnitIdle))
+            if (currentAnimationName == GetAnimationName(SpriteAnimation.Idle))
             {
                 anim.callback();
                 if(animatingSprites.Contains(anim))

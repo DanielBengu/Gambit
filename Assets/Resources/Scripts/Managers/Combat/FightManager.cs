@@ -208,6 +208,8 @@ public class FightManager
         if (attacks.Count == 0)
             return;
 
+        gameManager.ShakeGround();
+
         AttackStruct attack = attacks.Dequeue();
 
         FightUnit unitTakingDamage = attack.defender;
@@ -235,22 +237,6 @@ public class FightManager
             return "MultipleAttackEnd";
         else
             return "MultipleAttackSingleAttack";
-    }
-
-    bool IsInMultipleAttackAnimation(GameObject attackerObj)
-    {
-        if (!attackerObj.TryGetComponent<Animator>(out var animator))
-        {
-            Debug.LogError("Animator component not found on attacker object.");
-            return false;
-        }
-
-        AnimatorStateInfo currentAnimationState = animator.GetCurrentAnimatorStateInfo(0);
-
-        if (currentAnimationState.IsName("MultipleAttackStart") || currentAnimationState.IsName("MultipleAttackSingleAttack"))
-            return true;
-
-        return false;
     }
 
     public Action GetAnimationCallback(SpriteAnimation animation, Character character)

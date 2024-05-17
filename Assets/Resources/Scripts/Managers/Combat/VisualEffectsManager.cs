@@ -5,9 +5,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using static AnimationManager;
 using static VisualEffectsManager.MovingObject;
+using Random = UnityEngine.Random;
 
 public class VisualEffectsManager : MonoBehaviour
 {
+    static readonly float SHAKE_MAGNITUDE = 1.2f;
+    static readonly float SHAKE_DURATION = 0.1f;
+    float timeElapsed = 0;
+
     public List<MovingObject> movingObjects = new();
     readonly float movementThreshold = 1f;
 
@@ -111,8 +116,32 @@ public class VisualEffectsManager : MonoBehaviour
                         i--;
                     }
                     break;
+                case Effects.ShakeFightGround:
+                    ShakeGround(effect);
+                    break;
             }
         }
+    }
+
+    void ShakeGround(EffectsStruct effect)
+    {
+        Vector3 originalPosition = (Vector3)effect.parameters[0];
+
+        while (timeElapsed < SHAKE_DURATION)
+        {
+            float x = originalPosition.x + Random.Range(-0.5f, 0.5f) * SHAKE_MAGNITUDE;
+            float y = originalPosition.y + Random.Range(-1f, 1f) * SHAKE_MAGNITUDE;
+
+            effect.obj.transform.position = new Vector3(x, y, effect.obj.transform.position.z);
+
+            timeElapsed += Time.deltaTime;
+
+            return;
+        }
+
+        timeElapsed = 0f;
+        effects.Remove(effect);
+        effect.callback();
     }
 
     public void RemoveFromLists(GameObject obj)
@@ -131,7 +160,8 @@ public class VisualEffectsManager : MonoBehaviour
     {
         LightenBlackScreen,
         DarkenBlackScreen,
-        MenuStartGame
+        MenuStartGame,
+        ShakeFightGround
     }
 
     public struct MovingObject
@@ -181,12 +211,14 @@ public class VisualEffectsManager : MonoBehaviour
         public Effects effect;
         public GameObject obj;
         public Action callback;
+        public object[] parameters;
 
-        public EffectsStruct(Effects effect, GameObject obj, Action action)
+        public EffectsStruct(Effects effect, GameObject obj, Action action, object[] param)
         {
             this.effect = effect;
             this.obj = obj;
             callback = action;
+            parameters = param;
         }
     }
 }

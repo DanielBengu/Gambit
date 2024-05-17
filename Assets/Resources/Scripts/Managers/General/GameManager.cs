@@ -14,6 +14,11 @@ using static Map;
 
 public class GameManager : MonoBehaviour
 {
+    #region Managers
+
+    #endregion
+
+
     public FightManager FightManager { get; set; }
     public EventManager EventManager { get; set; }
     public UnlockManager UnlockManager { get; set; }
@@ -40,6 +45,9 @@ public class GameManager : MonoBehaviour
 
     Action callbackFightVictory;
 
+    public GameObject groundObject;
+    Vector3 groundOriginalPosition;
+
     #region Unlock section
 
     public GameObject unlockParent;
@@ -52,6 +60,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         LoadData();
+        LoadVariables();
 
         if (!playerData.CurrentRun.IsOngoing)
         {
@@ -68,6 +77,11 @@ public class GameManager : MonoBehaviour
         playerData = SaveManager.LoadPlayerData();
         currentMap = JSONManager.GetFileFromJSON<MapData>(JSONManager.MAPS_PATH).Maps.Find(m => m.Id == playerData.CurrentRun.MapId);
         UnlockManager = new(unlockParent);
+    }
+
+    void LoadVariables()
+    {
+        groundOriginalPosition = groundObject.transform.position;
     }
 
     void LoadGameSetup()
@@ -162,6 +176,22 @@ public class GameManager : MonoBehaviour
     void SetupBlackScreen(Action callback, VisualEffectsManager.Effects screen)
     {
         gameUIManager.SetupBlackScreen(true, screen, effectsManager, callback);
+    }
+
+    public void ShakeGround()
+    {
+        effectsManager.effects.Add(new()
+        {
+            effect = VisualEffectsManager.Effects.ShakeFightGround,
+            callback = ResetGround,
+            obj = groundObject,
+            parameters = new object[1] { groundObject.transform.position }
+        });
+    }
+
+    void ResetGround()
+    {
+        groundObject.transform.position = groundOriginalPosition;
     }
 
     public static List<GameCard> GetStartingDeck(Classes classOfDeck)

@@ -37,10 +37,10 @@
     {
       "Id": 2,
       "Name": "Kaldor",
-      "Armor": 0,
-      "HP": 50,
+      "Armor": 1,
+      "HP": 20,
       "BaseMaxScore": 12,
-      "BaseStandThreshold": -1,
+      "BaseStandThreshold": 7,
       "UnitClass": -1,
       "IsCustomDecklist": false,
       "Rewards": [
@@ -55,9 +55,9 @@
       "Id": 3,
       "Name": "Fungo",
       "Armor": 0,
-      "HP": 1,
+      "HP": 10,
       "BaseMaxScore": 12,
-      "BaseStandThreshold": -1,
+      "BaseStandThreshold": 7,
       "UnitClass": -1,
       "IsCustomDecklist": false,
       "Rewards": [

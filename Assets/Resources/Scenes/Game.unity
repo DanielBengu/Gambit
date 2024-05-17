@@ -2037,7 +2037,13 @@ MonoBehaviour:
   currentEncounter:
     Id: 0
     Type: 0
+  groundObject: {fileID: 1810955177}
   unlockParent: {fileID: 963516081}
+--- !u!1 &1810955177 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 264182022110428445, guid: 22ee1da2ee2995f4b9df1a7866d819b0, type: 3}
+  m_PrefabInstance: {fileID: 5202685207109106780}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1900741757 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8830868172308842257, guid: 7b962fa0635b0c942b01d0fb8012cac5, type: 3}

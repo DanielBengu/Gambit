@@ -203,6 +203,18 @@
     {
       "Id": 50,
       "Value": "Oak Roots"
+    },
+    {
+      "Id": 51,
+      "Value": "Iron Dagger"
+    },
+    {
+      "Id": 52,
+      "Value": "Steel Enhancement"
+    },
+    {
+      "Id": 53,
+      "Value": "Iron Stance"
     }
   ]
 }

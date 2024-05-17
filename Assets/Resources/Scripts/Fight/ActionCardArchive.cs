@@ -53,6 +53,7 @@ namespace Assets.Resources.Scripts.Fight
                 Classes.Warrior => cardData.WarriorActionCardList,
                 Classes.Wizard => cardData.WizardActionCardList,
                 Classes.Ranger => cardData.RangerActionCardList,
+                Classes.Rogue => cardData.RogueActionCardList,
                 _ => cardData.WarriorActionCardList,
             };
         }
@@ -149,6 +150,30 @@ namespace Assets.Resources.Scripts.Fight
                     ActionId = ActionType.Skill,
                     ClassId = Classes.Ranger
                 },
+                11 => new()
+                {
+                    Id = 11,
+                    NameIdValue = 51,
+                    DescriptionIdValue = 38,
+                    ActionId = ActionType.Equip,
+                    ClassId = Classes.Rogue
+                },
+                12 => new()
+                {
+                    Id = 12,
+                    NameIdValue = 52,
+                    DescriptionIdValue = 39,
+                    ActionId = ActionType.Attack,
+                    ClassId = Classes.Rogue
+                },
+                13 => new()
+                {
+                    Id = 13,
+                    NameIdValue = 53,
+                    DescriptionIdValue = 40,
+                    ActionId = ActionType.Skill,
+                    ClassId = Classes.Rogue
+                },
                 _ => null
             };
         }
@@ -157,7 +182,7 @@ namespace Assets.Resources.Scripts.Fight
         {
             return animationId switch
             {
-                2 or 7 or 10 => "Defend",
+                2 or 7 or 10 or 13 => "Defend",
                 _ => string.Empty,
             };
         }

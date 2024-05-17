@@ -81,7 +81,7 @@ SpriteRenderer:
   m_Size: {x: 0.19, y: 0.14}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &5515252961475182823
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 7554968565296824327}
   - component: {fileID: 5470875751856871870}
   m_Layer: 0
-  m_Name: Rogue
+  m_Name: Kobold Rogue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113,7 +113,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 6, y: 6, z: 6}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7492126775803557963}
@@ -161,7 +161,7 @@ SpriteRenderer:
   m_SortingLayerID: 1224476181
   m_SortingLayer: 1
   m_SortingOrder: 1
-  m_Sprite: {fileID: 824399249, guid: 1abbbe9768b487340a23141e983f146c, type: 3}
+  m_Sprite: {fileID: -1175143338, guid: 6fdbd9dae7edcaa44a1ed478810c9a3c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -182,7 +182,7 @@ Animator:
   m_GameObject: {fileID: 5515252961475182823}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: aa74c958173a2644db83b53ed012a077, type: 2}
+  m_Controller: {fileID: 9100000, guid: ddbc59f72ea50764ebebd88ba7c63abd, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -231,7 +231,7 @@ Transform:
   m_GameObject: {fileID: 7996356097842147088}
   serializedVersion: 2
   m_LocalRotation: {x: 0.6504899, y: -0, z: -0, w: 0.759515}
-  m_LocalPosition: {x: -0.037, y: -0.627, z: -0.000000042064}
+  m_LocalPosition: {x: -0.037, y: -0.409, z: -0.000000042064}
   m_LocalScale: {x: 0.6, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -133,5 +133,32 @@
       "Name": "+6 Modifier",
       "Quantities": 1
     }
+  ],
+  "RogueActionCardList": [
+    {
+      "Id": 11,
+      "Name": "Iron Dagger",
+      "Quantities": 1
+    },
+    {
+      "Id": 12,
+      "Name": "Steel Enhancement",
+      "Quantities": 3
+    },
+    {
+      "Id": 13,
+      "Name": "Iron Stance",
+      "Quantities": 3
+    },
+    {
+      "Id": 3,
+      "Name": "+2 Modifier",
+      "Quantities": 2
+    },
+    {
+      "Id": 4,
+      "Name": "+6 Modifier",
+      "Quantities": 1
+    }
   ]
 }

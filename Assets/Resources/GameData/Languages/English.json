@@ -154,7 +154,7 @@
     },
     {
       "Id": 38,
-      "Value": "Add another attack if turn winner"
+      "Value": "+1 attack this turn"
     },
     {
       "Id": 39,
@@ -166,11 +166,11 @@
     },
     {
       "Id": 41,
-      "Value": "Adds +2 to current score"
+      "Value": "+2 to score"
     },
     {
       "Id": 42,
-      "Value": "Adds +6 to current score"
+      "Value": "+6 to score"
     },
     {
       "Id": 43,

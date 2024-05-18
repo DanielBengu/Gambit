@@ -542,7 +542,7 @@ public class FightManager
         switch (character)
         {
             case Character.Player:
-                if (Player.FightCurrentDeck.Count == 0)
+                if (Player.FightCurrentDeck.Count == 0 && Player.FightBaseDeck.Count == 0)
                     return;
                 HandleCardDrawn(character, Player, PlayerCardAnimationCallback);
                 if (Player.status != CharacterStatus.Playing)

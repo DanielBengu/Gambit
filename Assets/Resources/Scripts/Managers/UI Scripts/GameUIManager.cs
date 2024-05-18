@@ -152,7 +152,7 @@ public class GameUIManager : MonoBehaviour
         float x = position - vertexPositionX;
         float c = - x * 10;
 
-        float cardPositionX = basePosition.x + (x * 1.2f * scale);
+        float cardPositionX = basePosition.x + (x * 1.4f * scale);
         float cardPositionY = basePosition.y - (Math.Abs(c) / 20 * scale);
 
         return new(cardPositionX, cardPositionY, basePosition.z);
@@ -169,7 +169,7 @@ public class GameUIManager : MonoBehaviour
 
     void UpdateActionCardUI(GameObject cardObj, ActionCard card)
     {
-        cardObj.transform.Find("Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/Icons/Icon_Crown");
+        cardObj.transform.Find("Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/Icons/ActionCard/{card.Id}");
 
         languageManager.SetLanguageValues(new()
         {
@@ -181,7 +181,7 @@ public class GameUIManager : MonoBehaviour
             new(card.DescriptionIdValue, cardObj.transform.Find("Effect").GetComponent<TextMeshProUGUI>(), new object[0]{ }),
         });
 
-        cardObj.GetComponent<Image>().color = IClass.GetCardBackgroundColor(card.ClassId);
+        //cardObj.GetComponent<Image>().color = IClass.GetCardBackgroundColor(card.ClassId);
     }
 
     public void SetPlayerSection(string name, string className, int maxHp, int currentHp, int armor)

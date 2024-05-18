@@ -11,12 +11,21 @@ namespace Assets.Resources.Scripts.Fight
             switch (cardId)
             {
                 case 0:
+                case 5:
+                case 8:
+                case 11:
                     ApplyModifier(unit, Stats.Attacks, 1, 1);
                     break;
-                case 1: 
+                case 1:
+                case 6:
+                case 9:
+                case 12:
                     ApplyModifier(unit, Stats.Damage, 1, 2); 
                     break;
                 case 2:
+                case 7:
+                case 10:
+                case 13:
                     ApplyModifier(unit, Stats.Armor, 1, 2);
                     break;
                 case 3:
@@ -24,15 +33,6 @@ namespace Assets.Resources.Scripts.Fight
                     break;
                 case 4:
                     AddScore(unit, 6);
-                    break;
-                case 5:
-                    ApplyModifier(unit, Stats.Attacks, 1, 1);
-                    break;
-                case 6:
-                    ApplyModifier(unit, Stats.Damage, 1, 2);
-                    break;
-                case 7:
-                    ApplyModifier(unit, Stats.Armor, 1, 2);
                     break;
             }
         }

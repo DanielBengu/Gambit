@@ -92,6 +92,7 @@
     <Compile Include="Assets\Resources\Scripts\Event\Tutorial\KaldorBoss.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\IClass.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\Classes\Rogue.cs" />
+    <Compile Include="Assets\InfiniteScrollImage.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Combat\UnitAnimationManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\FightUnit.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Config\JSONManager.cs" />

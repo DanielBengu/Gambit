@@ -193,14 +193,17 @@ public class GameUIManager : MonoBehaviour
 
     public void UpdateGoldAmount(int gold)
     {
-        goldAmountText.text = $"Gold: {gold}";
+        languageManager.SetLanguageValues(new()
+        {
+            new(54, goldAmountText, new object[1] {gold})
+        });
     }
 
     public void SetUnitTitle(TextMeshProUGUI textObj, string name, string unitClass)
     {
         languageManager.SetLanguageValues(new()
         {
-            new(7, textObj, new object[2]{ name, unitClass }),
+            new(7, textObj, new object[2]{ name.ToUpper(), unitClass }),
         });
     }
 

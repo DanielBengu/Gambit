@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Welcome : EventParent
 {
-    public string TutorialGuyName { get => dialogueManager.languageManager.GetText(16); }
+    public string TutorialGirlName { get => dialogueManager.languageManager.GetText(16); }
 
     public override int EventId { get => 0; }
     public override int NumberOfEvents { get => 5; }
@@ -13,7 +13,7 @@ public class Welcome : EventParent
     {
     }
 
-    public override void LoadNextStep()
+    public async override void LoadNextStep()
     {
         CurrentEventCount++;
 
@@ -21,6 +21,7 @@ public class Welcome : EventParent
         {
             case 0:
                 LoadCharacter(CurrentEventCount);
+                await ExecuteWithDelay(LoadNextStep, 3f);
                 break;
             case 1:
                 var dialogueList = LoadDialogue(1);
@@ -49,8 +50,8 @@ public class Welcome : EventParent
             case 2:
                 LoadChoiceManager(new()
                 {
-                    new(choices.transform.GetChild(0).gameObject, dialogueManager.languageManager.GetText(11), "Icon_Star", new(){ RaiseArmor, LoadNextStep }),
-                    new(choices.transform.GetChild(1).gameObject, dialogueManager.languageManager.GetText(12), "Icon_Crown", new() { RaiseMaxHP, LoadNextStep }),
+                    new(choices.transform.GetChild(0).gameObject, dialogueManager.languageManager.GetText(11), "Icon_Shield", new(){ RaiseArmor, LoadNextStep }),
+                    new(choices.transform.GetChild(1).gameObject, dialogueManager.languageManager.GetText(12), "Icon_Heart", new() { RaiseMaxHP, LoadNextStep }),
                 });
                 break;
             default:
@@ -85,7 +86,7 @@ public class Welcome : EventParent
         switch (character)
         {
             case 0:
-                SetupCharacter(TutorialGuyName, true);
+                SetupCharacter(TutorialGirlName, false);
                 break;
             default:
                 break;

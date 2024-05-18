@@ -23,7 +23,7 @@ public class ChoiceManager
             var choiceTransform = choice.GetObject().transform;
 
             choice.AddCallback(ResetAllChoices);
-            choice.GetObject().transform.SetPositionAndRotation(GameUIManager.GetCardPosition(i, choices.Count, centerPoint.position, 2.3f), GameUIManager.GetCardRotation(i, choices.Count, choiceTransform.rotation.x, choiceTransform.rotation.y));
+            choice.GetObject().transform.SetPositionAndRotation(GameUIManager.GetCardPosition(i, choices.Count, centerPoint.position, 2f), GameUIManager.GetCardRotation(i, choices.Count, choiceTransform.rotation.x, choiceTransform.rotation.y));
         }
     }
 
@@ -64,7 +64,7 @@ public class ChoiceManager
             }
 
             obj.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = description;
-            obj.transform.Find("Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/Icons/{iconName}");
+            obj.transform.Find("Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/Icons/General/{iconName}");
             obj.SetActive(true);
         }
     }

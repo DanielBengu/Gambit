@@ -30,6 +30,7 @@ public class FightUnit : UnitData
     public int Attacks { get { return GetUpdatedStat(Stats.Attacks); } }
     public int CurrentMaxScore { get { return GetUpdatedStat(Stats.MaxScore); } }
     public int CardDrawnForTurn { get { return GetUpdatedStat(Stats.CardDrawnForTurn); } }
+    public int Damage { get { return GetUpdatedStat(Stats.Damage); } }
 
     #endregion
 
@@ -206,7 +207,7 @@ public class FightUnit : UnitData
         if (currentScore >= CRIT_SCORE)
             baseDamage *= 2;
 
-        return baseDamage;
+        return baseDamage + Damage;
     }
 
     public struct Modifiers

@@ -18,15 +18,15 @@
     },
     {
       "Id": 4,
-      "Value": "Bust Chance: {0}%"
+      "Value": "BUST CHANCE: {0}%"
     },
     {
       "Id": 5,
-      "Value": "Success: {0}% ({1}/{2})"
+      "Value": "SUCCESS: {0}% ({1}/{2})"
     },
     {
       "Id": 6,
-      "Value": "Success: ???"
+      "Value": "SUCCESS: ???"
     },
     {
       "Id": 7,
@@ -34,7 +34,7 @@
     },
     {
       "Id": 8,
-      "Value": "Cards in deck: {0}"
+      "Value": "CARDS IN DECK: {0}"
     },
     {
       "Id": 9,
@@ -42,7 +42,7 @@
     },
     {
       "Id": 10,
-      "Value": "HEALTH {0}/{1}"
+      "Value": "HP {0}/{1}"
     },
     {
       "Id": 11,
@@ -110,15 +110,15 @@
     },
     {
       "Id": 27,
-      "Value": "Congratulation for completing the tutorial, traveler"
+      "Value": "CONGRATULATION FOR COMPLETING THE TUTORIAL, TRAVELER"
     },
     {
       "Id": 28,
-      "Value": "Unfortunately, your journey ends here."
+      "Value": "UNFORTUNATELY, YOUR JOURNEY ENDS HERE."
     },
     {
       "Id": 29,
-      "Value": "I will reward you if successfull.\nTo help your quest, choose a blessing"
+      "Value": "I WILL REWARD YOU IF SUCCESSFULL.\nTO HELP YOUR QUEST, CHOOSE A BLESSING"
     },
     {
       "Id": 30,
@@ -130,47 +130,47 @@
     },
     {
       "Id": 32,
-      "Value": "Pointy stick"
+      "Value": "FLAME BLADE"
     },
     {
       "Id": 33,
-      "Value": "Khauri Slash"
+      "Value": "KHAURI SLASH"
     },
     {
       "Id": 34,
-      "Value": "Sylvan Bow"
+      "Value": "SYLVAN BOW"
     },
     {
       "Id": 35,
-      "Value": "Stick Parry"
+      "Value": "STICK PARRY"
     },
     {
       "Id": 36,
-      "Value": "+2 Modifier"
+      "Value": "+2 MODIFIER"
     },
     {
       "Id": 37,
-      "Value": "+6 Modifier"
+      "Value": "+6 MODIFIER"
     },
     {
       "Id": 38,
-      "Value": "+1 attack this turn"
+      "Value": "+1 ATTACK THIS TURN"
     },
     {
       "Id": 39,
-      "Value": "+2 damage this turn"
+      "Value": "+2 DMG THIS TURN"
     },
     {
       "Id": 40,
-      "Value": "+2 armor this turn"
+      "Value": "+2 ARMOR THIS TURN"
     },
     {
       "Id": 41,
-      "Value": "+2 to score"
+      "Value": "+2 POINT SCORE"
     },
     {
       "Id": 42,
-      "Value": "+6 to score"
+      "Value": "+6 POINT SCORE"
     },
     {
       "Id": 43,
@@ -178,43 +178,47 @@
     },
     {
       "Id": 44,
-      "Value": "Add Health Potion\n{0} Health"
+      "Value": "ADD HEALTH POTION\n{0} HEALTH"
     },
     {
       "Id": 45,
-      "Value": "Add Poison Potion\nDeals {0} damage"
+      "Value": "ADD POISON POTION\nDEALS {0} DMG"
     },
     {
       "Id": 46,
-      "Value": "Elemental Wand"
+      "Value": "ELEMENTAL WAND"
     },
     {
       "Id": 47,
-      "Value": "Water Bullet"
+      "Value": "WATER BULLET"
     },
     {
       "Id": 48,
-      "Value": "Wave Block"
+      "Value": "WAVE BLOCK"
     },
     {
       "Id": 49,
-      "Value": "Take Aim"
+      "Value": "TAKE AIM"
     },
     {
       "Id": 50,
-      "Value": "Oak Roots"
+      "Value": "OAK ROOTS"
     },
     {
       "Id": 51,
-      "Value": "Iron Dagger"
+      "Value": "IRON DAGGER"
     },
     {
       "Id": 52,
-      "Value": "Steel Enhancement"
+      "Value": "STEEL ENHANCEMENT"
     },
     {
       "Id": 53,
-      "Value": "Iron Stance"
+      "Value": "IRON STANCE"
+    },
+    {
+      "Id": 54,
+      "Value": "GOLD: {0}"
     }
   ]
 }

@@ -10,9 +10,9 @@ public static class CardsManager
         Warrior,
         Rogue,
         Wizard,
-        Berserk,
+        Monk,
         Ranger,
-        Archmage,
+        Crystal,
         Trickster
     }
 }

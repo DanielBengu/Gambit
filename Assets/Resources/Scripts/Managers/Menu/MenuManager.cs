@@ -40,8 +40,8 @@ public class MenuManager : MonoBehaviour
         SetPref(PlayerPrefsEnum.WarriorUnlocked, 1);
         SetPref(PlayerPrefsEnum.RogueUnlocked, 1);
         SetPref(PlayerPrefsEnum.WizardUnlocked, 1);
-        SetPref(PlayerPrefsEnum.BerserkUnlocked, 1);
-        SetPref(PlayerPrefsEnum.ArchmageUnlocked, 1);
+        SetPref(PlayerPrefsEnum.MonkUnlocked, 1);
+        SetPref(PlayerPrefsEnum.CrystalUnlocked, 1);
         SetPref(PlayerPrefsEnum.RangerUnlocked, 1);
         SetPref(PlayerPrefsEnum.TricksterUnlocked, 1);
     }
@@ -94,8 +94,8 @@ public class MenuManager : MonoBehaviour
         SetPref(PlayerPrefsEnum.WarriorUnlocked, 1);
         SetPref(PlayerPrefsEnum.RogueUnlocked, 0);
         SetPref(PlayerPrefsEnum.WizardUnlocked, 0);
-        SetPref(PlayerPrefsEnum.BerserkUnlocked, 0);
-        SetPref(PlayerPrefsEnum.ArchmageUnlocked, 0);
+        SetPref(PlayerPrefsEnum.MonkUnlocked, 0);
+        SetPref(PlayerPrefsEnum.CrystalUnlocked, 0);
         SetPref(PlayerPrefsEnum.RangerUnlocked, 0);
         SetPref(PlayerPrefsEnum.TricksterUnlocked, 0);
 

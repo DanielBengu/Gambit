@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using static CardsManager;
@@ -129,11 +130,12 @@ public class MenuOptions : MonoBehaviour
 
     public void LoadCharacterCard(GameObject card, string characterName, bool isUnlocked)
     {
-        Image sprite = card.transform.Find("Sprite").GetComponent<Image>();
+        Image sprite = card.transform.Find("Icon").GetComponent<Image>();
+        Image bg = card.transform.Find("Background").GetComponent<Image>();
         TextMeshProUGUI title = card.transform.Find("Title").GetComponent<TextMeshProUGUI>();
 
         sprite.sprite = Resources.Load<Sprite>($"Sprites/Characters/{characterName}/{characterName}");
-
+        bg.color = IClass.GetCardBackgroundColor((Classes)Enum.Parse(typeof(Classes), characterName)); 
 
         if (isUnlocked)
         {

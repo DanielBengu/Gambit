@@ -107,9 +107,9 @@ public class TurnManager
             case Classes.Basic:
             case Classes.Warrior:
             case Classes.Wizard:
-            case Classes.Berserk:
+            case Classes.Monk:
             case Classes.Ranger:
-            case Classes.Archmage:
+            case Classes.Crystal:
             case Classes.Trickster:
             default:
                 break;

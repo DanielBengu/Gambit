@@ -121,10 +121,10 @@ public class FightUnit : UnitData
             case Classes.Trickster:
                 Class = new Warrior(manager);
                 break;
-            case Classes.Berserk:
+            case Classes.Monk:
                 Class = new Warrior(manager);
                 break;
-            case Classes.Archmage:
+            case Classes.Crystal:
                 Class = new Warrior(manager);
                 break;
             case Classes.Ranger:

@@ -96,9 +96,9 @@ public class UnlockManager
             Classes.Warrior => PlayerPrefsManager.PlayerPrefsEnum.WarriorUnlocked,
             Classes.Rogue => PlayerPrefsManager.PlayerPrefsEnum.RogueUnlocked,
             Classes.Wizard => PlayerPrefsManager.PlayerPrefsEnum.WizardUnlocked,
-            Classes.Berserk => PlayerPrefsManager.PlayerPrefsEnum.BerserkUnlocked,
+            Classes.Monk => PlayerPrefsManager.PlayerPrefsEnum.MonkUnlocked,
             Classes.Trickster => PlayerPrefsManager.PlayerPrefsEnum.TricksterUnlocked,
-            Classes.Archmage => PlayerPrefsManager.PlayerPrefsEnum.ArchmageUnlocked,
+            Classes.Crystal => PlayerPrefsManager.PlayerPrefsEnum.CrystalUnlocked,
             Classes.Ranger => PlayerPrefsManager.PlayerPrefsEnum.RangerUnlocked,
             _ => PlayerPrefsManager.PlayerPrefsEnum.WarriorUnlocked
         };
@@ -116,13 +116,13 @@ public class UnlockManager
         switch (playerData.CurrentRun.ClassId)
         {
             case Classes.Warrior:
-                EnqueueClassIfNotUnlocked(Classes.Berserk);
+                EnqueueClassIfNotUnlocked(Classes.Monk);
                 break;
             case Classes.Rogue:
                 EnqueueClassIfNotUnlocked(Classes.Ranger);
                 break;
             case Classes.Wizard:
-                EnqueueClassIfNotUnlocked(Classes.Archmage);
+                EnqueueClassIfNotUnlocked(Classes.Crystal);
                 break;
         }
     }

@@ -47,8 +47,8 @@ public abstract class IClass
             Classes.Rogue => Color.yellow,
             Classes.Wizard => Color.blue,
             Classes.Ranger => Color.green,
-            Classes.Berserk => Color.magenta,
-            Classes.Archmage => Color.white,
+            Classes.Monk => Color.magenta,
+            Classes.Crystal => Color.white,
             Classes.Trickster => Color.cyan,
             _ => Color.grey,
         };

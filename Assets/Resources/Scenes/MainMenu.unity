@@ -1119,7 +1119,7 @@ MonoBehaviour:
   basePositionCenter: {fileID: 126609382}
   outScreenPosition: {fileID: 1111142349}
   characterParent: {fileID: 1861243350}
-  cardPrefab: {fileID: 4896288060793630517, guid: b377ff9421971c34cbb4d2518fc48f6c, type: 3}
+  cardPrefab: {fileID: 4896288060793630517, guid: 1dc0e6efa7621ae48b57f5e935908720, type: 3}
   gameTitle: {fileID: 1710986386}
   characterCards: []
   cardMovementSpeed: 7

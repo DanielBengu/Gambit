@@ -66,8 +66,8 @@ public static class PlayerPrefsManager
         WarriorUnlocked,
         RogueUnlocked,
         WizardUnlocked,
-        BerserkUnlocked,
-        ArchmageUnlocked,
+        MonkUnlocked,
+        CrystalUnlocked,
         RangerUnlocked,
         TricksterUnlocked,
     }

@@ -48,6 +48,8 @@ public class GameManager : MonoBehaviour
     public GameObject groundObject;
     Vector3 groundOriginalPosition;
 
+    public GameObject goldReward;
+
     #region Unlock section
 
     public GameObject unlockParent;
@@ -104,6 +106,7 @@ public class GameManager : MonoBehaviour
             FightManager.HandleEndTurn();
 
         EventManager?.Update();
+        FightManager?.Update();
     }
 
     public void LoadEnemy(GameObject enemy)
@@ -159,7 +162,7 @@ public class GameManager : MonoBehaviour
         callbackFightVictory = callback;
 
         enemyData.BaseDecklist = enemyData.IsCustomDecklist ? GetStartingDeck(0) : GetStartingDeck(0);
-        FightManager = new(enemyData, playerData.CurrentRun.CardList, playerData.CurrentRun.ActionDeck, playerData.UnitData, playerData.CurrentRun.ClassId, gameUIManager, effectsManager, enemyManager, player, enemy, this);
+        FightManager = new(enemyData, playerData.CurrentRun.CardList, playerData.CurrentRun.ActionDeck, playerData.UnitData, playerData.CurrentRun.ClassId, gameUIManager, effectsManager, enemyManager, player, enemy, this, goldReward);
 
         Status = GameStatus.Fight;
     }
@@ -183,7 +186,7 @@ public class GameManager : MonoBehaviour
         effectsManager.effects.Add(new()
         {
             effect = VisualEffectsManager.Effects.ShakeFightGround,
-            callback = ResetGround,
+            callback = new() { ResetGround },
             obj = groundObject,
             parameters = new object[1] { groundObject.transform.position }
         });

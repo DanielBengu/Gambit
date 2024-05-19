@@ -90,7 +90,7 @@ public class GameUIManager : MonoBehaviour
             {
                 obj = blackScreen.gameObject,
                 effect = effect,
-                callback = callback
+                callback = new() { callback }
             });
     }
 

@@ -29,6 +29,9 @@ public static class AnimationManager
 
     public static void PlayCustomAnimation(GameObject unit, string animation, Action callback)
     {
+        if (animation == string.Empty)
+            return;
+
         Animator animator = unit.GetComponent<Animator>();
 
         animator.Play(animation, 0, 0f);
@@ -36,6 +39,26 @@ public static class AnimationManager
         UnitAnimationManager animationManager = unit.GetComponent<UnitAnimationManager>();
 
         animationManager.SaveAnimationCallback(animation, callback);
+    }
+
+    public static string GetAnimationOfObject(GameObject obj)
+    {
+        if (!obj.TryGetComponent<Animator>(out var animator))
+        {
+            Debug.LogError("GameObject does not have an Animator component.");
+            return null;
+        }
+
+        AnimatorClipInfo[] clipInfos = animator.GetCurrentAnimatorClipInfo(0);
+
+        // Check if any clip is playing
+        if (clipInfos.Length == 0)
+        {
+            return string.Empty;
+        }
+
+        // Return the name of the currently playing animation clip
+        return clipInfos[0].clip.name;
     }
 
     public static string GetAnimationName(SpriteAnimation animation)
@@ -49,6 +72,7 @@ public static class AnimationManager
             SpriteAnimation.UnitTalk => "Talk_Start",
             SpriteAnimation.UnitIntro => "Intro",
             SpriteAnimation.UnitDefend => "Defend",
+            SpriteAnimation.ChestOpen => "ChestOpen",
             _ => string.Empty,
         };
     }
@@ -61,6 +85,7 @@ public static class AnimationManager
         UnitDeath,
         UnitTalk,
         UnitIntro,
-        UnitDefend
+        UnitDefend,
+        ChestOpen
     }
 }

@@ -161,7 +161,7 @@ public class MenuManager : MonoBehaviour
         effectsManager.effects.Add(new()
         {
             obj = blackScreen,
-            callback = LoadSceneGame,
+            callback = new() { LoadSceneGame },
             effect = VisualEffectsManager.Effects.MenuStartGame
         });
         blackScreen.SetActive(true);

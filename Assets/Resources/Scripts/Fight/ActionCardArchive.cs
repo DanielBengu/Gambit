@@ -186,5 +186,31 @@ namespace Assets.Resources.Scripts.Fight
                 _ => string.Empty,
             };
         }
+
+        public static int GetCardPointValue(GameCard card)
+        {
+            int valueToAdd = 0;
+
+            switch (card.cardType)
+            {
+                case CardType.One:
+                case CardType.Two:
+                case CardType.Three:
+                case CardType.Four:
+                case CardType.Five:
+                case CardType.Six:
+                    valueToAdd = card.value;
+                    break;
+                case CardType.Ace:
+                case CardType.Jack:
+                case CardType.Queen:
+                case CardType.King:
+                case CardType.Potion:
+                    valueToAdd = 0;
+                    break;
+            }
+
+            return valueToAdd;
+        }
     }
 }

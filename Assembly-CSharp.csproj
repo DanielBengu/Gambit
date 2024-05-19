@@ -64,6 +64,7 @@
     <Compile Include="Assets\Resources\Scripts\Managers\Config\SavesManager.cs" />
     <Compile Include="Assets\Resources\Scripts\JsonClasses\Maps.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Combat\FightManager.cs" />
+    <Compile Include="Assets\Resources\Scripts\Managers\Combat\TurnManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\UI Scripts\GameUIManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Combat\VisualEffectsManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\General\GameManager.cs" />

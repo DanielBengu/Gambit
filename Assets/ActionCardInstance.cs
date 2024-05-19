@@ -76,6 +76,10 @@ public class ActionCardInstance : MonoBehaviour
     void PlayCard()
     {
         fightManager.PlayActionCard(actionCard, FightManager.Character.Player);
+
+        if (fightManager.Player.status != FightManager.CharacterStatus.Playing)
+            fightManager.PlayEnemyTurn();
+            
         Destroy(gameObject);
     }
 

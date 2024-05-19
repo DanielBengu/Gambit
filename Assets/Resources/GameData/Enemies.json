@@ -38,7 +38,7 @@
       "Id": 2,
       "Name": "Kaldor",
       "Armor": 1,
-      "HP": 20,
+      "HP": 2,
       "BaseMaxScore": 12,
       "BaseStandThreshold": 7,
       "UnitClass": -1,

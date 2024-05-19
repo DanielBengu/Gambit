@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using static AnimationManager;
@@ -9,9 +11,20 @@ using Random = UnityEngine.Random;
 
 public class VisualEffectsManager : MonoBehaviour
 {
+    #region Shake Ground variables
+
     static readonly float SHAKE_MAGNITUDE = 1.2f;
     static readonly float SHAKE_DURATION = 0.1f;
-    float timeElapsed = 0;
+    float shake_time_elapsed = 0;
+
+    #endregion
+
+    #region Add Gold Variables
+
+    static readonly int REWARD_MOVE_SPEED = 2;
+    static readonly int UPDATE_SPEED = 2;
+    int startingGoldAmount = 0;
+    #endregion
 
     public List<MovingObject> movingObjects = new();
     readonly float movementThreshold = 1f;
@@ -81,45 +94,43 @@ public class VisualEffectsManager : MonoBehaviour
             switch (effect.effect)
             {
                 case Effects.LightenBlackScreen:
-                    Image startupBlackoutImage = effect.obj.GetComponent<Image>();
-                    Color currentColor = startupBlackoutImage.color;
-                    currentColor.a -= Time.deltaTime * 0.5f; // Adjust the rate of transparency loss as needed
-                    startupBlackoutImage.color = currentColor;
-                    if (currentColor.a <= 0.1f)
-                    {
-                        effect.callback();
-                        effects.RemoveAt(i);
-                        i--;
-                    }
+                    ChangeBlackScreenOpacity(false, 0.5f, 0.1f, effect, ref i);
                     break;
                 case Effects.DarkenBlackScreen:
-                    Image startupLightenImage = effect.obj.GetComponent<Image>();
-                    Color currentColorLighten = startupLightenImage.color;
-                    currentColorLighten.a += Time.deltaTime * 0.5f; // Adjust the rate of transparency loss as needed
-                    startupLightenImage.color = currentColorLighten;
-                    if (currentColorLighten.a >= 0.8f)
-                    {
-                        effect.callback();
-                        effects.RemoveAt(i);
-                        i--;
-                    }
+                    ChangeBlackScreenOpacity(true, 0.5f, 0.8f, effect, ref i);
                     break;
                 case Effects.MenuStartGame:
-                    startupBlackoutImage = effect.obj.GetComponent<Image>();
-                    Color currentColor2 = startupBlackoutImage.color;
-                    currentColor2.a += Time.deltaTime * 1.2f; // Adjust the rate of transparency loss as needed
-                    startupBlackoutImage.color = currentColor2;
-                    if (currentColor2.a >= 1f)
-                    {
-                        effect.callback();
-                        effects.RemoveAt(i);
-                        i--;
-                    }
+                    ChangeBlackScreenOpacity(true, 1.2f, 1f, effect, ref i);
                     break;
                 case Effects.ShakeFightGround:
                     ShakeGround(effect);
                     break;
+                case Effects.AddGoldReward:
+                    HandleGoldRewardEffect(effect, ref i);
+                    break;
+                case Effects.UpdateGoldUI:
+                    HandleGoldUIUpdate(effect, ref i);
+                    break;
             }
+        }
+    }
+
+    void ChangeBlackScreenOpacity(bool makeScreenDarker, float scale, float finalOpacity, EffectsStruct effect, ref int i)
+    {
+        int operatorEffect = makeScreenDarker ? 1 : -1;
+        Image startupBlackoutImage = effect.obj.GetComponent<Image>();
+        Color currentColor2 = startupBlackoutImage.color;
+        currentColor2.a += operatorEffect * Time.deltaTime * scale;
+        startupBlackoutImage.color = currentColor2;
+
+        bool isCompleted = currentColor2.a >= finalOpacity;
+
+        if(isCompleted)
+        {
+            effects.Remove(effect);
+            foreach (var callback in effect.callback)
+                callback();
+            i--;
         }
     }
 
@@ -127,21 +138,86 @@ public class VisualEffectsManager : MonoBehaviour
     {
         Vector3 originalPosition = (Vector3)effect.parameters[0];
 
-        while (timeElapsed < SHAKE_DURATION)
+        while (shake_time_elapsed < SHAKE_DURATION)
         {
             float x = originalPosition.x + Random.Range(-0.5f, 0.5f) * SHAKE_MAGNITUDE;
             float y = originalPosition.y + Random.Range(-1f, 1f) * SHAKE_MAGNITUDE;
 
             effect.obj.transform.position = new Vector3(x, y, effect.obj.transform.position.z);
 
-            timeElapsed += Time.deltaTime;
+            shake_time_elapsed += Time.deltaTime;
 
             return;
         }
 
-        timeElapsed = 0f;
+        shake_time_elapsed = 0f;
         effects.Remove(effect);
-        effect.callback();
+        foreach (var callback in effect.callback)
+            callback();
+    }
+
+    void HandleGoldRewardEffect(EffectsStruct effect, ref int i)
+    {
+        GameObject effectObject = effect.obj;
+        TextMeshProUGUI text = (TextMeshProUGUI)effect.parameters[1];
+        Vector3 targetPosition = (Vector3)effect.parameters[2];
+        Vector3 startPosition = (Vector3)effect.parameters[3];
+
+        float totalDistance = Vector3.Distance(startPosition, targetPosition);
+
+        float currentDistance = Vector3.Distance(startPosition, effectObject.transform.position);
+
+        float step = REWARD_MOVE_SPEED * Time.deltaTime;
+        effectObject.transform.position = Vector3.MoveTowards(effectObject.transform.position, targetPosition, step);
+
+        // Fade out the text halfway through the movement
+        if (currentDistance >= totalDistance / 2)
+        {
+            float fadeT = (currentDistance - totalDistance / 2) / (totalDistance / 2);
+            text.color = new Color(text.color.r, text.color.g, text.color.b, Mathf.Lerp(1f, 0f, fadeT));
+        }
+
+        if (effectObject.transform.position == targetPosition)
+        {
+            effects.Remove(effect);
+            foreach (var callback in effect.callback)
+                callback();
+            i--;
+        }
+    }
+
+    void HandleGoldUIUpdate(EffectsStruct effect, ref int i)
+    {
+        TextMeshProUGUI text = (TextMeshProUGUI)effect.parameters[0];
+        GameUIManager gameUIManager = (GameUIManager)effect.parameters[1];
+        int playerGoldAmountTarget = (int)effect.parameters[2];
+
+        int currentGoldAmountDisplayed = int.Parse(text.text.Split(' ')[1]);
+
+        if (startingGoldAmount == 0)
+            startingGoldAmount = currentGoldAmountDisplayed;
+
+        int targetGoldAmount = playerGoldAmountTarget;
+
+        // Update the displayed gold amount incrementally
+        int newGoldAmount = Mathf.CeilToInt(Mathf.Lerp(currentGoldAmountDisplayed, targetGoldAmount, Time.deltaTime * UPDATE_SPEED));
+
+        // Update the UI
+        gameUIManager.UpdateGoldAmount(newGoldAmount);
+
+        // Check if the displayed amount has reached or surpassed the target amount
+        if (newGoldAmount >= targetGoldAmount)
+        {
+            // Ensure the final displayed amount is exactly the target amount
+            gameUIManager.UpdateGoldAmount(targetGoldAmount);
+
+            startingGoldAmount = 0;
+
+            effects.Remove(effect);
+            foreach (var callback in effect.callback)
+                callback();
+            i--;
+        }
     }
 
     public void RemoveFromLists(GameObject obj)
@@ -161,7 +237,9 @@ public class VisualEffectsManager : MonoBehaviour
         LightenBlackScreen,
         DarkenBlackScreen,
         MenuStartGame,
-        ShakeFightGround
+        ShakeFightGround,
+        AddGoldReward,
+        UpdateGoldUI
     }
 
     public struct MovingObject
@@ -210,10 +288,10 @@ public class VisualEffectsManager : MonoBehaviour
     {
         public Effects effect;
         public GameObject obj;
-        public Action callback;
+        public List<Action> callback;
         public object[] parameters;
 
-        public EffectsStruct(Effects effect, GameObject obj, Action action, object[] param)
+        public EffectsStruct(Effects effect, GameObject obj, List<Action> action, object[] param)
         {
             this.effect = effect;
             this.obj = obj;

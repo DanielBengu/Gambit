@@ -21,7 +21,7 @@ public class Welcome : EventParent
         {
             case 0:
                 LoadCharacter(CurrentEventCount);
-                await ExecuteWithDelay(LoadNextStep, 3f);
+                await ExecuteWithDelay(LoadNextStep, 2f);
                 break;
             case 1:
                 var dialogueList = LoadDialogue(1);
@@ -65,10 +65,10 @@ public class Welcome : EventParent
         {
             1 => new()
             {
-                new(dialogueManager.languageManager.GetText(14), 0.05f, enemyObject),
-                new(dialogueManager.languageManager.GetText(15), 0.01f, enemyObject),
-                new(dialogueManager.languageManager.GetText(31), 0.01f, enemyObject),
-                new(dialogueManager.languageManager.GetText(29), 0.01f, enemyObject)
+                new(dialogueManager.languageManager.GetText(14), 0.04f, enemyObject),
+                new(dialogueManager.languageManager.GetText(15), 0.04f, enemyObject),
+                new(dialogueManager.languageManager.GetText(31), 0.04f, enemyObject),
+                new(dialogueManager.languageManager.GetText(29), 0.04f, enemyObject)
             },
             3 => new()
             {

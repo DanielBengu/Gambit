@@ -23,6 +23,8 @@ public class EnemyManager : MonoBehaviour
         if (Enemy.status != CharacterStatus.Playing)
             return;
 
+        TurnStatus = TurnStatus.EnemyTurn;
+
         //Player is bust or is standing, enemy keeps playing the turn until end
         PlayEnemyTurn();
 

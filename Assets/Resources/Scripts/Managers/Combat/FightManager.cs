@@ -7,28 +7,34 @@ using static CardsManager;
 using System.Collections;
 using UnityEditor.Experimental.GraphView;
 using System.Linq;
+using Unity.VisualScripting;
+using TMPro;
 public class FightManager
 {
     public static int CRIT_SCORE = 12;
-    readonly GameManager gameManager;
-    readonly GameUIManager gameUIManager;
+    public readonly GameManager gameManager;
+    public readonly GameUIManager gameUIManager;
     readonly VisualEffectsManager effectsManager;
     readonly EnemyManager enemyManager;
+    readonly TurnManager turnManager;
 
     public int BUST_PENALITY = 2;
 
     public GameObject playerObj;
     public GameObject enemyObj;
 
+    public GameObject goldRewardObj;
+
     public List<int> spritesAnimating = new();
-    public Queue<AttackStruct> attacks = new();
 
     public FightUnit Player { get; set; }
     public FightUnit Enemy { get { return enemyManager.Enemy; } set { enemyManager.Enemy = value; } }
 
-    public TurnStatus CurrentTurn { get; set; }
+    public TurnStatus CurrentTurn { get { return turnManager.CurrentTurn; } set { turnManager.CurrentTurn = value; } }
 
-    public FightManager(EnemyData enemy, List<GameCard> playerStartingDeck, List<ActionCard> playerStartingActionDeck, UnitData unit, Classes playerClass, GameUIManager gameUIManager, VisualEffectsManager effectsManager, EnemyManager enemyManager, GameObject player, GameObject enemyObj, GameManager gameManager)
+    public FightStatusEnum FightStatus { get; set; }
+
+    public FightManager(EnemyData enemy, List<GameCard> playerStartingDeck, List<ActionCard> playerStartingActionDeck, UnitData unit, Classes playerClass, GameUIManager gameUIManager, VisualEffectsManager effectsManager, EnemyManager enemyManager, GameObject player, GameObject enemyObj, GameManager gameManager, GameObject goldRewardObj)
     {
         this.enemyManager = enemyManager;
         this.enemyManager.fightManager = this;
@@ -36,7 +42,9 @@ public class FightManager
         Enemy = ConvertEnemyIntoUnit(enemy);
         Player = new(unit, true, playerClass, GameManager.CopyDeck(playerStartingDeck), GameManager.CopyDeck(playerStartingDeck), GameManager.CopyDeck(playerStartingActionDeck), GameManager.CopyDeck(playerStartingActionDeck), Character.Player, this, enemy.Rewards);
 
-        CurrentTurn = TurnStatus.IntermediaryEffects;
+        turnManager = new(Player, Enemy, this, gameUIManager);
+
+        FightStatus = FightStatusEnum.Ongoing;
 
         this.gameUIManager = gameUIManager;
         this.effectsManager = effectsManager;
@@ -45,6 +53,25 @@ public class FightManager
         this.enemyObj = enemyObj;
 
         this.gameManager = gameManager;
+        this.goldRewardObj = goldRewardObj;
+    }
+
+    public void Update()
+    {
+        switch (FightStatus)
+        {
+            case FightStatusEnum.Ongoing:
+            default:
+                return;
+            case FightStatusEnum.WaitingForRewards:
+                HandleAwaitingForRewards();
+                break;
+            case FightStatusEnum.ScrollingRewards:
+                //GiveReward();
+                break;
+            case FightStatusEnum.End:
+                break;
+        }
     }
 
     public void SetupFightUIAndStartGame()
@@ -98,147 +125,6 @@ public class FightManager
         return new(unit, false, enemy.UnitClass, GameManager.CopyDeck(enemy.BaseDecklist), GameManager.CopyDeck(enemy.BaseDecklist), new(), new(),  Character.Enemy, this, enemy.Rewards, enemy.BaseStandThreshold);
     }
 
-    public void HandleEndTurn()
-    {
-        int pointDifference = Mathf.Abs(Player.currentScore - Enemy.currentScore);
-
-        if (pointDifference != 0)
-        {
-            FightUnit attacker = Player.currentScore > Enemy.currentScore ? Player : Enemy;
-            FightUnit defender = Player.currentScore > Enemy.currentScore ? Enemy : Player;
-
-            int damage = CalculateDamage(attacker, defender, pointDifference, false);
-
-            SetAttacks(attacker, defender, damage);
-
-            GameObject obj = attacker.Character == Character.Player ? playerObj : enemyObj;
-
-            string animation = GetAnimationName(SpriteAnimation.UnitDealDamage);
-
-            if (attacker.Class.Class == Classes.Warrior && attacks.Count > 1)
-                animation = "MultipleAttackStart";
-
-            PlayCustomAnimation(obj, animation, DealDamage);
-        }
-
-        ResetTurn();
-    }
-
-    public void SetAttacks(FightUnit attacker, FightUnit defender, int damage)
-    {
-        for (int i = 0; i < attacker.Attacks; i++)
-            attacks.Enqueue(new(attacker, defender, damage, DealDamage));
-
-        AddBonusAttacks(attacker, defender);
-    }
-
-    void AddBonusAttacks(FightUnit attacker, FightUnit defender)
-    {
-        switch (attacker.Class.Class)
-        {
-            case Classes.Basic:
-            case Classes.Warrior:
-            case Classes.Wizard:
-            case Classes.Berserk:
-            case Classes.Ranger:
-            case Classes.Archmage:
-            case Classes.Trickster:
-            default:
-                break;
-            case Classes.Rogue:
-                Rogue rogueClass = attacker.Class as Rogue;
-                foreach (var attack in rogueClass.GetBonusAttacks(attacker, defender, DealDamage))
-                {
-                    attacks.Enqueue(attack);
-                }
-                break;
-        }
-    }
-
-    int CalculateDamage(FightUnit attacker, FightUnit defender, int baseDamage, bool isPiercing)
-    {
-        int attackerDamage = attacker.ApplyDamageModifiers(baseDamage);
-        int finalDamageAmount = defender.ApplyDefenceModifiers(attackerDamage, isPiercing);
-
-        return finalDamageAmount;
-    }
-
-    public void StartAttackEffect(string effectName)
-    {
-        if (attacks.Count == 0)
-            return;
-
-        GameObject obj = null;
-        Transform defenderTransform = null;
-        Transform attackerTransform = null;
-
-        switch (effectName)
-        {
-            case "wizard_earth_attack":
-                obj = Resources.Load<GameObject>($"Prefabs/Characters/Wizard/Effects/Earth Attack/Earth Attack Prefab");
-                defenderTransform = attacks.First().defender.Character == Character.Player ? playerObj.transform : enemyObj.transform;
-                attackerTransform = attacks.First().attacker.Character == Character.Player ? playerObj.transform : enemyObj.transform;
-                break;
-            case "wizard_fire_attack":
-                obj = Resources.Load<GameObject>($"Prefabs/Characters/Wizard/Effects/Fire Attack/Fire Attack Prefab");
-                defenderTransform = attacks.First().defender.Character == Character.Player ? playerObj.transform : enemyObj.transform;
-                attackerTransform = attacks.First().attacker.Character == Character.Player ? playerObj.transform : enemyObj.transform;
-                break;
-        }
-
-        InstantiateEffect(obj, defenderTransform, attackerTransform.GetComponent<UnitAnimationManager>().dictionaryCallback);
-    }
-
-    void InstantiateEffect(GameObject obj, Transform parent, Dictionary<string, Action> callbacks)
-    {
-        if(obj == null || parent == null || callbacks == null) 
-            return;
-
-        GameObject attackInstance = UnityEngine.Object.Instantiate(obj, parent.position, parent.rotation, playerObj.transform.parent);
-
-        Animator anim = attackInstance.GetComponent<Animator>();
-        anim.Play("Attack");
-
-        var script = attackInstance.GetComponent<UnitAnimationManager>();
-        script.dictionaryCallback = callbacks;
-    }
-
-    void DealDamage()
-    {
-        if (attacks.Count == 0)
-            return;
-
-        gameManager.ShakeGround();
-
-        AttackStruct attack = attacks.Dequeue();
-
-        FightUnit unitTakingDamage = attack.defender;
-        unitTakingDamage.FightHP -= attack.damageAmount;
-
-        GameObject defender = attack.defender.Character == Character.Player ? playerObj : enemyObj;
-
-        HandleCharacterHPVariation(attack.defender, defender);
-        gameUIManager.UpdateUI(attack.defender.Character, attack.defender);
-
-        if(attacks.Count > 0)
-        {
-            string animation = GetAttackAnimation(attack.attacker);
-            GameObject newAttacker = attacks.First().attacker.Character == Character.Player ? playerObj: enemyObj;
-            PlayCustomAnimation(newAttacker, animation, attacks.First().callback);
-        }
-    }
-
-    public string GetAttackAnimation(FightUnit attacker)
-    {
-        if (attacker.Class.Class != Classes.Warrior)
-            return SpriteAnimation.UnitDealDamage.ToString();
-
-        if (attacks.Count == 1)
-            return "MultipleAttackEnd";
-        else
-            return "MultipleAttackSingleAttack";
-    }
-
     public Action GetAnimationCallback(SpriteAnimation animation, Character character)
     {
         return animation switch
@@ -269,19 +155,11 @@ public class FightManager
             return SpriteAnimation.UnitTakingDamage;
     }
 
-    public void MakeUnitPerformAnimation(Character character, SpriteAnimation animation)
-    {
-        Action callback = GetAnimationCallback(animation, character);
+    #region Method Forwarding
 
-        switch (character)
-        {
-            case Character.Player:
-                PlayAnimation(playerObj, animation, callback);
-                break;
-            case Character.Enemy:
-                PlayAnimation(enemyObj, animation, callback);
-                break;
-        }
+    public void HandleEndTurn()
+    {
+        turnManager.HandleEndTurn();
     }
 
     public void HandlePlayerDeath()
@@ -289,45 +167,28 @@ public class FightManager
         gameManager.HandleFightDefeat();
     }
 
+    public void StartAttackEffect(string effectName)
+    {
+        turnManager.StartAttackEffect(effectName);
+    }
+
+    #endregion
+
+
     public void HandleEnemyDeath()
     {
+        FightStatus = FightStatusEnum.WaitingForRewards;
+
         CharacterManager.ResetCharacter(enemyObj, effectsManager);
         gameUIManager.TurnOfFightUI();
+
+        enemyObj = GameManager.LoadCharacter("Chest", enemyObj.transform.parent);
+    }
+
+    public void HandleFightVictory()
+    {
         gameManager.HandleFightVictory(Enemy.DefeatReward);
     }
-
-    void ResetTurn()
-    {
-        ResetUnitTurn(Player);
-        ResetUnitTurn(Enemy);
-
-        DrawTurnHand();
-
-        CurrentTurn = TurnStatus.PlayerTurn;
-
-        gameUIManager.UpdateUI(Character.Enemy, Enemy);
-        gameUIManager.UpdateUI(Character.Player, Player);
-
-        gameUIManager.SetStandButtonInteractable(true);
-    }
-
-    void ResetUnitTurn(FightUnit unit)
-    {
-        unit.TickModifiers();
-        unit.currentScore = 0;
-        unit.status = CharacterStatus.Playing;
-
-        unit.Class.ResetTurn();
-
-        unit.FightCurrentHand.Clear();
-    }
-
-    /*
-    public void RemoveObjFromAnimationList(GameObject obj)
-    {
-        effectsManager.RemoveFromLists(obj);
-    }
-    */
 
     public GameCard DrawAndPlayRandomCard(Character character)
     {
@@ -363,7 +224,7 @@ public class FightManager
 
     void PlayCard(GameCard card, Character character)
     {
-        int cardValue = GetCardPointValue(card);
+        int cardValue = ActionCardArchive.GetCardPointValue(card);
         FightUnit unit = character == Character.Player ? Player : Enemy;
 
         HandleSideEffects(character, unit.Class, card);
@@ -495,46 +356,12 @@ public class FightManager
 
         foreach (var card in deck)
         {
-            int cardValue = GetCardPointValue(card);
+            int cardValue = ActionCardArchive.GetCardPointValue(card);
             if (charCurrentScore + cardValue > charMaxScore)
                 cardsBusting++;
         }
 
         return cardsBusting;
-    }
-
-    static int GetCardPointValue(GameCard card)
-    {
-        int valueToAdd = 0;
-
-        switch (card.cardType)
-        {
-            case CardType.Ace:
-                valueToAdd = 0;
-                break;
-            case CardType.One:
-            case CardType.Two:
-            case CardType.Three:
-            case CardType.Four:
-            case CardType.Five:
-            case CardType.Six:
-                valueToAdd = card.value;
-                break;
-            case CardType.Jack:
-                valueToAdd = 0;
-                break;
-            case CardType.Queen:
-                valueToAdd = 0;
-                break;
-            case CardType.King:
-                valueToAdd = 0;
-                break;
-            case CardType.Potion:
-                valueToAdd = 0;
-                break;
-        }
-
-        return valueToAdd;
     }
 
     public void PlayUnitCard(Character character)
@@ -590,8 +417,7 @@ public class FightManager
         HandlePoints(ref unit.status, unit.Character, ref unit.currentScore, unit.CurrentMaxScore, 0);
         gameUIManager.UpdateUI(unit.Character, unit);
 
-        if (animation != string.Empty)
-            PlayAnimation(obj, SpriteAnimation.UnitDefend, () => { });
+        PlayCustomAnimation(obj, animation, () => { });
     }
 
     public bool IsGameOnStandby()
@@ -599,7 +425,81 @@ public class FightManager
         bool isUserOnStandby = Player.status != CharacterStatus.Playing;
         bool isPlayerCardAnimating = effectsManager.movingObjects.Exists(a => a.type == VisualEffectsManager.MovingObject.TypeOfObject.CardDrawnPlayer);
 
-        return isUserOnStandby || isPlayerCardAnimating || CurrentTurn == TurnStatus.EnemyTurn;
+        return isUserOnStandby || isPlayerCardAnimating || turnManager.CurrentTurn == TurnStatus.EnemyTurn;
+    }
+
+    public void HandleAwaitingForRewards()
+    {
+        if (InputManager.IsClickDown())
+        {
+            string name = GetAnimationOfObject(enemyObj);
+
+            if (name != "Chest_Idle")
+                return;
+
+            PlayAnimation(enemyObj, SpriteAnimation.ChestOpen, GiveReward);
+            FightStatus = FightStatusEnum.ScrollingRewards;
+        }
+    }
+
+
+    public void GiveReward()
+    {
+        if (Enemy.DefeatReward.Count == 0)
+        {
+            CharacterManager.ResetCharacter(enemyObj, effectsManager);
+            HandleFightVictory();
+            return;
+        }
+            
+        Reward rewardToGive = Enemy.DefeatReward.First();
+        Enemy.DefeatReward.Remove(rewardToGive);
+
+        gameManager.playerData.CurrentRun.GoldAmount += rewardToGive.amount;
+
+        HandleReward(rewardToGive);
+    }
+
+    void HandleReward(Reward reward)
+    {
+        switch (reward.reward)
+        {
+            case TypeOfReward.Gold:
+                StartGoldRewardAnimation(reward.amount);
+                break;
+            case TypeOfReward.Equipment:
+                break;
+            default:
+                break;
+        }
+    }
+
+    void StartGoldRewardAnimation(int amount)
+    {
+        goldRewardObj.transform.position = enemyObj.transform.position;
+
+        TextMeshProUGUI text = goldRewardObj.GetComponent<TextMeshProUGUI>();
+        text.text = $"+{amount}";
+
+        Vector3 targetPos = goldRewardObj.transform.position + new Vector3(0, 2, 0);
+
+        goldRewardObj.SetActive(true);
+
+        effectsManager.effects.Add(new(VisualEffectsManager.Effects.AddGoldReward, goldRewardObj, new() { StartGoldUIUpdate, GiveReward }, new object[4] {2, goldRewardObj.GetComponent<TextMeshProUGUI>(), targetPos, goldRewardObj.transform.position }));
+    }
+
+    void StartGoldUIUpdate()
+    {
+        effectsManager.effects.Add(new(VisualEffectsManager.Effects.UpdateGoldUI, gameUIManager.goldAmountText.gameObject, new()
+        {
+            () => { }
+        }, new object[3] { gameUIManager.goldAmountText, gameUIManager, gameManager.playerData.CurrentRun.GoldAmount }));
+    }
+
+    public void PlayEnemyTurn()
+    {
+        if(Enemy.status == CharacterStatus.Playing)
+            enemyManager.PlayEnemyTurn();
     }
 
     public void HandlePlayerStand()
@@ -610,8 +510,7 @@ public class FightManager
         Player.status = CharacterStatus.Standing;
         gameUIManager.SetStandButtonInteractable(false);
 
-        if (Enemy.status == CharacterStatus.Playing)
-            enemyManager.PlayEnemyTurn();
+        PlayEnemyTurn();
     }
 
     //Called after player drew their card
@@ -620,7 +519,6 @@ public class FightManager
         if (Enemy.status != CharacterStatus.Playing)
             return;
 
-        CurrentTurn = TurnStatus.EnemyTurn;
         enemyManager.HandleEnemyTurn();
     }
 
@@ -629,7 +527,7 @@ public class FightManager
     {
         if (Player.status == CharacterStatus.Playing)
         {
-            CurrentTurn = TurnStatus.PlayerTurn;
+            turnManager.CurrentTurn = TurnStatus.PlayerTurn;
             return;
         }
 
@@ -656,6 +554,14 @@ public class FightManager
         PlayerTurn,
         EnemyTurn,
         IntermediaryEffects
+    }
+
+    public enum FightStatusEnum
+    {
+        Ongoing,
+        WaitingForRewards,
+        ScrollingRewards,
+        End
     }
 
     public struct AttackStruct

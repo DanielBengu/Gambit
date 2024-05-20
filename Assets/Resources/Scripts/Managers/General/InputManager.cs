@@ -10,4 +10,9 @@ public static class InputManager
     {
         return Input.GetMouseButtonUp(0);
     }
+
+    public static bool IsExit()
+    {
+        return Input.GetKeyDown(KeyCode.Escape);
+    }
 }

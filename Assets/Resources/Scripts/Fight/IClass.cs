@@ -6,14 +6,12 @@ using static CardsManager;
 public abstract class IClass
 {
     public Classes Class { get; set; }
-    public Color CardColor { get; set; }
     public CardsHandler CardsHandler { get; set; }
 
-    public IClass(FightManager manager, Classes unitClass, Color cardColor)
+    public IClass(FightManager manager, Classes unitClass)
     {
         CardsHandler = new(manager);   
         Class = unitClass;
-        CardColor = cardColor;
     }
 
 
@@ -43,13 +41,13 @@ public abstract class IClass
     {
         return classOfUnit switch
         {
-            Classes.Warrior => Color.red,
-            Classes.Rogue => Color.yellow,
-            Classes.Wizard => Color.blue,
-            Classes.Ranger => Color.green,
-            Classes.Monk => Color.magenta,
-            Classes.Crystal => Color.white,
-            Classes.Trickster => Color.cyan,
+            Classes.Warrior => new(0.6f, 0.09f, 0.09f),
+            Classes.Rogue => new(0.6f, 0.6f, 0.6f),
+            Classes.Wizard => new(0.2f, 0.4f, 0.7f),
+            Classes.Ranger => new(0.05f, 0.5f, 0.05f),
+            Classes.Monk => new(0.62f, 0.3f, 0.14f),
+            Classes.Crystal => new(0.62f, 0.98f, 0.94f),
+            Classes.Trickster => new(0.7f, 0.5f, 0.055f),
             _ => Color.grey,
         };
     }

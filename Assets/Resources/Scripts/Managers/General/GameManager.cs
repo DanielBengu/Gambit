@@ -11,6 +11,7 @@ using static AnimationManager;
 using static CardsManager;
 using static FightManager;
 using static Map;
+using static PlayerPrefsManager;
 
 public class GameManager : MonoBehaviour
 {
@@ -95,6 +96,12 @@ public class GameManager : MonoBehaviour
         gameUIManager.UpdateGoldAmount(playerData.CurrentRun.GoldAmount);
 
         CurrentEncounterCount = playerData.CurrentRun.CurrentFloor;
+
+        if(currentMap.CustomEncounters.Exists(e => e.Id == CurrentEncounterCount))
+            currentEncounter = currentMap.CustomEncounters[CurrentEncounterCount];
+        else
+            currentEncounter = null;
+
         HandleNextEncounter();
         SetupBlackScreen(TurnOffBlackScreen, VisualEffectsManager.Effects.LightenBlackScreen);
     }
@@ -348,6 +355,9 @@ public class GameManager : MonoBehaviour
 
     public void HandleGameVictory()
     {
+        if (currentMap.Id == MenuManager.TUTORIAL_WORLD_ID)
+            SetPref(PlayerPrefsEnum.AlreadyCompletedTutorial, 1);
+
         SetupBlackScreen(UnlockCard, VisualEffectsManager.Effects.DarkenBlackScreen);
     }
 

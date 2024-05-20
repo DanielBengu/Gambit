@@ -160,5 +160,86 @@
       "Name": "+6 Modifier",
       "Quantities": 1
     }
+  ],
+  "MonkActionCardList": [
+    {
+      "Id": 14,
+      "Name": "Golem Fist",
+      "Quantities": 1
+    },
+    {
+      "Id": 15,
+      "Name": "Boulder Smash",
+      "Quantities": 3
+    },
+    {
+      "Id": 16,
+      "Name": "Earth Defence",
+      "Quantities": 3
+    },
+    {
+      "Id": 3,
+      "Name": "+2 Modifier",
+      "Quantities": 2
+    },
+    {
+      "Id": 4,
+      "Name": "+6 Modifier",
+      "Quantities": 1
+    }
+  ],
+  "CrystalActionCardList": [
+    {
+      "Id": 17,
+      "Name": "ORZA HAMMER",
+      "Quantities": 1
+    },
+    {
+      "Id": 18,
+      "Name": "RUBY SWING",
+      "Quantities": 3
+    },
+    {
+      "Id": 19,
+      "Name": "SAPPHIRE SHIELD",
+      "Quantities": 3
+    },
+    {
+      "Id": 3,
+      "Name": "+2 Modifier",
+      "Quantities": 2
+    },
+    {
+      "Id": 4,
+      "Name": "+6 Modifier",
+      "Quantities": 1
+    }
+  ],
+  "TricksterActionCardList": [
+    {
+      "Id": 20,
+      "Name": "SAND DAGGERS",
+      "Quantities": 1
+    },
+    {
+      "Id": 21,
+      "Name": "DAGGER CUT",
+      "Quantities": 3
+    },
+    {
+      "Id": 22,
+      "Name": "SAND SHIELD",
+      "Quantities": 3
+    },
+    {
+      "Id": 3,
+      "Name": "+2 Modifier",
+      "Quantities": 2
+    },
+    {
+      "Id": 4,
+      "Name": "+6 Modifier",
+      "Quantities": 1
+    }
   ]
 }

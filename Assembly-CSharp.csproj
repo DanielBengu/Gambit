@@ -65,6 +65,7 @@
     <Compile Include="Assets\Resources\Scripts\JsonClasses\Maps.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Combat\FightManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Combat\TurnManager.cs" />
+    <Compile Include="Assets\Resources\Scripts\Fight\Classes\Trickster.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\UI Scripts\GameUIManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Combat\VisualEffectsManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\General\GameManager.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Assets\Resources\Scripts\JsonClasses\EnemyData.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Combat\AnimationManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Event\EmptyEvent.cs" />
+    <Compile Include="Assets\Resources\Scripts\Fight\Classes\Crystal.cs" />
     <Compile Include="Assets\Resources\Scripts\Unlockable\UnlockableCardScript.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Config\PlayerPrefsManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Menu\IntroManager.cs" />
@@ -101,12 +103,14 @@
     <Compile Include="Assets\Resources\Scripts\Fight\CardsHandler.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\Classes\Basic.cs" />
     <Compile Include="Assets\Resources\Scripts\Fight\Classes\Wizard.cs" />
+    <Compile Include="Assets\Resources\Scripts\Fight\Classes\Ranger.cs" />
     <Compile Include="Assets\Resources\Scripts\JsonClasses\LanguageClass.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Event\EventManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\General\LanguageManager.cs" />
     <Compile Include="Assets\MenuCharacterCard.cs" />
     <Compile Include="Assets\Resources\Scripts\Event\Tutorial\Welcome.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Menu\MenuManager.cs" />
+    <Compile Include="Assets\Resources\Scripts\Fight\Classes\Monk.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Event\Dialogue\DialogueSection.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Combat\EnemyManager.cs" />
     <Compile Include="Assets\Resources\Scripts\Managers\Combat\CardsManager.cs" />

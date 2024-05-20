@@ -74,9 +74,9 @@ public class MenuOptions : MonoBehaviour
         Transform runContent = cardLeft.transform.GetChild(0);
         TextMeshProUGUI playerData = runContent.Find("RunInfo").GetComponent<TextMeshProUGUI>();
         Image classImage = runContent.Find("Class Image").GetComponent<Image>();
-        string className = data.CurrentRun.ClassId.ToString();
+        string className = data.CurrentRun.ClassId.ToString().ToUpper();
 
-        playerData.text = $"{className} - {data.CurrentRun.CurrentFloor + 1}F";
+        playerData.text = $"{className} - T{data.CurrentRun.CurrentFloor + 1}";
         classImage.sprite = Resources.Load<Sprite>($"Sprites/Characters/{className}/{className}");
     }
 
@@ -139,7 +139,7 @@ public class MenuOptions : MonoBehaviour
 
         if (isUnlocked)
         {
-            title.text = characterName;
+            title.text = characterName.ToUpper();
             return;
         }
 
@@ -150,10 +150,10 @@ public class MenuOptions : MonoBehaviour
     public Vector3 GetCardPositionOnTable(int cardIndex)
     {
         if(cardIndex <= 2)
-            return new Vector3(-500 + (500 * cardIndex), 250, 0);
+            return new Vector3(-350 + (350 * cardIndex), 250, 0);
         
 
-        return new Vector3(-750 + (500 * (cardIndex - 3)), -250, 0);
+        return new Vector3(-450 + (300 * (cardIndex - 3)), -200, 0);
     }
 
     public void StartMenuAnimation()

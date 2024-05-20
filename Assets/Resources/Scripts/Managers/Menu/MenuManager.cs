@@ -19,20 +19,28 @@ public class MenuManager : MonoBehaviour
 
     public GameObject blackScreen;
 
+    private bool isFirstStart;
+
     void Start()
     {
         if (forceFirstStart)
-            RemovePref(PlayerPrefsEnum.AlreadyLaunchedGame);
+            RemovePref(PlayerPrefsEnum.AlreadyCompletedTutorial);
 
-        FirstGameStart();
+        isFirstStart = !DoesPrefExists(PlayerPrefsEnum.AlreadyCompletedTutorial);
+        HandleFirstGameStart();
 
         if (unlockAllClasses)
             UnlockAllClasses();
 
         menuOptions.StartMenuAnimation();
-
         HandleSaves();
         SetStrings();
+    }
+
+    private void Update()
+    {
+        if (InputManager.IsExit())
+            Application.Quit();
     }
 
     void UnlockAllClasses()
@@ -50,7 +58,6 @@ public class MenuManager : MonoBehaviour
     {
         Transform cardLeftContents = GameObject.Find("Card_left").transform.GetChild(0);
         Transform cardCenterContents = GameObject.Find("Card_center").transform.GetChild(0);
-        //Transform cardRightContents = GameObject.Find("Card_right").transform.GetChild(0);
 
         TextMeshProUGUI newGameText = cardCenterContents.Find("New Game").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI continueText = cardLeftContents.Find("Continue").GetComponent<TextMeshProUGUI>();
@@ -58,7 +65,7 @@ public class MenuManager : MonoBehaviour
         languageManager.SetLanguageValues(new()
         {
             new(0, newGameText, new object[0]),
-            new(1, continueText, new object[0]),
+            new(1, continueText, new object[0])
         });
     }
 
@@ -66,28 +73,23 @@ public class MenuManager : MonoBehaviour
     {
         PlayerData playerData = SaveManager.LoadPlayerData();
 
-        if (playerData == null || playerData.CurrentRun == null)
+        if (playerData == null || playerData.CurrentRun == null || !playerData.CurrentRun.IsOngoing)
         {
             menuOptions.CoverCard(MenuOptions.CardPosition.Left);
             return;
         }
 
-        HandleCards(playerData);
+        menuOptions.LoadRunInfo(playerData);
     }
 
-    void HandleCards(PlayerData data)
+    void HandleFirstGameStart()
     {
-        if (!data.CurrentRun.IsOngoing)
-            menuOptions.CoverCard(MenuOptions.CardPosition.Left);
-        else
-            menuOptions.LoadRunInfo(data);
+        if (isFirstStart)
+            InitializeDefaultPreferences();
     }
 
-    void FirstGameStart()
+    void InitializeDefaultPreferences()
     {
-        if (DoesPrefExists(PlayerPrefsEnum.AlreadyLaunchedGame))
-            return;
-
         SetPref(PlayerPrefsEnum.HasWonAnyRun, 0);
         SetPref(PlayerPrefsEnum.Language, (int)LanguageManager.Language.English);
 
@@ -99,12 +101,9 @@ public class MenuManager : MonoBehaviour
         SetPref(PlayerPrefsEnum.RangerUnlocked, 0);
         SetPref(PlayerPrefsEnum.TricksterUnlocked, 0);
 
-        SaveManager.SavePlayerData(new()
+        SaveManager.SavePlayerData(new PlayerData
         {
-            CurrentRun = new()
-            {
-                IsOngoing = false
-            }
+            CurrentRun = new() { IsOngoing = false }
         });
     }
 
@@ -122,23 +121,20 @@ public class MenuManager : MonoBehaviour
         MapData mapList = JSONManager.GetFileFromJSON<MapData>(JSONManager.MAPS_PATH);
         Map mapToPlay = mapList.Maps.Find(m => m.Id == TUTORIAL_WORLD_ID);
 
-        Classes playerClass = Classes.Warrior;
-        SetPref(PlayerPrefsEnum.AlreadyLaunchedGame, 1);
-
-        SaveNewRunData(mapToPlay.Id, playerClass);
+        SaveNewRunData(mapToPlay.Id, Classes.Warrior);
         SwitchToRun(mapToPlay);
     }
 
     void SaveNewRunData(int mapId, Classes classId)
     {
-        SaveManager.SavePlayerData(new()
+        SaveManager.SavePlayerData(new PlayerData
         {
-            UnitData = new()
+            UnitData = new UnitData
             {
                 Name = "TEMP",
-                Armor = 2,
-                MaxHP = 100,
-                CurrentHP = 100,
+                Armor = 0,
+                MaxHP = 10,
+                CurrentHP = 10,
                 MaxScore = 12,
                 NumberOfAttacks = 1
             },
@@ -161,7 +157,18 @@ public class MenuManager : MonoBehaviour
         effectsManager.effects.Add(new()
         {
             obj = blackScreen,
-            callback = new() { LoadSceneGame },
+            callback = new List<System.Action> { LoadSceneGame },
+            effect = VisualEffectsManager.Effects.MenuStartGame
+        });
+        blackScreen.SetActive(true);
+    }
+
+    public void ContinueButtonClick()
+    {
+        effectsManager.effects.Add(new()
+        {
+            obj = blackScreen,
+            callback = new List<System.Action> { LoadSceneGame },
             effect = VisualEffectsManager.Effects.MenuStartGame
         });
         blackScreen.SetActive(true);
@@ -171,14 +178,14 @@ public class MenuManager : MonoBehaviour
     {
         menuOptions.StartMenuClearAnimation();
 
-        if (DoesPrefExists(PlayerPrefsEnum.AlreadyLaunchedGame))
+        if (isFirstStart)
         {
-            menuOptions.StartChooseCharacterAnimation();
-            menuOptions.ChangeTitleVisibility(false);
+            StartTutorial();
         }
         else
         {
-            StartTutorial();
+            menuOptions.StartChooseCharacterAnimation();
+            menuOptions.ChangeTitleVisibility(false);
         }
     }
 
@@ -189,10 +196,8 @@ public class MenuManager : MonoBehaviour
 
     Map StartRandomMap(MapData mapData)
     {
-        List<Map> mapListWithoutTutorial = mapData.Maps.Where(m => m.Id != 0).ToList();
-
+        List<Map> mapListWithoutTutorial = mapData.Maps.Where(m => m.Id != TUTORIAL_WORLD_ID).ToList();
         int mapIndex = Random.Range(0, mapListWithoutTutorial.Count);
-
         return mapListWithoutTutorial[mapIndex];
     }
 }

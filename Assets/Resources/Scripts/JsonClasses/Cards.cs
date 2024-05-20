@@ -19,6 +19,9 @@ public class CardListData
     public List<Card> WizardActionCardList;
     public List<Card> RangerActionCardList;
     public List<Card> RogueActionCardList;
+    public List<Card> MonkActionCardList;
+    public List<Card> CrystalActionCardList;
+    public List<Card> TricksterActionCardList;
 }
 
 [Serializable]

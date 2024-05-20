@@ -11,7 +11,7 @@ public class Rogue : IClass
     public bool IsAce { get; set; }
     public int AceAttackAmount { get { return GetAceAttackAmount(); } }
 
-    public Rogue(FightManager manager) : base(manager, CardsManager.Classes.Rogue, Color.green)
+    public Rogue(FightManager manager) : base(manager, CardsManager.Classes.Rogue)
     {
         CardsHandler = new(manager);
     }

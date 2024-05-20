@@ -4,7 +4,7 @@ using UnityEngine;
 
 internal class Basic : IClass
 {
-    public Basic(FightManager manager) : base(manager, CardsManager.Classes.Basic, Color.white)
+    public Basic(FightManager manager) : base(manager, CardsManager.Classes.Basic)
     {
         CardsHandler = new(manager);
     }

@@ -4,10 +4,7 @@ using UnityEngine;
 using static AnimationManager;
 using System;
 using static CardsManager;
-using System.Collections;
-using UnityEditor.Experimental.GraphView;
 using System.Linq;
-using Unity.VisualScripting;
 using TMPro;
 public class FightManager
 {

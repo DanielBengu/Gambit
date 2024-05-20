@@ -119,16 +119,16 @@ public class FightUnit : UnitData
                 Class = new Wizard(manager);
                 break;
             case Classes.Trickster:
-                Class = new Warrior(manager);
+                Class = new Trickster(manager);
                 break;
             case Classes.Monk:
-                Class = new Warrior(manager);
+                Class = new Monk(manager);
                 break;
             case Classes.Crystal:
-                Class = new Warrior(manager);
+                Class = new Crystal(manager);
                 break;
             case Classes.Ranger:
-                Class = new Warrior(manager);
+                Class = new Ranger(manager);
                 break;
         }
     }

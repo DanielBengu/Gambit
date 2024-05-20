@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Warrior : IClass
 {
-    public Warrior(FightManager manager): base(manager, CardsManager.Classes.Warrior, Color.red)
+    public Warrior(FightManager manager): base(manager, CardsManager.Classes.Warrior)
     {
         CardsHandler = new(manager);
     }

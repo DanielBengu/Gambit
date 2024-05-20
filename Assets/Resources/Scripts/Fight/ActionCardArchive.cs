@@ -14,18 +14,27 @@ namespace Assets.Resources.Scripts.Fight
                 case 5:
                 case 8:
                 case 11:
+                case 14:
+                case 17:
+                case 20:
                     ApplyModifier(unit, Stats.Attacks, 1, 1);
                     break;
                 case 1:
                 case 6:
                 case 9:
                 case 12:
+                case 15:
+                case 18:
+                case 21:
                     ApplyModifier(unit, Stats.Damage, 1, 2); 
                     break;
                 case 2:
                 case 7:
                 case 10:
                 case 13:
+                case 16:
+                case 19:
+                case 22:
                     ApplyModifier(unit, Stats.Armor, 1, 2);
                     break;
                 case 3:
@@ -54,6 +63,9 @@ namespace Assets.Resources.Scripts.Fight
                 Classes.Wizard => cardData.WizardActionCardList,
                 Classes.Ranger => cardData.RangerActionCardList,
                 Classes.Rogue => cardData.RogueActionCardList,
+                Classes.Monk => cardData.MonkActionCardList,
+                Classes.Crystal => cardData.CrystalActionCardList,
+                Classes.Trickster => cardData.TricksterActionCardList,
                 _ => cardData.WarriorActionCardList,
             };
         }
@@ -64,7 +76,7 @@ namespace Assets.Resources.Scripts.Fight
             {
                 0 => new()
                 {
-                    Id = 0,
+                    Id = id,
                     NameIdValue = 32,
                     DescriptionIdValue = 38,
                     ActionId = ActionType.Equip,
@@ -72,7 +84,7 @@ namespace Assets.Resources.Scripts.Fight
                 },
                 1 => new()
                 {
-                    Id = 1,
+                    Id = id,
                     NameIdValue = 33,
                     DescriptionIdValue = 39,
                     ActionId = ActionType.Attack,
@@ -80,7 +92,7 @@ namespace Assets.Resources.Scripts.Fight
                 },
                 2 => new()
                 {
-                    Id = 2,
+                    Id = id,
                     NameIdValue = 35,
                     DescriptionIdValue = 40,
                     ActionId = ActionType.Skill,
@@ -88,7 +100,7 @@ namespace Assets.Resources.Scripts.Fight
                 },
                 3 => new()
                 {
-                    Id = 3,
+                    Id = id,
                     NameIdValue = 36,
                     DescriptionIdValue = 41,
                     ActionId = ActionType.Modifier,
@@ -96,7 +108,7 @@ namespace Assets.Resources.Scripts.Fight
                 },
                 4 => new()
                 {
-                    Id = 4,
+                    Id = id,
                     NameIdValue = 37,
                     DescriptionIdValue = 42,
                     ActionId = ActionType.Modifier,
@@ -104,7 +116,7 @@ namespace Assets.Resources.Scripts.Fight
                 },
                 5 => new()
                 {
-                    Id = 5,
+                    Id = id,
                     NameIdValue = 46,
                     DescriptionIdValue = 38,
                     ActionId = ActionType.Equip,
@@ -112,7 +124,7 @@ namespace Assets.Resources.Scripts.Fight
                 },
                 6 => new()
                 {
-                    Id = 6,
+                    Id = id,
                     NameIdValue = 47,
                     DescriptionIdValue = 39,
                     ActionId = ActionType.Attack,
@@ -120,7 +132,7 @@ namespace Assets.Resources.Scripts.Fight
                 },
                 7 => new()
                 {
-                    Id = 7,
+                    Id = id,
                     NameIdValue = 48,
                     DescriptionIdValue = 40,
                     ActionId = ActionType.Skill,
@@ -128,7 +140,7 @@ namespace Assets.Resources.Scripts.Fight
                 },
                 8 => new()
                 {
-                    Id = 8,
+                    Id = id,
                     NameIdValue = 34,
                     DescriptionIdValue = 38,
                     ActionId = ActionType.Equip,
@@ -136,7 +148,7 @@ namespace Assets.Resources.Scripts.Fight
                 },
                 9 => new()
                 {
-                    Id = 9,
+                    Id = id,
                     NameIdValue = 49,
                     DescriptionIdValue = 39,
                     ActionId = ActionType.Attack,
@@ -144,7 +156,7 @@ namespace Assets.Resources.Scripts.Fight
                 },
                 10 => new()
                 {
-                    Id = 10,
+                    Id = id,
                     NameIdValue = 50,
                     DescriptionIdValue = 40,
                     ActionId = ActionType.Skill,
@@ -152,7 +164,7 @@ namespace Assets.Resources.Scripts.Fight
                 },
                 11 => new()
                 {
-                    Id = 11,
+                    Id = id,
                     NameIdValue = 51,
                     DescriptionIdValue = 38,
                     ActionId = ActionType.Equip,
@@ -160,7 +172,7 @@ namespace Assets.Resources.Scripts.Fight
                 },
                 12 => new()
                 {
-                    Id = 12,
+                    Id = id,
                     NameIdValue = 52,
                     DescriptionIdValue = 39,
                     ActionId = ActionType.Attack,
@@ -168,11 +180,83 @@ namespace Assets.Resources.Scripts.Fight
                 },
                 13 => new()
                 {
-                    Id = 13,
+                    Id = id,
                     NameIdValue = 53,
                     DescriptionIdValue = 40,
                     ActionId = ActionType.Skill,
                     ClassId = Classes.Rogue
+                },
+                14 => new()
+                {
+                    Id = id,
+                    NameIdValue = 55,
+                    DescriptionIdValue = 38,
+                    ActionId = ActionType.Equip,
+                    ClassId = Classes.Monk
+                },
+                15 => new()
+                {
+                    Id = id,
+                    NameIdValue = 56,
+                    DescriptionIdValue = 39,
+                    ActionId = ActionType.Attack,
+                    ClassId = Classes.Monk
+                },
+                16 => new()
+                {
+                    Id = id,
+                    NameIdValue = 57,
+                    DescriptionIdValue = 40,
+                    ActionId = ActionType.Skill,
+                    ClassId = Classes.Monk
+                },
+                17 => new()
+                {
+                    Id = id,
+                    NameIdValue = 58,
+                    DescriptionIdValue = 38,
+                    ActionId = ActionType.Equip,
+                    ClassId = Classes.Crystal
+                },
+                18 => new()
+                {
+                    Id = id,
+                    NameIdValue = 59,
+                    DescriptionIdValue = 39,
+                    ActionId = ActionType.Attack,
+                    ClassId = Classes.Crystal
+                },
+                19 => new()
+                {
+                    Id = id,
+                    NameIdValue = 60,
+                    DescriptionIdValue = 40,
+                    ActionId = ActionType.Skill,
+                    ClassId = Classes.Crystal
+                },
+                20 => new()
+                {
+                    Id = id,
+                    NameIdValue = 61,
+                    DescriptionIdValue = 38,
+                    ActionId = ActionType.Equip,
+                    ClassId = Classes.Trickster
+                },
+                21 => new()
+                {
+                    Id = id,
+                    NameIdValue = 62,
+                    DescriptionIdValue = 39,
+                    ActionId = ActionType.Attack,
+                    ClassId = Classes.Trickster
+                },
+                22 => new()
+                {
+                    Id = id,
+                    NameIdValue = 63,
+                    DescriptionIdValue = 40,
+                    ActionId = ActionType.Skill,
+                    ClassId = Classes.Trickster
                 },
                 _ => null
             };
@@ -182,7 +266,7 @@ namespace Assets.Resources.Scripts.Fight
         {
             return animationId switch
             {
-                2 or 7 or 10 or 13 => "Defend",
+                2 or 7 or 10 or 13 or 16 or 19 or 22 => "Defend",
                 _ => string.Empty,
             };
         }

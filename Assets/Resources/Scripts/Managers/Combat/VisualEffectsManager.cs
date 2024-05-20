@@ -123,7 +123,10 @@ public class VisualEffectsManager : MonoBehaviour
         currentColor2.a += operatorEffect * Time.deltaTime * scale;
         startupBlackoutImage.color = currentColor2;
 
-        bool isCompleted = currentColor2.a >= finalOpacity;
+        bool isCompleted = false;
+        
+        if((makeScreenDarker && currentColor2.a >= finalOpacity) || (!makeScreenDarker) && currentColor2.a <= finalOpacity)
+            isCompleted = true;
 
         if(isCompleted)
         {

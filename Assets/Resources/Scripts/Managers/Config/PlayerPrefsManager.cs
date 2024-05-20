@@ -60,7 +60,7 @@ public static class PlayerPrefsManager
 
     public enum PlayerPrefsEnum
     {
-        AlreadyLaunchedGame,
+        AlreadyCompletedTutorial,
         HasWonAnyRun,
         Language,
         WarriorUnlocked,

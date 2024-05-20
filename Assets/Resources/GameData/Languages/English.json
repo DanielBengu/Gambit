@@ -2,11 +2,11 @@
   "Strings": [
     {
       "Id": 0,
-      "Value": "New Game"
+      "Value": "NEW GAME"
     },
     {
       "Id": 1,
-      "Value": "Continue"
+      "Value": "CONTINUE"
     },
     {
       "Id": 2,
@@ -58,11 +58,11 @@
     },
     {
       "Id": 14,
-      "Value": "Welcome to the introduction of GAMBIT"
+      "Value": "WELCOME TO THE INTRODUCTION OF GAMBIT"
     },
     {
       "Id": 15,
-      "Value": "My name is Eleonore and I'm the Archmage of the Kamris Woods"
+      "Value": "MY NAME IS ELEONOIRE AND I'M THE ARCHMAGE OF THE KAMRIS WOODS"
     },
     {
       "Id": 16,
@@ -126,7 +126,7 @@
     },
     {
       "Id": 31,
-      "Value": "Help me clean this area and defeat <b>Kaldor the Titan</b>"
+      "Value": "HELP ME CLEAN THIS AREA AND DEFEAT <color=red><b>KALDOR THE TITAN</b></color>"
     },
     {
       "Id": 32,
@@ -219,6 +219,42 @@
     {
       "Id": 54,
       "Value": "GOLD: {0}"
+    },
+    {
+      "Id": 55,
+      "Value": "GOLEM FIST"
+    },
+    {
+      "Id": 56,
+      "Value": "BOULDER SMASH"
+    },
+    {
+      "Id": 57,
+      "Value": "EARTH DEFENCE"
+    },
+    {
+      "Id": 58,
+      "Value": "ORZA HAMMER"
+    },
+    {
+      "Id": 59,
+      "Value": "RUBY SWING"
+    },
+    {
+      "Id": 60,
+      "Value": "SAPPHIRE SHIELD"
+    },
+    {
+      "Id": 61,
+      "Value": "SAND DAGGERS"
+    },
+    {
+      "Id": 62,
+      "Value": "DAGGER CUT"
+    },
+    {
+      "Id": 63,
+      "Value": "SAND SHIELD"
     }
   ]
 }

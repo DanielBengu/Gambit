@@ -3,7 +3,7 @@ using UnityEngine;
 
 internal class Wizard : IClass
 {
-    public Wizard(FightManager manager) : base(manager, CardsManager.Classes.Wizard, Color.cyan)
+    public Wizard(FightManager manager) : base(manager, CardsManager.Classes.Wizard)
     {
         CardsHandler = new(manager);
     }

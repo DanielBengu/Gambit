@@ -6,6 +6,7 @@ using System;
 using static CardsManager;
 using System.Linq;
 using TMPro;
+using static GameUIManager;
 public class FightManager
 {
     public static int CRIT_SCORE = 12;
@@ -75,6 +76,9 @@ public class FightManager
     {
         int bustAmount = GetCardsBustAmount(Player.FightCurrentDeck, Player.currentScore, Player.MaxScore);
         gameUIManager.SetupFightUI(Enemy, Player, Player.FightCurrentDeck.Count, bustAmount);
+
+        string damagePrevision = GetDamagePrevision(Player, Enemy, out PrevisionEnum prev);
+        gameUIManager.UpdatePrevision(prev, damagePrevision);
 
         StartPlayerTurn();
     }
@@ -227,6 +231,9 @@ public class FightManager
         HandleSideEffects(character, unit.Class, card);
         HandlePoints(ref unit.status, character, ref unit.currentScore, unit.CurrentMaxScore, cardValue);
 
+        string damagePrevision = GetDamagePrevision(Player, Enemy, out PrevisionEnum prev);
+        gameUIManager.UpdatePrevision(prev, damagePrevision);
+
         unit.FightCurrentDeck.Remove(card);
 
         if (card.destroyOnPlay)
@@ -234,6 +241,47 @@ public class FightManager
             var cardOnBaseDeck = unit.FightBaseDeck.Find(c => c.cardType == card.cardType && c.id == card.id && c.value == card.value && c.classId == card.classId && c.destroyOnPlay == card.destroyOnPlay);
             unit.FightBaseDeck.Remove(cardOnBaseDeck);
         }
+    }
+
+    public string GetDamagePrevision(FightUnit player, FightUnit enemy, out PrevisionEnum previsionEnum)
+    {
+        string damagePrevision;
+        int baseDamageAmount = Math.Abs(player.currentScore - enemy.currentScore);
+
+        if (player.currentScore > enemy.currentScore)
+        {
+            previsionEnum = PrevisionEnum.PlayerAdvantage;
+            baseDamageAmount = player.ApplyDamageModifiers(baseDamageAmount);
+
+            if (baseDamageAmount < 0)
+                baseDamageAmount = 0;
+
+            damagePrevision = baseDamageAmount.ToString();
+
+            if (player.Attacks > 1)
+                damagePrevision += $"x{player.Attacks}";
+        }
+        else if (enemy.currentScore > player.currentScore)
+        {
+            previsionEnum = PrevisionEnum.EnemyAdvantage;
+
+            baseDamageAmount = enemy.ApplyDamageModifiers(baseDamageAmount);
+
+            if (baseDamageAmount < 0)
+                baseDamageAmount = 0;
+
+            damagePrevision = baseDamageAmount.ToString();
+
+            if (enemy.Attacks > 1)
+                damagePrevision += $"x{enemy.Attacks}";
+        }
+        else
+        {
+            previsionEnum = PrevisionEnum.Tie;
+            damagePrevision = "0";
+        }
+
+        return damagePrevision;
     }
 
     public void HandlePoints(ref CharacterStatus status, Character character, ref int unitScore, int unitMaxScore, int playerCardValue)
@@ -413,6 +461,9 @@ public class FightManager
 
         HandlePoints(ref unit.status, unit.Character, ref unit.currentScore, unit.CurrentMaxScore, 0);
         gameUIManager.UpdateUI(unit.Character, unit);
+
+        string damagePrevision = GetDamagePrevision(Player, Enemy, out PrevisionEnum prev);
+        gameUIManager.UpdatePrevision(prev, damagePrevision);
 
         PlayCustomAnimation(obj, animation, () => { });
     }

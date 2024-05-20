@@ -5,6 +5,7 @@ using static FightManager;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using static GameUIManager;
 
 public class TurnManager
 {
@@ -43,6 +44,9 @@ public class TurnManager
 
         gameUIManager.UpdateUI(Character.Enemy, Enemy);
         gameUIManager.UpdateUI(Character.Player, Player);
+
+        string damagePrevision = fightManager.GetDamagePrevision(Player, Enemy, out PrevisionEnum prev);
+        gameUIManager.UpdatePrevision(prev, damagePrevision);
 
         gameUIManager.SetStandButtonInteractable(true);
     }

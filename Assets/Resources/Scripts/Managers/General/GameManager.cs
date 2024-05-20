@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviour
         CurrentEncounterCount = playerData.CurrentRun.CurrentFloor;
 
         if(currentMap.CustomEncounters.Exists(e => e.Id == CurrentEncounterCount))
-            currentEncounter = currentMap.CustomEncounters[CurrentEncounterCount];
+            currentEncounter = currentMap.CustomEncounters.Find(e => e.Id == CurrentEncounterCount);
         else
             currentEncounter = null;
 

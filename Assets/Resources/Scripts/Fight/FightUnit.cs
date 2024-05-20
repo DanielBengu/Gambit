@@ -204,10 +204,12 @@ public class FightUnit : UnitData
 
     public int ApplyDamageModifiers(int baseDamage)
     {
-        if (currentScore >= CRIT_SCORE)
-            baseDamage *= 2;
+        int damageAmount = baseDamage + Damage;
 
-        return baseDamage + Damage;
+        if (currentScore >= CRIT_SCORE)
+            damageAmount *= 2;
+
+        return damageAmount;
     }
 
     public struct Modifiers

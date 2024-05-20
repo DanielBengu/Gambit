@@ -43,8 +43,10 @@ public class GameUIManager : MonoBehaviour
     #endregion
 
     #region Game UI
+
     public TextMeshProUGUI deckCount;
     public TextMeshProUGUI bustChance;
+    public TextMeshProUGUI previsionText;
 
     public Button standButton;
 
@@ -53,6 +55,7 @@ public class GameUIManager : MonoBehaviour
     public GameObject scoreUI;
 
     public Image blackScreen;
+    public Image previsionSword;
 
     public GameObject actionCardPrefab;
     public GameObject cardSection;
@@ -308,6 +311,24 @@ public class GameUIManager : MonoBehaviour
         ChangeSlideValue(slide, status, newScore, maxScore, attacks);
     }
 
+    public void UpdatePrevision(PrevisionEnum prevision, string damageAmount)
+    {
+        switch (prevision)
+        {
+            case PrevisionEnum.PlayerAdvantage:
+                previsionSword.transform.rotation = Quaternion.Euler(0, 180, 0);
+                break;
+            case PrevisionEnum.Tie:
+                previsionSword.transform.rotation = Quaternion.Euler(0, 180, -45);
+                break;
+            case PrevisionEnum.EnemyAdvantage:
+                previsionSword.transform.rotation = Quaternion.Euler(0, 180, -90);
+                break;
+        }
+
+        previsionText.text = damageAmount;
+    }
+
     public void UpdatePlayerInfo(int deckCount, int bustAmount)
     {
         ChangeDeckCount(deckCount);
@@ -355,10 +376,7 @@ public class GameUIManager : MonoBehaviour
 
     public void TurnOfFightUI()
     {
-        enemyInfoUI.SetActive(false);
-        hitOrStandUI.SetActive(false);
-        scoreUI.SetActive(false);
-        cardSection.SetActive(false);
+        fightUI.SetActive(false);
     }
 
     public void TurnOffEventUI()
@@ -440,5 +458,12 @@ public class GameUIManager : MonoBehaviour
     public void SetStandButtonInteractable(bool interactable)
     {
         standButton.interactable = interactable;
+    }
+
+    public enum PrevisionEnum
+    {
+        PlayerAdvantage,
+        Tie,
+        EnemyAdvantage
     }
 }

@@ -103,7 +103,7 @@ public class GameUIManager : MonoBehaviour
         cardSection.SetActive(true);
 
         SetUnitTitle(enemyTitleText, enemy.Name, enemy.Class.Class.ToString());
-        SetUnitTitle(playerTitleText, player.Name, player.Class.Class.ToString());
+        //SetUnitTitle(playerTitleText, player.Name, player.Class.Class.ToString());
 
         ChangeDeckCount(playerDeckCount);
         UpdateBustChance(bustAmount, playerDeckCount);
@@ -152,8 +152,8 @@ public class GameUIManager : MonoBehaviour
         float x = position - vertexPositionX;
         float c = - x * 10;
 
-        float cardPositionX = basePosition.x + (x * 1.4f * scale);
-        float cardPositionY = basePosition.y - (Math.Abs(c) / 20 * scale);
+        float cardPositionX = basePosition.x + (x * 1.5f * scale);
+        float cardPositionY = basePosition.y - (Math.Abs(c) / 22 * scale);
 
         return new(cardPositionX, cardPositionY, basePosition.z);
     }
@@ -184,9 +184,9 @@ public class GameUIManager : MonoBehaviour
         //cardObj.GetComponent<Image>().color = IClass.GetCardBackgroundColor(card.ClassId);
     }
 
-    public void SetPlayerSection(string name, string className, int maxHp, int currentHp, int armor)
+    public void SetPlayerSection(int maxHp, int currentHp, int armor)
     {
-        SetUnitTitle(playerTitleText, name, className);
+        //SetUnitTitle(playerTitleText, name, className);
         UpdateArmor(Character.Player, armor);
         UpdateUnitHP(Character.Player, currentHp, maxHp);
     }

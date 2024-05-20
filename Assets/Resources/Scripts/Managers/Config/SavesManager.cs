@@ -5,10 +5,18 @@ using System.Collections.Generic;
 
 public static class SaveManager
 {
-    private static readonly string _playerDataFilePath = Application.dataPath + "/Resources/Saves/PlayerData.json";
+    private static readonly string _playerDataFilePath = Path.Combine(Application.persistentDataPath, "PlayerData.json");
 
     public static void SavePlayerData(PlayerData playerData)
     {
+        string directoryPath = Path.GetDirectoryName(_playerDataFilePath);
+
+        // Check if the directory exists, if not, create it
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
+
         string jsonData = JsonUtility.ToJson(playerData);
 
         File.WriteAllText(_playerDataFilePath, jsonData);

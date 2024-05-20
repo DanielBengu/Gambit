@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
         string className = playerData.CurrentRun.ClassId.ToString();
         player = LoadCharacter(className, playerParent);
 
-        gameUIManager.SetPlayerSection(playerData.UnitData.Name, playerData.CurrentRun.ClassId.ToString(), playerData.UnitData.MaxHP, playerData.UnitData.CurrentHP, playerData.UnitData.Armor);
+        gameUIManager.SetPlayerSection(playerData.UnitData.MaxHP, playerData.UnitData.CurrentHP, playerData.UnitData.Armor);
         gameUIManager.UpdateGoldAmount(playerData.CurrentRun.GoldAmount);
 
         CurrentEncounterCount = playerData.CurrentRun.CurrentFloor;

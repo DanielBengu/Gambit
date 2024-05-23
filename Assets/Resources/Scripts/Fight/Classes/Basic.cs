@@ -1,6 +1,9 @@
 ﻿using Assets.Resources.Scripts.Fight;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using static AnimationManager;
+using static FightManager;
 
 internal class Basic : IClass
 {
@@ -65,5 +68,14 @@ internal class Basic : IClass
     public override Sprite GetCardIcon(CardType cardType)
     {
         return null;
+    }
+
+    public override string GetAttackAnimation(FightUnit unit, Queue<AttackStruct> attacks, GameObject obj)
+    {
+        /*
+        if (unit.status == CharacterStatus.StandingOnCrit)
+            return SpriteAnimation.Crit.ToString();*/
+
+        return GetAnimationName(SpriteAnimation.UnitDealDamage);
     }
 }

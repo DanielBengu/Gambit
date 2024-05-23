@@ -1,6 +1,9 @@
 ﻿using Assets.Resources.Scripts.Fight;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using static AnimationManager;
+using static FightManager;
 
 public class Monk : IClass
 {
@@ -89,5 +92,13 @@ public class Monk : IClass
                 Debug.LogError($"Card {cardType} not implemented for {Class}");
                 return null;
         }
+    }
+
+    public override string GetAttackAnimation(FightUnit unit, Queue<AttackStruct> attacks, GameObject obj)
+    {
+        if (unit.status == CharacterStatus.StandingOnCrit)
+            return GetAnimationName(SpriteAnimation.Crit);
+
+        return GetAnimationName(SpriteAnimation.UnitDealDamage);
     }
 }

@@ -15,10 +15,8 @@ using static PlayerPrefsManager;
 
 public class GameManager : MonoBehaviour
 {
+
     #region Managers
-
-    #endregion
-
 
     public FightManager FightManager { get; set; }
     public EventManager EventManager { get; set; }
@@ -28,6 +26,8 @@ public class GameManager : MonoBehaviour
     public EnemyManager enemyManager;
     public VisualEffectsManager effectsManager;
     public LanguageManager languageManager;
+
+    #endregion
 
     public Transform playerParent;
     public GameObject player;
@@ -54,6 +54,13 @@ public class GameManager : MonoBehaviour
     #region Unlock section
 
     public GameObject unlockParent;
+
+    #endregion
+
+    #region Info Panel
+
+    public GameObject infoPanel;
+    public bool IsInfoPanelOpen { get; set; } = false;
 
     #endregion
 
@@ -314,6 +321,19 @@ public class GameManager : MonoBehaviour
         nextSectionButton.gameObject.SetActive(true);
     }
 
+    public static Vector3 GetItemPositionOnInfoPanelList(Vector3 basePosition, int index)
+    {
+        float row = index / 4 * 2.5f;
+        float columns = index % 4 * 1.725f;
+        return new(basePosition.x - 2.675f + columns, basePosition.y + 1.5f - row, basePosition.z);
+    }
+
+    void SetInfoPanel(bool active)
+    {
+        infoPanel.SetActive(active);
+        IsInfoPanelOpen = active;
+    }
+
     #region Handle Game Status
 
     public void HandleFightVictory(List<Reward> rewards)
@@ -400,6 +420,26 @@ public class GameManager : MonoBehaviour
     public void NextSectionButtonClick()
     {
         HandleNextEncounter();
+    }
+
+    public void ShowActionDeck()
+    {
+        if (FightManager.IsGameOnStandby())
+            return;
+
+        SetInfoPanel(true);
+
+        FightManager.LoadActionDeckOnInfoPanel();
+    }
+
+    public void CloseInfoPanel()
+    {
+        if (!IsInfoPanelOpen)
+            return;
+
+        SetInfoPanel(false);
+
+        FightManager.ClearActionDeckInfoPanel();
     }
 
     #endregion

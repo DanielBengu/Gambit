@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System;
 using static GameUIManager;
+using System.Collections;
 
 public class TurnManager
 {
@@ -42,8 +43,8 @@ public class TurnManager
 
         fightManager.DrawTurnHand();
 
-        gameUIManager.UpdateUI(Character.Enemy, Enemy);
-        gameUIManager.UpdateUI(Character.Player, Player);
+        gameUIManager.UpdateUI(Enemy);
+        gameUIManager.UpdateUI(Player);
 
         string damagePrevision = fightManager.GetDamagePrevision(Player, Enemy, out PrevisionEnum prev);
         gameUIManager.UpdatePrevision(prev, damagePrevision);
@@ -77,10 +78,7 @@ public class TurnManager
 
             GameObject obj = attacker.Character == Character.Player ? PlayerObj : EnemyObj;
 
-            string animation = GetAnimationName(SpriteAnimation.UnitDealDamage);
-
-            if (attacker.Class.Class == Classes.Warrior && attacks.Count > 1)
-                animation = "MultipleAttackStart";
+            string animation = GetAttackAnimation(attacker, obj);
 
             PlayCustomAnimation(obj, animation, DealDamage);
         }
@@ -141,12 +139,12 @@ public class TurnManager
         GameObject defender = attack.defender.Character == Character.Player ? PlayerObj : EnemyObj;
 
         fightManager.HandleCharacterHPVariation(attack.defender, defender);
-        fightManager.gameUIManager.UpdateUI(attack.defender.Character, attack.defender);
+        fightManager.gameUIManager.UpdateUI(attack.defender);
 
         if (attacks.Count > 0)
         {
-            string animation = GetAttackAnimation(attack.attacker);
             GameObject newAttacker = attacks.First().attacker.Character == Character.Player ? PlayerObj : EnemyObj;
+            string animation = GetAttackAnimation(attack.attacker, newAttacker);
             PlayCustomAnimation(newAttacker, animation, attacks.First().callback);
         }
     }
@@ -162,13 +160,8 @@ public class TurnManager
 
         switch (effectName)
         {
-            case "wizard_earth_attack":
-                obj = Resources.Load<GameObject>($"Prefabs/Characters/Wizard/Effects/Earth Attack/Earth Attack Prefab");
-                defenderTransform = attacks.First().defender.Character == Character.Player ? PlayerObj.transform : EnemyObj.transform;
-                attackerTransform = attacks.First().attacker.Character == Character.Player ? PlayerObj.transform : EnemyObj.transform;
-                break;
-            case "wizard_fire_attack":
-                obj = Resources.Load<GameObject>($"Prefabs/Characters/Wizard/Effects/Fire Attack/Fire Attack Prefab");
+            case "RangerCrit":
+                obj = Resources.Load<GameObject>($"Prefabs/Characters/Ranger/Crit/Crit");
                 defenderTransform = attacks.First().defender.Character == Character.Player ? PlayerObj.transform : EnemyObj.transform;
                 attackerTransform = attacks.First().attacker.Character == Character.Player ? PlayerObj.transform : EnemyObj.transform;
                 break;
@@ -182,7 +175,7 @@ public class TurnManager
         if (obj == null || parent == null || callbacks == null)
             return;
 
-        GameObject attackInstance = UnityEngine.Object.Instantiate(obj, parent.position, parent.rotation, PlayerObj.transform.parent);
+        GameObject attackInstance = UnityEngine.Object.Instantiate(obj, parent.position, parent.rotation, parent.transform.parent);
 
         Animator anim = attackInstance.GetComponent<Animator>();
         anim.Play("Attack");
@@ -191,14 +184,8 @@ public class TurnManager
         script.dictionaryCallback = callbacks;
     }
 
-    public string GetAttackAnimation(FightUnit attacker)
+    public string GetAttackAnimation(FightUnit attacker, GameObject attackerObj)
     {
-        if (attacker.Class.Class != Classes.Warrior)
-            return SpriteAnimation.UnitDealDamage.ToString();
-
-        if (attacks.Count == 1)
-            return "MultipleAttackEnd";
-        else
-            return "MultipleAttackSingleAttack";
+        return attacker.Class.GetAttackAnimation(attacker, attacks, attackerObj);
     }
 }

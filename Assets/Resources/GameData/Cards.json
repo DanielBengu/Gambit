@@ -132,6 +132,16 @@
       "Id": 4,
       "Name": "+6 Modifier",
       "Quantities": 1
+    },
+    {
+      "Id": 23,
+      "Name": "Arrow Stab",
+      "Quantities": 1
+    },
+    {
+      "Id": 24,
+      "Name": "+12 Modifier",
+      "Quantities": 1
     }
   ],
   "RogueActionCardList": [

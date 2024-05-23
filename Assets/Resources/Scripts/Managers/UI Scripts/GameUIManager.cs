@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using static VisualEffectsManager.MovingObject;
 using static FightManager;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using static MenuOptions;
 
 public class GameUIManager : MonoBehaviour
 {
@@ -70,6 +72,12 @@ public class GameUIManager : MonoBehaviour
     #endregion
 
     public LanguageManager languageManager;
+
+    #region Info Panel
+
+    public GameObject infoPanel;
+
+    #endregion
 
     void Start()
     {
@@ -140,13 +148,22 @@ public class GameUIManager : MonoBehaviour
         Vector3 cardPosition = GetCardPosition(positionInHand, cardsInHand, cardSection.transform.position, 1f);
         Quaternion newRotation = GetCardRotation(positionInHand, cardsInHand, cardSection.transform.rotation.x, cardSection.transform.rotation.y);
 
-        var newCard = Instantiate(actionCardPrefab, cardPosition, newRotation, cardSection.transform);
+        InstantiateActionCard(card, cardPosition, newRotation, cardSection.transform, manager, true);
+    }
+
+    public GameObject InstantiateActionCard(ActionCard card, Vector3 cardPosition, Quaternion newRotation, Transform parent, FightManager manager, bool isFunctional)
+    {
+        var newCard = Instantiate(actionCardPrefab, cardPosition, newRotation, parent);
         UpdateActionCardUI(newCard, card);
 
         var script = newCard.GetComponent<ActionCardInstance>();
-        script.LoadActionCard(card, manager);
 
-        return ;
+        if (isFunctional)
+            script.LoadActionCard(card, manager);
+        else
+            Destroy(script);
+
+        return newCard;
     }
 
     public static Vector3 GetCardPosition(int position, int cardNumber, Vector3 basePosition, float scale)
@@ -295,8 +312,10 @@ public class GameUIManager : MonoBehaviour
         }
     }
 
-    public void UpdateUI(Character character, FightUnit data)
+    public void UpdateUI(FightUnit data)
     {
+        Character character = data.Character;
+
         UpdateStandUI(character, data.status, data.currentScore, data.CurrentMaxScore, data.Attacks);
 
         UpdateUnitHP(character, data.FightHP, data.FightMaxHP);
@@ -459,6 +478,32 @@ public class GameUIManager : MonoBehaviour
     {
         standButton.interactable = interactable;
     }
+
+    #region Info Panel
+
+    public void LoadActionDeckInfo(List<ActionCard> actionCards, FightManager manager)
+    {
+        GameObject objParent = infoPanel.transform.Find("Objects").gameObject;
+        Vector3 basePosition = infoPanel.transform.Find("Scroller").transform.position;
+        foreach (var card in actionCards)
+        {
+            Vector3 newPositions = GameManager.GetItemPositionOnInfoPanelList(basePosition, actionCards.IndexOf(card));
+            var cardInstance = InstantiateActionCard(card, newPositions, objParent.transform.rotation, objParent.transform, manager, false);
+            float scale = 1.75f;
+            cardInstance.transform.localScale = new Vector3(cardInstance.transform.localScale.x * scale, cardInstance.transform.localScale.y * scale, cardInstance.transform.localScale.z * scale);
+        }
+    }
+
+    public void ClearInfoPanel()
+    {
+        GameObject objParent = infoPanel.transform.Find("Objects").gameObject;
+        for (int i = 0; i < objParent.transform.childCount; i++)
+        {
+            Destroy(objParent.transform.GetChild(i).gameObject);
+        }
+    }
+
+    #endregion
 
     public enum PrevisionEnum
     {

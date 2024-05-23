@@ -24,13 +24,13 @@ public class ActionCardInstance : MonoBehaviour
 
     void Update()
     {
-        if (InputManager.IsClickDown())
+        if (InputManager.IsClickDown() && !fightManager.IsGameOnStandby())
             StartDraggingCard();
 
         if (isDragging)
             MoveCard();
 
-        if (InputManager.IsClickUp())
+        if (InputManager.IsClickUp() || (isDragging && fightManager.IsGameOnStandby()))
             ReleaseCard();
     }
 

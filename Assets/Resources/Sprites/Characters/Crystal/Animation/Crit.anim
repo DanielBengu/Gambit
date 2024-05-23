@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DealDamage
+  m_Name: Crit
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -20,7 +20,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0, y: 2, z: 0}
+        value: {x: 0, y: 4, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -37,17 +37,35 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -134710438, guid: 9e727eda11c5f6848bb501ab34da4eab, type: 3}
-    - time: 0.1
-      value: {fileID: 1625630690, guid: 9e727eda11c5f6848bb501ab34da4eab, type: 3}
-    - time: 0.2
-      value: {fileID: 1081788484, guid: 9e727eda11c5f6848bb501ab34da4eab, type: 3}
-    - time: 0.3
-      value: {fileID: -1791363989, guid: 9e727eda11c5f6848bb501ab34da4eab, type: 3}
-    - time: 0.4
-      value: {fileID: -789483829, guid: 9e727eda11c5f6848bb501ab34da4eab, type: 3}
+      value: {fileID: -1624092285, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - time: 0.083333336
+      value: {fileID: -457212450, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - time: 0.16666667
+      value: {fileID: -890214661, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - time: 0.25
+      value: {fileID: -1723595704, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - time: 0.33333334
+      value: {fileID: -1978262615, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - time: 0.41666666
+      value: {fileID: -158392897, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
     - time: 0.5
-      value: {fileID: -717364233, guid: 9e727eda11c5f6848bb501ab34da4eab, type: 3}
+      value: {fileID: 562425140, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - time: 0.5833333
+      value: {fileID: 398072511, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - time: 0.6666667
+      value: {fileID: -1464996871, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - time: 0.75
+      value: {fileID: -744513569, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - time: 0.8333333
+      value: {fileID: -2066229600, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - time: 0.9166667
+      value: {fileID: 1374172769, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - time: 1
+      value: {fileID: -136058597, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - time: 1.0833334
+      value: {fileID: 108327067, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - time: 1.1666666
+      value: {fileID: -1730497012, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -79,18 +97,27 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -134710438, guid: 9e727eda11c5f6848bb501ab34da4eab, type: 3}
-    - {fileID: 1625630690, guid: 9e727eda11c5f6848bb501ab34da4eab, type: 3}
-    - {fileID: 1081788484, guid: 9e727eda11c5f6848bb501ab34da4eab, type: 3}
-    - {fileID: -1791363989, guid: 9e727eda11c5f6848bb501ab34da4eab, type: 3}
-    - {fileID: -789483829, guid: 9e727eda11c5f6848bb501ab34da4eab, type: 3}
-    - {fileID: -717364233, guid: 9e727eda11c5f6848bb501ab34da4eab, type: 3}
+    - {fileID: -1624092285, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - {fileID: -457212450, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - {fileID: -890214661, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - {fileID: -1723595704, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - {fileID: -1978262615, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - {fileID: -158392897, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - {fileID: 562425140, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - {fileID: 398072511, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - {fileID: -1464996871, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - {fileID: -744513569, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - {fileID: -2066229600, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - {fileID: 1374172769, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - {fileID: -136058597, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - {fileID: 108327067, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
+    - {fileID: -1730497012, guid: edfc633dd2d96934e9f2c4b4b1fa82d5, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.51666665
+    m_StopTime: 1.1833333
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -154,7 +181,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 2
+        value: 4
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -173,9 +200,9 @@ AnimationClip:
   m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.2
+  - time: 0.5833333
     functionName: StartCallback
-    data: DealDamage
+    data: Crit
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0

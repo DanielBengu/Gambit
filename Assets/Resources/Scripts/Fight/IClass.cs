@@ -1,7 +1,10 @@
 ﻿using Assets.Resources.Scripts.Fight;
+using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using static CardsManager;
+using static FightManager;
 
 public abstract class IClass
 {
@@ -56,6 +59,8 @@ public abstract class IClass
     public abstract void PlayQueen(FightUnit unit, FightUnit enemy);
     public abstract void PlayKing(FightUnit unit, FightUnit enemy);
     public abstract void PlayAce(FightUnit unit, FightUnit enemy);
+
+    public abstract string GetAttackAnimation(FightUnit unit, Queue<AttackStruct> attacks, GameObject obj);
 
     public abstract string GetCardText(CardType cardType);
     public abstract Sprite GetCardIcon(CardType cardType);

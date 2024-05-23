@@ -32,6 +32,8 @@ public static class AnimationManager
         if (animation == string.Empty)
             return;
 
+        Debug.Log($"Playing animation {animation} for unit {unit.name}");
+
         Animator animator = unit.GetComponent<Animator>();
 
         animator.Play(animation, 0, 0f);
@@ -73,6 +75,7 @@ public static class AnimationManager
             SpriteAnimation.UnitIntro => "Intro",
             SpriteAnimation.UnitDefend => "Defend",
             SpriteAnimation.ChestOpen => "ChestOpen",
+            SpriteAnimation.Crit => "Crit",
             _ => string.Empty,
         };
     }
@@ -86,6 +89,7 @@ public static class AnimationManager
         UnitTalk,
         UnitIntro,
         UnitDefend,
-        ChestOpen
+        ChestOpen,
+        Crit
     }
 }

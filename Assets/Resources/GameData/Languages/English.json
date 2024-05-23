@@ -255,6 +255,22 @@
     {
       "Id": 63,
       "Value": "SAND SHIELD"
+    },
+    {
+      "Id": 64,
+      "Value": "ARROW STAB"
+    },
+    {
+      "Id": 65,
+      "Value": "DEAL 1 DAMAGE, REDUCE ENEMY ARMOR BY 2"
+    },
+    {
+      "Id": 66,
+      "Value": "+12 MODIFIER"
+    },
+    {
+      "Id": 67,
+      "Value": "+12 TO SCORE"
     }
   ]
 }

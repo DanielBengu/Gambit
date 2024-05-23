@@ -6,7 +6,7 @@ namespace Assets.Resources.Scripts.Fight
 {
     public static class ActionCardArchive
     {
-        public static void ApplyEffect(int cardId, FightUnit unit)
+        public static void ApplyEffect(int cardId, FightUnit unit, FightUnit enemy, FightManager manager)
         {
             switch (cardId)
             {
@@ -37,11 +37,18 @@ namespace Assets.Resources.Scripts.Fight
                 case 22:
                     ApplyModifier(unit, Stats.Armor, 1, 2);
                     break;
+                case 23:
+                    ApplyModifier(enemy, Stats.Armor, 1, -1);
+                    manager.DamageCharacter(enemy, manager.enemyObj, 1);
+                    break;
                 case 3:
                     AddScore(unit, 2);
                     break;
                 case 4:
                     AddScore(unit, 6);
+                    break;
+                case 24:
+                    AddScore(unit, 12);
                     break;
             }
         }
@@ -258,6 +265,22 @@ namespace Assets.Resources.Scripts.Fight
                     ActionId = ActionType.Skill,
                     ClassId = Classes.Trickster
                 },
+                23 => new()
+                {
+                    Id = id,
+                    NameIdValue = 64,
+                    DescriptionIdValue = 65,
+                    ActionId = ActionType.Attack,
+                    ClassId = Classes.Ranger
+                },
+                24 => new()
+                {
+                    Id = id,
+                    NameIdValue = 66,
+                    DescriptionIdValue = 67,
+                    ActionId = ActionType.Modifier,
+                    ClassId = Classes.Basic
+                },
                 _ => null
             };
         }
@@ -267,6 +290,7 @@ namespace Assets.Resources.Scripts.Fight
             return animationId switch
             {
                 2 or 7 or 10 or 13 or 16 or 19 or 22 => "Defend",
+                23 => "MeleeAttack",
                 _ => string.Empty,
             };
         }

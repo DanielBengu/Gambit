@@ -10,11 +10,16 @@ using static GameUIManager;
 public class FightManager
 {
     public static int CRIT_SCORE = 12;
+
+    #region Managers
+
     public readonly GameManager gameManager;
     public readonly GameUIManager gameUIManager;
     readonly VisualEffectsManager effectsManager;
     readonly EnemyManager enemyManager;
     readonly TurnManager turnManager;
+
+    #endregion
 
     public int BUST_PENALITY = 2;
 
@@ -426,8 +431,8 @@ public class FightManager
         }
 
         gameUIManager.UpdatePlayerInfo(Player.FightCurrentDeck.Count, GetCardsBustAmount(Player.FightCurrentDeck, Player.currentScore, Player.MaxScore));
-        gameUIManager.UpdateUI(Character.Enemy, Enemy);
-        gameUIManager.UpdateUI(Character.Player, Player);
+        gameUIManager.UpdateUI(Enemy);
+        gameUIManager.UpdateUI(Player);
     }
 
     public void HandleCardDrawn(Character character, FightUnit unit, Action callback)
@@ -441,26 +446,31 @@ public class FightManager
     public void PlayActionCard(ActionCard card, Character character)
     {
         FightUnit unit = null;
+        FightUnit enemy = null;
         GameObject obj = playerObj;
         switch (character)
         {
             case Character.Player:
                 unit = Player;
+                enemy = Enemy;
                 obj = playerObj;
                 break;
             case Character.Enemy:
                 unit = Enemy;
+                enemy = Player;
                 obj = enemyObj;
                 break;
         }
-        ActionCardArchive.ApplyEffect(card.Id, unit);
+        ActionCardArchive.ApplyEffect(card.Id, unit, enemy, this);
         string animation = ActionCardArchive.GetAnimation(card.Id);
 
         unit.FightCurrentHand.Remove(card);
         gameUIManager.UpdateHand(unit.FightCurrentHand, this);
 
         HandlePoints(ref unit.status, unit.Character, ref unit.currentScore, unit.CurrentMaxScore, 0);
-        gameUIManager.UpdateUI(unit.Character, unit);
+
+        gameUIManager.UpdateUI(unit);
+        gameUIManager.UpdateUI(enemy);
 
         string damagePrevision = GetDamagePrevision(Player, Enemy, out PrevisionEnum prev);
         gameUIManager.UpdatePrevision(prev, damagePrevision);
@@ -473,7 +483,7 @@ public class FightManager
         bool isUserOnStandby = Player.status != CharacterStatus.Playing;
         bool isPlayerCardAnimating = effectsManager.movingObjects.Exists(a => a.type == VisualEffectsManager.MovingObject.TypeOfObject.CardDrawnPlayer);
 
-        return isUserOnStandby || isPlayerCardAnimating || turnManager.CurrentTurn == TurnStatus.EnemyTurn;
+        return isUserOnStandby || isPlayerCardAnimating || turnManager.CurrentTurn == TurnStatus.EnemyTurn || gameManager.IsInfoPanelOpen;
     }
 
     public void HandleAwaitingForRewards()
@@ -508,6 +518,11 @@ public class FightManager
         HandleReward(rewardToGive);
     }
 
+    void ResetGoldUI()
+    {
+        goldRewardObj.SetActive(false);
+    }
+
     void HandleReward(Reward reward)
     {
         switch (reward.reward)
@@ -533,7 +548,7 @@ public class FightManager
 
         goldRewardObj.SetActive(true);
 
-        effectsManager.effects.Add(new(VisualEffectsManager.Effects.AddGoldReward, goldRewardObj, new() { StartGoldUIUpdate, GiveReward }, new object[4] {2, goldRewardObj.GetComponent<TextMeshProUGUI>(), targetPos, goldRewardObj.transform.position }));
+        effectsManager.effects.Add(new(VisualEffectsManager.Effects.AddGoldReward, goldRewardObj, new() { StartGoldUIUpdate, GiveReward, ResetGoldUI }, new object[4] {2, goldRewardObj.GetComponent<TextMeshProUGUI>(), targetPos, goldRewardObj.transform.position }));
     }
 
     void StartGoldUIUpdate()
@@ -559,6 +574,16 @@ public class FightManager
         gameUIManager.SetStandButtonInteractable(false);
 
         PlayEnemyTurn();
+    }
+
+    public void LoadActionDeckOnInfoPanel()
+    {
+        gameUIManager.LoadActionDeckInfo(Player.FightActionCurrentDeck, this);
+    }
+
+    public void ClearActionDeckInfoPanel()
+    {
+        gameUIManager.ClearInfoPanel();
     }
 
     //Called after player drew their card

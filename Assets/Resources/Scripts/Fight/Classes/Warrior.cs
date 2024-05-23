@@ -1,6 +1,9 @@
 ﻿using Assets.Resources.Scripts.Fight;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using static AnimationManager;
+using static FightManager;
 
 public class Warrior : IClass
 {
@@ -88,6 +91,44 @@ public class Warrior : IClass
             default:
                 Debug.LogError($"Card {cardType} not implemented for {Class}");
                 return null;
+        }
+    }
+
+    public override string GetAttackAnimation(FightUnit unit, Queue<AttackStruct> attacks, GameObject obj)
+    {
+        string currentAnimationName = string.Empty;
+
+        // Get the Animator component from the GameObject
+        if (obj.TryGetComponent<Animator>(out var animator))
+        {
+            AnimatorClipInfo[] clipInfo = animator.GetCurrentAnimatorClipInfo(0);
+
+            if (clipInfo.Length > 0)
+                currentAnimationName = clipInfo[0].clip.name;
+        }
+
+        if (currentAnimationName.Equals(GetAnimationName(SpriteAnimation.Idle))) //First attack animation
+        {
+            if(attacks.Count > 1)
+                return "MultipleAttackStart";
+            else if (unit.status == CharacterStatus.StandingOnCrit)
+                return GetAnimationName(SpriteAnimation.Crit);
+            else
+                return GetAnimationName(SpriteAnimation.UnitDealDamage);
+        }
+        else if(currentAnimationName.Equals("MultipleAttackStart")) //Unit is on an attack combo animation
+        {
+            if (attacks.Count == 1)
+                return "MultipleAttackEnd";
+            else 
+                return "MultipleAttackSingleAttack";
+        }
+        else //Not the first attack, not a combo animation
+        {
+            if (unit.status == CharacterStatus.StandingOnCrit)
+                return GetAnimationName(SpriteAnimation.Crit);
+
+            return GetAnimationName(SpriteAnimation.UnitDealDamage);
         }
     }
 }

@@ -42,6 +42,7 @@ public class ActionCard
     public int DescriptionIdValue;
     public Classes ClassId;
     public ActionType ActionId;
+    public bool SpecialCard;
 }
 
 public enum CardType

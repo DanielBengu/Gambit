@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
@@ -80,7 +81,18 @@ public class MenuOptions : MonoBehaviour
         classImage.sprite = Resources.Load<Sprite>($"Sprites/Characters/{className}/{className}");
     }
 
-    public void StartChooseCharacterAnimation()
+    public IEnumerator ResetCharacterCards()
+    {
+        for (int i = 0; i < characterParent.childCount; i++)
+        {
+            var child = characterParent.GetChild(i);
+            StartCardAnimation(child, outScreenPosition, 5f);
+        }
+
+        yield return new WaitForSeconds(0f);
+    }
+
+    public IEnumerator StartChooseCharacterAnimation()
     {
         int numberOfClasses = Enum.GetValues(typeof(Classes)).Length;
         for (int i = 0; i < numberOfClasses - 1; i++)
@@ -100,6 +112,9 @@ public class MenuOptions : MonoBehaviour
             GameObject temp = CreateTempObject(cardPosition);
             float speed = 5 + ((10 - i) / 2);
             StartCardAnimation(characterCard.transform, temp.transform, speed);
+
+            // Wait for a small amount of time between each card creation for visual effect
+            yield return new WaitForSeconds(0f);
         }
     }
 
@@ -150,10 +165,10 @@ public class MenuOptions : MonoBehaviour
     public Vector3 GetCardPositionOnTable(int cardIndex)
     {
         if(cardIndex <= 2)
-            return new Vector3(-350 + (350 * cardIndex), 250, 0);
+            return new Vector3(-350 + (350 * cardIndex), 140, 0);
         
 
-        return new Vector3(-450 + (300 * (cardIndex - 3)), -200, 0);
+        return new Vector3(-450 + (300 * (cardIndex - 3)), -250, 0);
     }
 
     public void StartMenuAnimation()

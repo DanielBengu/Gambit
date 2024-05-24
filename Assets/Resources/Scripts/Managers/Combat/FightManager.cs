@@ -17,7 +17,7 @@ public class FightManager
     public readonly GameUIManager gameUIManager;
     readonly VisualEffectsManager effectsManager;
     readonly EnemyManager enemyManager;
-    readonly TurnManager turnManager;
+    public readonly TurnManager turnManager;
 
     #endregion
 
@@ -117,6 +117,13 @@ public class FightManager
         return cardDrawn;
     }
 
+    public void AddCardToHand(ActionCard card)
+    {
+        Player.FightCurrentHand.Add(card);
+
+        gameUIManager.UpdateHand(Player.FightCurrentHand, this);
+    }
+
     FightUnit ConvertEnemyIntoUnit(EnemyData enemy)
     {
         UnitData unit = new()
@@ -149,6 +156,8 @@ public class FightManager
         Action callbackDefender = GetAnimationCallback(anim, unit.Character);
 
         PlayAnimation(unitObj, anim, callbackDefender);
+
+        gameUIManager.UpdateUI(unit);
     }
 
     public SpriteAnimation GetDamageAnimation(Character character)

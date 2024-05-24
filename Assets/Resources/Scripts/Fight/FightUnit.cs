@@ -164,7 +164,22 @@ public class FightUnit : UnitData
         List<Modifiers> modifersList = CurrentModifiers.Where(m => m.statModified == stat).ToList();
         int modifiers = GetModifiersValue(modifersList);
 
-        return baseValue + modifiers;
+        int finalValue = AdditionalChecks(stat, baseValue + modifiers);
+
+        return finalValue;
+    }
+
+    int AdditionalChecks(Stats stat, int currentValue)
+    {
+        switch (stat)
+        {
+            case Stats.Armor:
+                if(currentValue < 0)
+                    currentValue = 0;
+                break;
+        }
+
+        return currentValue;
     }
 
     int GetModifiersValue(List<Modifiers> modifiers)

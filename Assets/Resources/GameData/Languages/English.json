@@ -271,6 +271,30 @@
     {
       "Id": 67,
       "Value": "+12 TO SCORE"
+    },
+    {
+      "Id": 68,
+      "Value": "RIVER DANCE"
+    },
+    {
+      "Id": 69,
+      "Value": "DEAL 1 DAMAGE, THEN 2, THEN 3"
+    },
+    {
+      "Id": 70,
+      "Value": "PURIFY"
+    },
+    {
+      "Id": 71,
+      "Value": "HEAL 2 HP"
+    },
+    {
+      "Id": 72,
+      "Value": "ICE STAB"
+    },
+    {
+      "Id": 73,
+      "Value": "+1 DMG THIS TURN, LOWER ENEMY ARMOR BY 1 FOR 2 TURNS"
     }
   ]
 }

@@ -11,10 +11,13 @@ public abstract class IClass
     public Classes Class { get; set; }
     public CardsHandler CardsHandler { get; set; }
 
+    internal FightManager FightManager { get; }
+
     public IClass(FightManager manager, Classes unitClass)
     {
         CardsHandler = new(manager);   
         Class = unitClass;
+        FightManager = manager;
     }
 
 

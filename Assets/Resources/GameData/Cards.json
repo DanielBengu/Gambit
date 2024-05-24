@@ -105,8 +105,14 @@
       "Id": 4,
       "Name": "+6 Modifier",
       "Quantities": 1
+    },
+    {
+      "Id": 27,
+      "Name": "ICE STAB",
+      "Quantities": 1
     }
   ],
+
   "RangerActionCardList": [
     {
       "Id": 8,
@@ -144,6 +150,7 @@
       "Quantities": 1
     }
   ],
+
   "RogueActionCardList": [
     {
       "Id": 11,
@@ -171,6 +178,7 @@
       "Quantities": 1
     }
   ],
+
   "MonkActionCardList": [
     {
       "Id": 14,
@@ -198,6 +206,7 @@
       "Quantities": 1
     }
   ],
+
   "CrystalActionCardList": [
     {
       "Id": 17,
@@ -225,6 +234,7 @@
       "Quantities": 1
     }
   ],
+
   "TricksterActionCardList": [
     {
       "Id": 20,

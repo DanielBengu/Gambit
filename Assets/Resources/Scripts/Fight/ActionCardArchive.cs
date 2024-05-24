@@ -1,11 +1,268 @@
 ﻿using static CardsManager;
 using System.Collections.Generic;
 using static FightUnit;
+using System;
 
 namespace Assets.Resources.Scripts.Fight
 {
     public static class ActionCardArchive
     {
+        public static List<ActionCard> CARD_ARCHIVE = new()
+        {
+            new()
+            {
+                Id = 0,
+                NameIdValue = 32,
+                DescriptionIdValue = 38,
+                ActionId = ActionType.Equip,
+                ClassId = Classes.Warrior,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 1,
+                NameIdValue = 33,
+                DescriptionIdValue = 39,
+                ActionId = ActionType.Attack,
+                ClassId = Classes.Warrior,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 2,
+                NameIdValue = 35,
+                DescriptionIdValue = 40,
+                ActionId = ActionType.Skill,
+                ClassId = Classes.Warrior,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 3,
+                NameIdValue = 36,
+                DescriptionIdValue = 41,
+                ActionId = ActionType.Modifier,
+                ClassId = Classes.Basic,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 4,
+                NameIdValue = 37,
+                DescriptionIdValue = 42,
+                ActionId = ActionType.Modifier,
+                ClassId = Classes.Basic,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 5,
+                NameIdValue = 46,
+                DescriptionIdValue = 38,
+                ActionId = ActionType.Equip,
+                ClassId = Classes.Wizard,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 6,
+                NameIdValue = 47,
+                DescriptionIdValue = 39,
+                ActionId = ActionType.Attack,
+                ClassId = Classes.Wizard,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 7,
+                NameIdValue = 48,
+                DescriptionIdValue = 40,
+                ActionId = ActionType.Skill,
+                ClassId = Classes.Wizard,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 8,
+                NameIdValue = 34,
+                DescriptionIdValue = 38,
+                ActionId = ActionType.Equip,
+                ClassId = Classes.Ranger,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 9,
+                NameIdValue = 49,
+                DescriptionIdValue = 39,
+                ActionId = ActionType.Attack,
+                ClassId = Classes.Ranger,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 10,
+                NameIdValue = 50,
+                DescriptionIdValue = 40,
+                ActionId = ActionType.Skill,
+                ClassId = Classes.Ranger,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 11,
+                NameIdValue = 51,
+                DescriptionIdValue = 38,
+                ActionId = ActionType.Equip,
+                ClassId = Classes.Rogue,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 12,
+                NameIdValue = 52,
+                DescriptionIdValue = 39,
+                ActionId = ActionType.Attack,
+                ClassId = Classes.Rogue,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 13,
+                NameIdValue = 53,
+                DescriptionIdValue = 40,
+                ActionId = ActionType.Skill,
+                ClassId = Classes.Rogue,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 14,
+                NameIdValue = 55,
+                DescriptionIdValue = 38,
+                ActionId = ActionType.Equip,
+                ClassId = Classes.Monk,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 15,
+                NameIdValue = 56,
+                DescriptionIdValue = 39,
+                ActionId = ActionType.Attack,
+                ClassId = Classes.Monk,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 16,
+                NameIdValue = 57,
+                DescriptionIdValue = 40,
+                ActionId = ActionType.Skill,
+                ClassId = Classes.Monk,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 17,
+                NameIdValue = 58,
+                DescriptionIdValue = 38,
+                ActionId = ActionType.Equip,
+                ClassId = Classes.Crystal,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 18,
+                NameIdValue = 59,
+                DescriptionIdValue = 39,
+                ActionId = ActionType.Attack,
+                ClassId = Classes.Crystal,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 19,
+                NameIdValue = 60,
+                DescriptionIdValue = 40,
+                ActionId = ActionType.Skill,
+                ClassId = Classes.Crystal,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 20,
+                NameIdValue = 61,
+                DescriptionIdValue = 38,
+                ActionId = ActionType.Equip,
+                ClassId = Classes.Trickster,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 21,
+                NameIdValue = 62,
+                DescriptionIdValue = 39,
+                ActionId = ActionType.Attack,
+                ClassId = Classes.Trickster,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 22,
+                NameIdValue = 63,
+                DescriptionIdValue = 40,
+                ActionId = ActionType.Skill,
+                ClassId = Classes.Trickster,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 23,
+                NameIdValue = 64,
+                DescriptionIdValue = 65,
+                ActionId = ActionType.Attack,
+                ClassId = Classes.Ranger,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 24,
+                NameIdValue = 66,
+                DescriptionIdValue = 67,
+                ActionId = ActionType.Modifier,
+                ClassId = Classes.Basic,
+                SpecialCard = false,
+            },
+            new()
+            {
+                Id = 25,
+                NameIdValue = 68,
+                DescriptionIdValue = 69,
+                ActionId = ActionType.Attack,
+                ClassId = Classes.Wizard,
+                SpecialCard = true,
+            },
+            new()
+            {
+                Id = 26,
+                NameIdValue = 70,
+                DescriptionIdValue = 71,
+                ActionId = ActionType.Skill,
+                ClassId = Classes.Wizard,
+                SpecialCard = false,
+            },            
+            new()
+            {
+                Id = 27,
+                NameIdValue = 72,
+                DescriptionIdValue = 73,
+                ActionId = ActionType.Attack,
+                ClassId = Classes.Wizard,
+                SpecialCard = false,
+            },
+        };
+
         public static void ApplyEffect(int cardId, FightUnit unit, FightUnit enemy, FightManager manager)
         {
             switch (cardId)
@@ -50,16 +307,24 @@ namespace Assets.Resources.Scripts.Fight
                 case 24:
                     AddScore(unit, 12);
                     break;
-            }
-        }
+                case 25:
+                    var unitManager = manager.playerObj.GetComponent<UnitAnimationManager>();
+                    Wizard wizClass = unit.Class as Wizard;
 
-        static void ApplyModifier(FightUnit unit, Stats stat, int turnCount, int modifier)
-        {
-            unit.CurrentModifiers.Add(new(stat, turnCount, modifier));
-        }
-        static void AddScore(FightUnit unit, int modifier)
-        {
-            unit.currentScore += modifier;
+                    unitManager.dictionaryCallback.Add("RiverDance1", wizClass.HandleFirstRiverDanceDamage);
+                    unitManager.dictionaryCallback.Add("RiverDance2", wizClass.HandleSecondRiverDanceDamage);
+                    unitManager.dictionaryCallback.Add("RiverDance3", wizClass.HandleThirdRiverDanceDamage);
+
+                    manager.turnManager.SetAttacks(unit, enemy, wizClass.GetFirstRiverDanceDamage(), false);
+                    break;
+                case 26:
+                    manager.HealCharacter(unit, 2);
+                    break;
+                case 27:
+                    ApplyModifier(unit, Stats.Damage, 1, 1);
+                    ApplyModifier(enemy, Stats.Armor, 2, -1);
+                    break;
+            }
         }
 
         public static List<Card> GetActionCardList(Classes classOfDeck, CardListData cardData)
@@ -77,220 +342,14 @@ namespace Assets.Resources.Scripts.Fight
             };
         }
 
-        public static ActionCard ConvertIdIntoCard(int id)
-        {
-            return id switch
-            {
-                0 => new()
-                {
-                    Id = id,
-                    NameIdValue = 32,
-                    DescriptionIdValue = 38,
-                    ActionId = ActionType.Equip,
-                    ClassId = Classes.Warrior
-                },
-                1 => new()
-                {
-                    Id = id,
-                    NameIdValue = 33,
-                    DescriptionIdValue = 39,
-                    ActionId = ActionType.Attack,
-                    ClassId = Classes.Warrior
-                },
-                2 => new()
-                {
-                    Id = id,
-                    NameIdValue = 35,
-                    DescriptionIdValue = 40,
-                    ActionId = ActionType.Skill,
-                    ClassId = Classes.Warrior
-                },
-                3 => new()
-                {
-                    Id = id,
-                    NameIdValue = 36,
-                    DescriptionIdValue = 41,
-                    ActionId = ActionType.Modifier,
-                    ClassId = Classes.Basic
-                },
-                4 => new()
-                {
-                    Id = id,
-                    NameIdValue = 37,
-                    DescriptionIdValue = 42,
-                    ActionId = ActionType.Modifier,
-                    ClassId = Classes.Basic
-                },
-                5 => new()
-                {
-                    Id = id,
-                    NameIdValue = 46,
-                    DescriptionIdValue = 38,
-                    ActionId = ActionType.Equip,
-                    ClassId = Classes.Wizard
-                },
-                6 => new()
-                {
-                    Id = id,
-                    NameIdValue = 47,
-                    DescriptionIdValue = 39,
-                    ActionId = ActionType.Attack,
-                    ClassId = Classes.Wizard
-                },
-                7 => new()
-                {
-                    Id = id,
-                    NameIdValue = 48,
-                    DescriptionIdValue = 40,
-                    ActionId = ActionType.Skill,
-                    ClassId = Classes.Wizard
-                },
-                8 => new()
-                {
-                    Id = id,
-                    NameIdValue = 34,
-                    DescriptionIdValue = 38,
-                    ActionId = ActionType.Equip,
-                    ClassId = Classes.Ranger
-                },
-                9 => new()
-                {
-                    Id = id,
-                    NameIdValue = 49,
-                    DescriptionIdValue = 39,
-                    ActionId = ActionType.Attack,
-                    ClassId = Classes.Ranger
-                },
-                10 => new()
-                {
-                    Id = id,
-                    NameIdValue = 50,
-                    DescriptionIdValue = 40,
-                    ActionId = ActionType.Skill,
-                    ClassId = Classes.Ranger
-                },
-                11 => new()
-                {
-                    Id = id,
-                    NameIdValue = 51,
-                    DescriptionIdValue = 38,
-                    ActionId = ActionType.Equip,
-                    ClassId = Classes.Rogue
-                },
-                12 => new()
-                {
-                    Id = id,
-                    NameIdValue = 52,
-                    DescriptionIdValue = 39,
-                    ActionId = ActionType.Attack,
-                    ClassId = Classes.Rogue
-                },
-                13 => new()
-                {
-                    Id = id,
-                    NameIdValue = 53,
-                    DescriptionIdValue = 40,
-                    ActionId = ActionType.Skill,
-                    ClassId = Classes.Rogue
-                },
-                14 => new()
-                {
-                    Id = id,
-                    NameIdValue = 55,
-                    DescriptionIdValue = 38,
-                    ActionId = ActionType.Equip,
-                    ClassId = Classes.Monk
-                },
-                15 => new()
-                {
-                    Id = id,
-                    NameIdValue = 56,
-                    DescriptionIdValue = 39,
-                    ActionId = ActionType.Attack,
-                    ClassId = Classes.Monk
-                },
-                16 => new()
-                {
-                    Id = id,
-                    NameIdValue = 57,
-                    DescriptionIdValue = 40,
-                    ActionId = ActionType.Skill,
-                    ClassId = Classes.Monk
-                },
-                17 => new()
-                {
-                    Id = id,
-                    NameIdValue = 58,
-                    DescriptionIdValue = 38,
-                    ActionId = ActionType.Equip,
-                    ClassId = Classes.Crystal
-                },
-                18 => new()
-                {
-                    Id = id,
-                    NameIdValue = 59,
-                    DescriptionIdValue = 39,
-                    ActionId = ActionType.Attack,
-                    ClassId = Classes.Crystal
-                },
-                19 => new()
-                {
-                    Id = id,
-                    NameIdValue = 60,
-                    DescriptionIdValue = 40,
-                    ActionId = ActionType.Skill,
-                    ClassId = Classes.Crystal
-                },
-                20 => new()
-                {
-                    Id = id,
-                    NameIdValue = 61,
-                    DescriptionIdValue = 38,
-                    ActionId = ActionType.Equip,
-                    ClassId = Classes.Trickster
-                },
-                21 => new()
-                {
-                    Id = id,
-                    NameIdValue = 62,
-                    DescriptionIdValue = 39,
-                    ActionId = ActionType.Attack,
-                    ClassId = Classes.Trickster
-                },
-                22 => new()
-                {
-                    Id = id,
-                    NameIdValue = 63,
-                    DescriptionIdValue = 40,
-                    ActionId = ActionType.Skill,
-                    ClassId = Classes.Trickster
-                },
-                23 => new()
-                {
-                    Id = id,
-                    NameIdValue = 64,
-                    DescriptionIdValue = 65,
-                    ActionId = ActionType.Attack,
-                    ClassId = Classes.Ranger
-                },
-                24 => new()
-                {
-                    Id = id,
-                    NameIdValue = 66,
-                    DescriptionIdValue = 67,
-                    ActionId = ActionType.Modifier,
-                    ClassId = Classes.Basic
-                },
-                _ => null
-            };
-        }
-
         public static string GetAnimation(int animationId)
         {
             return animationId switch
             {
                 2 or 7 or 10 or 13 or 16 or 19 or 22 => "Defend",
                 23 => "MeleeAttack",
+                25 => "RiverDance",
+                26 => "Heal",
                 _ => string.Empty,
             };
         }
@@ -319,6 +378,16 @@ namespace Assets.Resources.Scripts.Fight
             }
 
             return valueToAdd;
+        }
+
+        static void ApplyModifier(FightUnit unit, Stats stat, int turnCount, int modifier)
+        {
+            unit.CurrentModifiers.Add(new(stat, turnCount, modifier));
+        }
+
+        static void AddScore(FightUnit unit, int modifier)
+        {
+            unit.currentScore += modifier;
         }
     }
 }

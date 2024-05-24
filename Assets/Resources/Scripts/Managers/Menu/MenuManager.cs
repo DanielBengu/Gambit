@@ -3,6 +3,7 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using static CardsManager;
 using static PlayerPrefsManager;
 
@@ -18,6 +19,8 @@ public class MenuManager : MonoBehaviour
     public LanguageManager languageManager;
 
     public GameObject blackScreen;
+
+    public Button closeSectionIcon;
 
     private bool isFirstStart;
 
@@ -163,6 +166,19 @@ public class MenuManager : MonoBehaviour
         blackScreen.SetActive(true);
     }
 
+    public void CloseCharacterSelectionAndReturnToMM()
+    {
+        menuOptions.ChangeTitleVisibility(true);
+
+        StartCoroutine(menuOptions.ResetCharacterCards());
+        menuOptions.StartMenuAnimation();
+
+        closeSectionIcon.gameObject.SetActive(false);
+        closeSectionIcon.onClick.RemoveAllListeners();
+    }
+
+    #region Button Click
+
     public void ContinueButtonClick()
     {
         effectsManager.effects.Add(new()
@@ -184,10 +200,15 @@ public class MenuManager : MonoBehaviour
         }
         else
         {
-            menuOptions.StartChooseCharacterAnimation();
+            closeSectionIcon.gameObject.SetActive(true);
+            closeSectionIcon.onClick.AddListener(() => CloseCharacterSelectionAndReturnToMM());
+
+            StartCoroutine(menuOptions.StartChooseCharacterAnimation());
             menuOptions.ChangeTitleVisibility(false);
         }
     }
+
+    #endregion
 
     public void LoadSceneGame()
     {

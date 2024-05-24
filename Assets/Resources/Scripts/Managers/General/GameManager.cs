@@ -243,7 +243,7 @@ public class GameManager : MonoBehaviour
         {
             for (int i = 0; i < card.Quantities; i++)
             {
-                ActionCard cardToAdd = ActionCardArchive.ConvertIdIntoCard(card.Id);
+                ActionCard cardToAdd = ActionCardArchive.CARD_ARCHIVE.Find(c => c.Id == card.Id);
                 if(cardToAdd != null)
                     startingDeck.Add(cardToAdd);
             }

@@ -74,7 +74,7 @@ public class TurnManager
 
             int damage = CalculateDamage(attacker, defender, pointDifference, false);
 
-            SetAttacks(attacker, defender, damage);
+            SetAttacks(attacker, defender, damage, true);
 
             GameObject obj = attacker.Character == Character.Player ? PlayerObj : EnemyObj;
 
@@ -94,12 +94,13 @@ public class TurnManager
         return finalDamageAmount;
     }
 
-    public void SetAttacks(FightUnit attacker, FightUnit defender, int damage)
+    public void SetAttacks(FightUnit attacker, FightUnit defender, int damage, bool isEndTurn)
     {
         for (int i = 0; i < attacker.Attacks; i++)
             attacks.Enqueue(new(attacker, defender, damage, DealDamage));
 
-        AddBonusAttacks(attacker, defender);
+        if(isEndTurn)
+            AddBonusAttacks(attacker, defender);
     }
 
     void AddBonusAttacks(FightUnit attacker, FightUnit defender)
@@ -124,7 +125,7 @@ public class TurnManager
                 break;
         }
     }
-    void DealDamage()
+    public void DealDamage()
     {
         if (attacks.Count == 0)
             return;
@@ -134,12 +135,13 @@ public class TurnManager
         AttackStruct attack = attacks.Dequeue();
 
         FightUnit unitTakingDamage = attack.defender;
-        unitTakingDamage.FightHP -= attack.damageAmount;
+
+        if(attack.damageAmount > 0)
+            unitTakingDamage.FightHP -= attack.damageAmount;
 
         GameObject defender = attack.defender.Character == Character.Player ? PlayerObj : EnemyObj;
 
         fightManager.HandleCharacterHPVariation(attack.defender, defender);
-        fightManager.gameUIManager.UpdateUI(attack.defender);
 
         if (attacks.Count > 0)
         {

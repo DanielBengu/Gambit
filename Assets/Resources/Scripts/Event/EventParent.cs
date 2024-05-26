@@ -78,6 +78,11 @@ public abstract class EventParent
         choiceManager = new(choices, choicePosition);
     }
 
+    public void ResetAllChoices()
+    {
+        choiceManager.ResetAllChoices();
+    }
+
     public struct DialogueConfig
     {
         public string DialogueText { get; set; }

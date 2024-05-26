@@ -27,9 +27,13 @@ public class GameUIManager : MonoBehaviour
     #region Gold Variables
 
     public TextMeshProUGUI goldAmountText;
-    private Vector3 originalPosition;
-    private Color originalColor;
-    private float originalFontSize;
+
+    Vector3 originalPosition;
+    Color originalColor;
+    float originalFontSize;
+
+    bool isGoldShaking = false;
+
     #endregion
 
     #endregion
@@ -489,9 +493,13 @@ public class GameUIManager : MonoBehaviour
 
     public void HandleInsufficientFunds()
     {
+        if (isGoldShaking)
+            return;
+
         originalColor = goldAmountText.color;
         originalFontSize = goldAmountText.fontSize;
         originalPosition = goldAmountText.transform.localPosition;
+        isGoldShaking = true;
 
         StartCoroutine(AnimateInsufficientFunds());
     }
@@ -516,6 +524,7 @@ public class GameUIManager : MonoBehaviour
             goldAmountText.rectTransform.localPosition = originalPosition + new Vector3(offsetX, offsetY, 0);
 
             elapsedTime += Time.deltaTime;
+            isGoldShaking = false;
             yield return null;
         }
 

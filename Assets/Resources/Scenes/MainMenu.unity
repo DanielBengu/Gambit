@@ -2428,8 +2428,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e882d8fe5e10fd4ea7ad4332332ea46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forceFirstStart: 1
-  unlockAllClasses: 0
+  forceFirstStart: 0
+  unlockAllClasses: 1
   menuOptions: {fileID: 1026402712}
   effectsManager: {fileID: 1902701756}
   languageManager: {fileID: 1868454212}

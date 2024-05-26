@@ -55,7 +55,7 @@ public class Alchemist : EventParent
                 {
                     new(choices.transform.GetChild(0).gameObject, string.Format(dialogueManager.languageManager.GetText(44), 2), "Icon_Star", ChoiceManager.Choice.ChoiceType.ActionCard, new object[1] { HEALTH_POTION_COST }, new()   { BuyHealthPotion }),
                     new(choices.transform.GetChild(2).gameObject, string.Format(dialogueManager.languageManager.GetText(45), 2), "Icon_Skull", ChoiceManager.Choice.ChoiceType.ActionCard, new object[1] { POISON_POTION_COST }, new()  { BuyPoisonPotion }),
-                    new(choices.transform.GetChild(1).gameObject, dialogueManager.languageManager.GetText(43), "Icon_Crown", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new()  { LoadNextStep }),
+                    new(choices.transform.GetChild(1).gameObject, dialogueManager.languageManager.GetText(43), "Icon_Crown", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new()  { ResetAllChoices, LoadNextStep }),
                 });
                 break;
             default:
@@ -112,7 +112,6 @@ public class Alchemist : EventParent
         if (currentRun.GoldAmount < HEALTH_POTION_COST)
         {
             gameManager.FightManager.gameUIManager.HandleInsufficientFunds();
-            LoadNextStep();
             return;
         }
 
@@ -137,7 +136,6 @@ public class Alchemist : EventParent
         if (currentRun.GoldAmount < POISON_POTION_COST)
         {
             gameManager.FightManager.gameUIManager.HandleInsufficientFunds();
-            LoadNextStep();
             return;
         }
 

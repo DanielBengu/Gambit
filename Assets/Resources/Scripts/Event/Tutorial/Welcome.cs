@@ -50,8 +50,8 @@ public class Welcome : EventParent
             case 2:
                 LoadChoiceManager(new()
                 {
-                    new(choices.transform.GetChild(0).gameObject, dialogueManager.languageManager.GetText(11), "Icon_Shield", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new(){ RaiseArmor, LoadNextStep }),
-                    new(choices.transform.GetChild(1).gameObject, dialogueManager.languageManager.GetText(12), "Icon_Heart", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new() { RaiseMaxHP, LoadNextStep }),
+                    new(choices.transform.GetChild(0).gameObject, dialogueManager.languageManager.GetText(11), "Icon_Shield", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new(){ RaiseArmor, LoadNextStep, ResetAllChoices }),
+                    new(choices.transform.GetChild(1).gameObject, dialogueManager.languageManager.GetText(12), "Icon_Heart", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new() { RaiseMaxHP, LoadNextStep, ResetAllChoices }),
                 });
                 break;
             default:

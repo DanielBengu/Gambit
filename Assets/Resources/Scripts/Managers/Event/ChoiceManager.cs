@@ -5,7 +5,6 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static ChoiceManager;
 
 public class ChoiceManager
 {
@@ -37,11 +36,11 @@ public class ChoiceManager
     {
         readonly GameObject obj;
         readonly Button btn;
-        public Choice(GameObject obj, string description, string iconName, List<Action> callbackList)
+        public Choice(GameObject obj, string description, string iconName, ChoiceType type, object[] parameters, List<Action> callbackList)
         {
             this.obj = obj;
             btn = obj.GetComponent<Button>();
-            SetupChoiceUI(obj, description, iconName, callbackList);
+            SetupChoiceUI(obj, type, description, iconName, parameters, callbackList);
         }
 
         public GameObject GetObject()
@@ -54,7 +53,7 @@ public class ChoiceManager
             btn.onClick.AddListener(() => callback());
         }
 
-        public readonly void SetupChoiceUI(GameObject obj, string description, string iconName, List<Action> callbackList)
+        public readonly void SetupChoiceUI(GameObject obj, ChoiceType type, string description, string iconName, object[] parameters, List<Action> callbackList)
         {
             btn.onClick.RemoveAllListeners();
 
@@ -63,9 +62,44 @@ public class ChoiceManager
                 btn.onClick.AddListener(() => action());
             }
 
+            HandleBackground(type, obj);
+            HandleSpecificUI(type, obj, parameters);
+
             obj.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = description;
             obj.transform.Find("Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/Icons/General/{iconName}");
             obj.SetActive(true);
+        }
+
+        void HandleBackground(ChoiceType type, GameObject obj)
+        {
+            switch (type)
+            {
+                case ChoiceType.ActionCard:
+                    obj.transform.Find("Background").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/Cards/Card Structure/Civilian_card_version2");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        void HandleSpecificUI(ChoiceType type, GameObject obj, object[] parameters)
+        {
+            switch (type)
+            {
+                case ChoiceType.Standard:
+                    break;
+                case ChoiceType.ActionCard:
+                    var priceSection = obj.transform.Find("Price section");
+                    priceSection.gameObject.SetActive(true);
+                    priceSection.transform.Find("Price").GetComponent<TextMeshProUGUI>().text = $"{parameters[0]}g";
+                    break;
+            }
+        }
+        
+        public enum ChoiceType
+        {
+            Standard,
+            ActionCard
         }
     }
 }

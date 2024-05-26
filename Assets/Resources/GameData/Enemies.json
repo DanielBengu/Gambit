@@ -101,6 +101,40 @@
           "amount": 300
         }
       ]
+    },
+    {
+      "Id": 6,
+      "Name": "Ikule Scout",
+      "Armor": 1,
+      "HP": 15,
+      "BaseMaxScore": 12,
+      "BaseStandThreshold": 7,
+      "UnitClass": -1,
+      "IsCustomDecklist": false,
+      "Rewards": [
+        {
+          "reward": 0,
+          "rewardId": 0,
+          "amount": 400
+        }
+      ]
+    },
+    {
+      "Id": 6,
+      "Name": "Xsant Follower",
+      "Armor": 2,
+      "HP": 30,
+      "BaseMaxScore": 12,
+      "BaseStandThreshold": 7,
+      "UnitClass": -1,
+      "IsCustomDecklist": false,
+      "Rewards": [
+        {
+          "reward": 0,
+          "rewardId": 0,
+          "amount": 500
+        }
+      ]
     }
   ]
 }

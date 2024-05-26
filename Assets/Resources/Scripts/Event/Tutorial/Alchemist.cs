@@ -5,6 +5,9 @@ using static Assets.Resources.Scripts.Fight.CardsHandler;
 
 public class Alchemist : EventParent
 {
+    public int HEALTH_POTION_COST = 1000;
+    public int POISON_POTION_COST = 200;
+
     public string TutorialGuyName { get => dialogueManager.languageManager.GetText(17); }
 
     public override int EventId { get => 0; }
@@ -50,9 +53,9 @@ public class Alchemist : EventParent
             case 2:
                 LoadChoiceManager(new()
                 {
-                    new(choices.transform.GetChild(0).gameObject, string.Format(dialogueManager.languageManager.GetText(44), 2), "Icon_Star", new()   { BuyHealthPotion, LoadNextStep }),
-                    new(choices.transform.GetChild(2).gameObject, string.Format(dialogueManager.languageManager.GetText(45), 2), "Icon_Skull", new()  { BuyPoisonPotion, LoadNextStep }),
-                    new(choices.transform.GetChild(1).gameObject, dialogueManager.languageManager.GetText(43), "Icon_Crown", new()  { LoadNextStep }),
+                    new(choices.transform.GetChild(0).gameObject, string.Format(dialogueManager.languageManager.GetText(44), 2), "Icon_Star", ChoiceManager.Choice.ChoiceType.ActionCard, new object[1] { HEALTH_POTION_COST }, new()   { BuyHealthPotion }),
+                    new(choices.transform.GetChild(2).gameObject, string.Format(dialogueManager.languageManager.GetText(45), 2), "Icon_Skull", ChoiceManager.Choice.ChoiceType.ActionCard, new object[1] { POISON_POTION_COST }, new()  { BuyPoisonPotion }),
+                    new(choices.transform.GetChild(1).gameObject, dialogueManager.languageManager.GetText(43), "Icon_Crown", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new()  { LoadNextStep }),
                 });
                 break;
             default:
@@ -104,7 +107,18 @@ public class Alchemist : EventParent
 
     public void BuyHealthPotion()
     {
-        gameManager.playerData.CurrentRun.CardList.Add(new()
+        var currentRun = gameManager.playerData.CurrentRun;
+
+        if (currentRun.GoldAmount < HEALTH_POTION_COST)
+        {
+            gameManager.FightManager.gameUIManager.HandleInsufficientFunds();
+            LoadNextStep();
+            return;
+        }
+
+        currentRun.GoldAmount -= HEALTH_POTION_COST;
+
+        currentRun.CardList.Add(new()
         {
             cardType = CardType.Potion,
             classId = CardsManager.Classes.Basic,
@@ -112,11 +126,25 @@ public class Alchemist : EventParent
             value = 2,
             destroyOnPlay = true
         });
+
+        LoadNextStep();
     }
 
     public void BuyPoisonPotion()
     {
-        gameManager.playerData.CurrentRun.CardList.Add(new()
+        var currentRun = gameManager.playerData.CurrentRun;
+
+        if (currentRun.GoldAmount < POISON_POTION_COST)
+        {
+            gameManager.FightManager.gameUIManager.HandleInsufficientFunds();
+            LoadNextStep();
+            return;
+        }
+
+        currentRun.GoldAmount -= POISON_POTION_COST;
+
+
+        currentRun.CardList.Add(new()
         {
             cardType = CardType.Potion,
             classId = CardsManager.Classes.Basic,
@@ -124,5 +152,7 @@ public class Alchemist : EventParent
             value = 2,
             destroyOnPlay = true
         });
+
+        LoadNextStep();
     }
 }

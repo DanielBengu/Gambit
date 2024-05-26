@@ -59,8 +59,8 @@ public class MenuManager : MonoBehaviour
 
     void SetStrings()
     {
-        Transform cardLeftContents = GameObject.Find("Card_left").transform.GetChild(0);
-        Transform cardCenterContents = GameObject.Find("Card_center").transform.GetChild(0);
+        Transform cardLeftContents = GameObject.Find("Card_left").transform.Find("Contents");
+        Transform cardCenterContents = GameObject.Find("Card_center").transform.Find("Contents");
 
         TextMeshProUGUI newGameText = cardCenterContents.Find("New Game").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI continueText = cardLeftContents.Find("Continue").GetComponent<TextMeshProUGUI>();

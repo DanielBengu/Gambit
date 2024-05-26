@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -72,7 +73,7 @@ public class MenuOptions : MonoBehaviour
 
     void LoadLeftCard(PlayerData data)
     {
-        Transform runContent = cardLeft.transform.GetChild(0);
+        Transform runContent = cardLeft.transform.Find("Contents");
         TextMeshProUGUI playerData = runContent.Find("RunInfo").GetComponent<TextMeshProUGUI>();
         Image classImage = runContent.Find("Class Image").GetComponent<Image>();
         string className = data.CurrentRun.ClassId.ToString().ToUpper();
@@ -86,10 +87,22 @@ public class MenuOptions : MonoBehaviour
         for (int i = 0; i < characterParent.childCount; i++)
         {
             var child = characterParent.GetChild(i);
+
+            StopMovement(child);
             StartCardAnimation(child, outScreenPosition, 5f);
         }
 
         yield return new WaitForSeconds(0f);
+    }
+
+    public void StopMovement(Transform source)
+    {
+        var listOfMovementsToStop = movements.Where(m => m.source == source).ToArray();
+        for (int i = 0; i < listOfMovementsToStop.Length; i++)
+        {
+            var mov = listOfMovementsToStop[i];
+            movements.Remove(mov);
+        }
     }
 
     public IEnumerator StartChooseCharacterAnimation()

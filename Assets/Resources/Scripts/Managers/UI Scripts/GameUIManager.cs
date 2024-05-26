@@ -7,6 +7,7 @@ using static FightManager;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using static MenuOptions;
+using System.Collections;
 
 public class GameUIManager : MonoBehaviour
 {
@@ -23,7 +24,14 @@ public class GameUIManager : MonoBehaviour
     public Transform playerCardDestination;
     public Image playerCardImage;
 
+    #region Gold Variables
+
     public TextMeshProUGUI goldAmountText;
+    private Vector3 originalPosition;
+    private Color originalColor;
+    private float originalFontSize;
+    #endregion
+
     #endregion
 
     #region Fight UI
@@ -477,6 +485,44 @@ public class GameUIManager : MonoBehaviour
     public void SetStandButtonInteractable(bool interactable)
     {
         standButton.interactable = interactable;
+    }
+
+    public void HandleInsufficientFunds()
+    {
+        originalColor = goldAmountText.color;
+        originalFontSize = goldAmountText.fontSize;
+        originalPosition = goldAmountText.transform.localPosition;
+
+        StartCoroutine(AnimateInsufficientFunds());
+    }
+
+    private IEnumerator AnimateInsufficientFunds()
+    {
+        // Change the color to red
+        goldAmountText.color = Color.red;
+
+        // Increase the font size
+        goldAmountText.fontSize += 10;
+
+        float shakeDuration = 0.5f;
+        float shakeMagnitude = 10f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < shakeDuration)
+        {
+            // Shake the text by changing its position slightly
+            float offsetX = UnityEngine.Random.Range(-shakeMagnitude, shakeMagnitude);
+            float offsetY = UnityEngine.Random.Range(-shakeMagnitude, shakeMagnitude);
+            goldAmountText.rectTransform.localPosition = originalPosition + new Vector3(offsetX, offsetY, 0);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        // Revert the text to its original properties
+        goldAmountText.color = originalColor;
+        goldAmountText.fontSize = originalFontSize;
+        goldAmountText.rectTransform.localPosition = originalPosition;
     }
 
     #region Info Panel

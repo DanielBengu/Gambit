@@ -6,6 +6,7 @@ using UnityEngine;
 public class FollowerOfXsant : EventParent
 {
     public string FollowerName { get => dialogueManager.languageManager.GetText(18); }
+    public static int XSANT_FOLLOWER_ENEMY_ID = 6;
 
     public override int EventId { get => 0; }
     public override int NumberOfEvents { get => 5; }
@@ -64,9 +65,9 @@ public class FollowerOfXsant : EventParent
             case 0:
                 LoadChoiceManager(new()
                 {
-                    new(choices.transform.GetChild(0).gameObject, dialogueManager.languageManager.GetText(20), "Icon_Star", new(){ SwitchToFight }),
-                    new(choices.transform.GetChild(2).gameObject, dialogueManager.languageManager.GetText(22), "Icon_Skull", new() { SwitchToFight }),
-                    new(choices.transform.GetChild(1).gameObject, dialogueManager.languageManager.GetText(21), "Icon_Crown", new() { LoadNextStep }),
+                    new(choices.transform.GetChild(0).gameObject, dialogueManager.languageManager.GetText(20), "Icon_Star", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new(){ SwitchToFight }),
+                    new(choices.transform.GetChild(2).gameObject, dialogueManager.languageManager.GetText(22), "Icon_Skull", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new() { SwitchToFight }),
+                    new(choices.transform.GetChild(1).gameObject, dialogueManager.languageManager.GetText(21), "Icon_Crown", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new() { LoadNextStep }),
                 });
                 break;
             default:
@@ -121,7 +122,7 @@ public class FollowerOfXsant : EventParent
         {
             case 0:
                 EnemyList enemyList = JSONManager.GetFileFromJSON<EnemyList>(JSONManager.ENEMIES_PATH);
-                EnemyData enemy = enemyList.Enemies.Find(e => e.Id == 2);
+                EnemyData enemy = enemyList.Enemies.Find(e => e.Id == XSANT_FOLLOWER_ENEMY_ID);
                 gameManager.PlayCombat(enemy, gameManager.SetNextSectionButtonClick);
                 gameManager.FightManager.SetupFightUIAndStartGame();
                 break;

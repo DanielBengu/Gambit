@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static Assets.Resources.Scripts.Fight.CardsHandler;
-
+using static CardsHandler;
 public class Alchemist : EventParent
 {
     public int HEALTH_POTION_COST = 1000;

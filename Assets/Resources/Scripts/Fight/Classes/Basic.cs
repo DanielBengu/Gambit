@@ -65,11 +65,6 @@ internal class Basic : IClass
         }
     }
 
-    public override Sprite GetCardIcon(CardType cardType)
-    {
-        return null;
-    }
-
     public override string GetAttackAnimation(FightUnit unit, Queue<AttackStruct> attacks, GameObject obj)
     {
         /*

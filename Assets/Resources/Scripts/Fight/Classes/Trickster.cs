@@ -70,30 +70,6 @@ public class Trickster : IClass
         }
     }
 
-    public override Sprite GetCardIcon(CardType cardType)
-    {
-        switch (cardType)
-        {
-            case CardType.Default:
-            case CardType.One:
-            case CardType.Two:
-            case CardType.Three:
-            case CardType.Four:
-            case CardType.Five:
-            case CardType.Six:
-                return null;
-            case CardType.Ace:
-            case CardType.Jack:
-            case CardType.Queen:
-            case CardType.King:
-            case CardType.Potion:
-                return Resources.Load<Sprite>($"Sprites/Icons/Cards/{cardType}");
-            default:
-                Debug.LogError($"Card {cardType} not implemented for {Class}");
-                return null;
-        }
-    }
-
     public override string GetAttackAnimation(FightUnit unit, Queue<AttackStruct> attacks, GameObject obj)
     {
         if (unit.status == CharacterStatus.StandingOnCrit)

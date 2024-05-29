@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Welcome : EventParent
 {
+    static readonly int RAISE_ARMOR_AMOUNT = 1;
+    static readonly int RAISE_HEALTH_AMOUNT = 5;
     public string TutorialGirlName { get => dialogueManager.languageManager.GetText(16); }
 
     public override int EventId { get => 0; }
@@ -50,8 +52,8 @@ public class Welcome : EventParent
             case 2:
                 LoadChoiceManager(new()
                 {
-                    new(choices.transform.GetChild(0).gameObject, dialogueManager.languageManager.GetText(11), "Icon_Shield", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new(){ RaiseArmor, LoadNextStep, ResetAllChoices }),
-                    new(choices.transform.GetChild(1).gameObject, dialogueManager.languageManager.GetText(12), "Icon_Heart", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new() { RaiseMaxHP, LoadNextStep, ResetAllChoices }),
+                    new(choices.transform.GetChild(0).gameObject, GetRaiseArmorTextAmount(), "Icon_Shield", ChoiceManager.Choice.ChoiceType.Standard, new object[0] { }, new(){ RaiseArmor, LoadNextStep, ResetAllChoices }),
+                    new(choices.transform.GetChild(1).gameObject, GetRaiseHPTextAmount(), "Icon_Heart", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new() { RaiseMaxHP, LoadNextStep, ResetAllChoices }),
                 });
                 break;
             default:
@@ -104,9 +106,19 @@ public class Welcome : EventParent
         }
     }
 
+    string GetRaiseArmorTextAmount()
+    {
+        return string.Format(dialogueManager.languageManager.GetText(11), RAISE_ARMOR_AMOUNT);
+    }
+
+    string GetRaiseHPTextAmount()
+    {
+        return string.Format(dialogueManager.languageManager.GetText(12), RAISE_HEALTH_AMOUNT);
+    }
+
     public void RaiseArmor()
     {
-        gameManager.playerData.UnitData.Armor += 2;
+        gameManager.playerData.UnitData.Armor += RAISE_ARMOR_AMOUNT;
         gameManager.gameUIManager.UpdateArmor(FightManager.Character.Player, gameManager.playerData.UnitData.Armor);
     }
 

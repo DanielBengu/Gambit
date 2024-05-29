@@ -43,6 +43,7 @@ public class ActionCard
     public Classes ClassId;
     public ActionType ActionId;
     public bool SpecialCard;
+    public CardRarity Rarity; 
 }
 
 public enum CardType
@@ -68,4 +69,12 @@ public enum ActionType
     Skill,
     Artifact,
     Modifier
+}
+
+public enum CardRarity
+{
+    Basic,
+    Rare,
+    Epic,
+    Gambit
 }

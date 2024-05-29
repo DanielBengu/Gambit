@@ -1,44 +1,63 @@
 ﻿using UnityEngine;
 
-namespace Assets.Resources.Scripts.Fight
+public class CardsHandler
 {
-    public class CardsHandler
+    readonly FightManager manager;
+
+    public CardsHandler(FightManager manager)
     {
-        readonly FightManager manager;
+        this.manager = manager;
+    }
 
-        public CardsHandler(FightManager manager)
+    public void HandleBasicCards(CardType cardType, FightUnit unit, GameObject unitObj, FightUnit enemy, GameObject enemyObj, GameCard card)
+    {
+        switch (cardType)
         {
-            this.manager = manager;
+            case CardType.Potion:
+                HandlePotions(card, unit, unitObj, enemy, enemyObj);
+                break;
         }
+    }
 
-        public void HandleBasicCards(CardType cardType, FightUnit unit, GameObject unitObj, FightUnit enemy, GameObject enemyObj, GameCard card)
+    public void HandlePotions(GameCard card, FightUnit unit, GameObject unitObj, FightUnit enemy, GameObject enemyObj)
+    {
+        PotionType type = (PotionType)card.id;
+        switch (type)
         {
-            switch (cardType)
-            {
-                case CardType.Potion:
-                    HandlePotions(card, unit, unitObj, enemy, enemyObj);
-                    break;
-            }
+            case PotionType.Health:
+                manager.HealCharacter(unit, card.value);
+                break;
+            case PotionType.Damage:
+                manager.DamageCharacter(enemy, enemyObj, card.value);
+                break;
         }
+    }
 
-        public void HandlePotions(GameCard card, FightUnit unit, GameObject unitObj, FightUnit enemy, GameObject enemyObj)
+    public Sprite HandleIcons(GameCard card)
+    {
+        switch (card.cardType)
         {
-            PotionType type = (PotionType)card.id;
-            switch (type)
-            {
-                case PotionType.Health:
-                    manager.HealCharacter(unit, card.value);
-                    break;
-                case PotionType.Damage:
-                    manager.DamageCharacter(enemy, enemyObj, card.value);
-                    break;
-            }
+            default:
+                return null;
+            case CardType.Potion:
+                PotionType type = (PotionType)card.id;
+                return GetPotionIcon(type);
         }
+    }
 
-        public enum PotionType
+    public Sprite GetPotionIcon(PotionType type)
+    {
+        return type switch
         {
-            Health,
-            Damage
-        }
+            PotionType.Health => Resources.Load<Sprite>($"Sprites/Cards/Potion_{type}"),
+            PotionType.Damage => Resources.Load<Sprite>($"Sprites/Cards/Potion_{type}"),
+            _ => null
+        };
+    }
+
+    public enum PotionType
+    {
+        Health,
+        Damage
     }
 }

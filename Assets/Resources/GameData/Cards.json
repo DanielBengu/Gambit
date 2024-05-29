@@ -77,6 +77,11 @@
       "Id": 4,
       "Name": "+6 Modifier",
       "Quantities": 1
+    },
+    {
+      "Id": 28,
+      "Name": "BODY SLAM",
+      "Quantities": 1
     }
   ],
 

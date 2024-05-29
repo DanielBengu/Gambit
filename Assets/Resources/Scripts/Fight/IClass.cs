@@ -66,7 +66,30 @@ public abstract class IClass
     public abstract string GetAttackAnimation(FightUnit unit, Queue<AttackStruct> attacks, GameObject obj);
 
     public abstract string GetCardText(CardType cardType);
-    public abstract Sprite GetCardIcon(CardType cardType);
+
+    public Sprite GetCardIcon(GameCard card)
+    {
+        switch (card.cardType)
+        {
+            case CardType.Default:
+            case CardType.One:
+            case CardType.Two:
+            case CardType.Three:
+            case CardType.Four:
+            case CardType.Five:
+            case CardType.Six:
+            case CardType.Ace:
+            case CardType.Jack:
+            case CardType.Queen:
+            case CardType.King:
+                return Resources.Load<Sprite>($"Sprites/Cards/{card.cardType}");
+            case CardType.Potion:
+                return CardsHandler.HandleIcons(card);
+            default:
+                Debug.LogError($"Card {card.cardType} not implemented for {Class}");
+                return null;
+        }
+    }
 
     public abstract void ResetTurn();
 }

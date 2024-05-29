@@ -239,17 +239,11 @@ public class GameUIManager : MonoBehaviour
         });
     }
 
-    public void SetCardImage(GameObject card, IClass cardClass, CardType cardType)
+    public void SetCardImage(GameObject cardObj, GameCard card, IClass cardClass)
     {
-        Sprite cardIcon = cardClass.GetCardIcon(cardType);
-        string cardText = cardClass.GetCardText(cardType);
+        Sprite cardIcon = cardClass.GetCardIcon(card);
 
-        Transform cardIconTransform = card.transform.Find("Icon");
-
-        cardIconTransform.gameObject.SetActive(cardIcon != null);
-        cardIconTransform.GetComponent<Image>().sprite = cardIcon;
-
-        card.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = cardText;
+        cardObj.GetComponent<Image>().sprite = cardIcon;
     }
 
     public void SetupEventUI()
@@ -469,19 +463,19 @@ public class GameUIManager : MonoBehaviour
         switch (character)
         {
             case Character.Player:
-                HandleCardAnimation(animationManager, playerCardImage.transform, playerCardDestination, TypeOfObject.CardDrawnPlayer, unitClass, card.cardType, callback);
+                HandleCardAnimation(animationManager, playerCardImage.transform, playerCardDestination, TypeOfObject.CardDrawnPlayer, unitClass, card, callback);
                 break;
             case Character.Enemy:
-                HandleCardAnimation(animationManager, enemyCardImage.transform, enemyCardDestination, TypeOfObject.CardDrawnEnemy, unitClass, card.cardType, callback);
+                HandleCardAnimation(animationManager, enemyCardImage.transform, enemyCardDestination, TypeOfObject.CardDrawnEnemy, unitClass, card, callback);
                 break;
         }
     }
 
-    void HandleCardAnimation(VisualEffectsManager manager, Transform cardSource, Transform cardDestination, TypeOfObject type, IClass unitClass, CardType cardType, Action callback)
+    void HandleCardAnimation(VisualEffectsManager manager, Transform cardSource, Transform cardDestination, TypeOfObject type, IClass unitClass, GameCard card,  Action callback)
     {
         cardSource.gameObject.SetActive(true);
 
-        SetCardImage(cardSource.gameObject, unitClass, cardType);
+        SetCardImage(cardSource.gameObject, card, unitClass);
 
         manager.StartMovement(cardSource, cardDestination, 5, type, callback);
     }

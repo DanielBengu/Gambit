@@ -46,11 +46,11 @@
     },
     {
       "Id": 11,
-      "Value": "Gain 2 ARMOR"
+      "Value": "Gain {0} ARMOR"
     },
     {
       "Id": 12,
-      "Value": "Gain 5 MAX HP"
+      "Value": "Gain {0} MAX HP"
     },
     {
       "Id": 13,
@@ -78,7 +78,7 @@
     },
     {
       "Id": 19,
-      "Value": "Welcome traveler, do you worship Xsant?"
+      "Value": "WELCOME TRAVELER, DO YOU WORSHIP XSANT?"
     },
     {
       "Id": 20,
@@ -98,7 +98,7 @@
     },
     {
       "Id": 24,
-      "Value": "Oh... ok..."
+      "Value": "OH... OK..."
     },
     {
       "Id": 25,
@@ -295,6 +295,14 @@
     {
       "Id": 73,
       "Value": "+1 DMG THIS TURN, LOWER ENEMY ARMOR BY 1 FOR 2 TURNS"
+    },
+    {
+      "Id": 74,
+      "Value": "BODY SLAM"
+    },
+    {
+      "Id": 75,
+      "Value": "ADDS DMG THIS TURN BASED ON ARMOR"
     }
   ]
 }

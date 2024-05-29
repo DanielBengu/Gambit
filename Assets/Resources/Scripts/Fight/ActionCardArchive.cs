@@ -17,6 +17,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Equip,
                 ClassId = Classes.Warrior,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -26,6 +27,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Attack,
                 ClassId = Classes.Warrior,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -35,6 +37,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Skill,
                 ClassId = Classes.Warrior,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -44,6 +47,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Modifier,
                 ClassId = Classes.Basic,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -53,6 +57,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Modifier,
                 ClassId = Classes.Basic,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -62,6 +67,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Equip,
                 ClassId = Classes.Wizard,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -71,6 +77,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Attack,
                 ClassId = Classes.Wizard,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -80,6 +87,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Skill,
                 ClassId = Classes.Wizard,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -89,6 +97,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Equip,
                 ClassId = Classes.Ranger,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -98,6 +107,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Attack,
                 ClassId = Classes.Ranger,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -107,6 +117,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Skill,
                 ClassId = Classes.Ranger,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -116,6 +127,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Equip,
                 ClassId = Classes.Rogue,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -125,6 +137,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Attack,
                 ClassId = Classes.Rogue,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -134,6 +147,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Skill,
                 ClassId = Classes.Rogue,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -143,6 +157,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Equip,
                 ClassId = Classes.Monk,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -152,6 +167,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Attack,
                 ClassId = Classes.Monk,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -161,6 +177,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Skill,
                 ClassId = Classes.Monk,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -170,6 +187,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Equip,
                 ClassId = Classes.Crystal,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -179,6 +197,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Attack,
                 ClassId = Classes.Crystal,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -188,6 +207,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Skill,
                 ClassId = Classes.Crystal,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -197,6 +217,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Equip,
                 ClassId = Classes.Trickster,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -206,6 +227,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Attack,
                 ClassId = Classes.Trickster,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -215,6 +237,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Skill,
                 ClassId = Classes.Trickster,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -224,6 +247,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Attack,
                 ClassId = Classes.Ranger,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -233,6 +257,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Modifier,
                 ClassId = Classes.Basic,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -242,6 +267,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Attack,
                 ClassId = Classes.Wizard,
                 SpecialCard = true,
+                Rarity = CardRarity.Basic
             },
             new()
             {
@@ -251,6 +277,7 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Skill,
                 ClassId = Classes.Wizard,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
             },            
             new()
             {
@@ -260,6 +287,17 @@ namespace Assets.Resources.Scripts.Fight
                 ActionId = ActionType.Attack,
                 ClassId = Classes.Wizard,
                 SpecialCard = false,
+                Rarity = CardRarity.Basic
+            },
+            new()
+            {
+                Id = 28,
+                NameIdValue = 72,
+                DescriptionIdValue = 73,
+                ActionId = ActionType.Attack,
+                ClassId = Classes.Warrior,
+                SpecialCard = false,
+                Rarity = CardRarity.Rare
             },
         };
 
@@ -323,6 +361,10 @@ namespace Assets.Resources.Scripts.Fight
                 case 27:
                     ApplyModifier(unit, Stats.Damage, 1, 1);
                     ApplyModifier(enemy, Stats.Armor, 2, -1);
+                    break;
+                case 28:
+                    int armor = unit.FightArmor;
+                    ApplyModifier(unit, Stats.Damage, 1, armor);
                     break;
             }
         }

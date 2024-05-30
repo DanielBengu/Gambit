@@ -195,7 +195,7 @@ public class VisualEffectsManager : MonoBehaviour
         GameUIManager gameUIManager = (GameUIManager)effect.parameters[1];
         int playerGoldAmountTarget = (int)effect.parameters[2];
 
-        int currentGoldAmountDisplayed = int.Parse(text.text.Split(' ')[1]);
+        int currentGoldAmountDisplayed = int.Parse(text.text);
 
         if (startingGoldAmount == 0)
             startingGoldAmount = currentGoldAmountDisplayed;

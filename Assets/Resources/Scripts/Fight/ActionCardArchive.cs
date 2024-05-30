@@ -299,6 +299,16 @@ namespace Assets.Resources.Scripts.Fight
                 SpecialCard = false,
                 Rarity = CardRarity.Rare
             },
+            new()
+            {
+                Id = 29,
+                NameIdValue = 76,
+                DescriptionIdValue = 77,
+                ActionId = ActionType.Attack,
+                ClassId = Classes.Crystal,
+                SpecialCard = true,
+                Rarity = CardRarity.Gambit
+            },
         };
 
         public static void ApplyEffect(int cardId, FightUnit unit, FightUnit enemy, FightManager manager)
@@ -366,6 +376,12 @@ namespace Assets.Resources.Scripts.Fight
                     int armor = unit.FightArmor;
                     ApplyModifier(unit, Stats.Damage, 1, armor);
                     break;
+                case 29:
+                    var unitManagerCrystal = manager.playerObj.GetComponent<UnitAnimationManager>();
+                    Crystal crystalClass = unit.Class as Crystal;
+
+                    unitManagerCrystal.dictionaryCallback.Add("GemBlossom", crystalClass.HandleGemBlossom);
+                    break;
             }
         }
 
@@ -392,6 +408,7 @@ namespace Assets.Resources.Scripts.Fight
                 23 => "MeleeAttack",
                 25 => "RiverDance",
                 26 => "Heal",
+                29 => "GemBlossom",
                 _ => string.Empty,
             };
         }

@@ -73,4 +73,8 @@ internal class Basic : IClass
 
         return GetAnimationName(SpriteAnimation.UnitDealDamage);
     }
+
+    public override void HandleActionCardPlayed(ActionCard card)
+    {
+    }
 }

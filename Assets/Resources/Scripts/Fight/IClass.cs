@@ -67,6 +67,8 @@ public abstract class IClass
 
     public abstract string GetCardText(CardType cardType);
 
+    public abstract void HandleActionCardPlayed(ActionCard card);
+
     public Sprite GetCardIcon(GameCard card)
     {
         switch (card.cardType)

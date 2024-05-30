@@ -2139,14 +2139,14 @@ RectTransform:
   m_GameObject: {fileID: 951035618}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 69.3, y: 12, z: 12}
+  m_LocalScale: {x: 20.79, y: 3.6000001, z: 3.6000001}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1904394690}
+  m_Father: {fileID: 1487178160}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2316, y: -3068}
+  m_AnchoredPosition: {x: -22.199951, y: -574.3999}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &951035620
@@ -3151,8 +3151,9 @@ RectTransform:
   m_Children:
   - {fileID: 1383346173}
   - {fileID: 16210053}
-  - {fileID: 1904394690}
+  - {fileID: 951035619}
   - {fileID: 225143149}
+  - {fileID: 1904394690}
   - {fileID: 1491457890}
   - {fileID: 777815716}
   - {fileID: 2099854459}
@@ -5745,7 +5746,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8561319394976335565, guid: ef0ee9bf647e94b408be5129bed97a50, type: 3}
+    - {fileID: 2135968979386241585, guid: ef0ee9bf647e94b408be5129bed97a50, type: 3}
+    - {fileID: 7256799020581461476, guid: ef0ee9bf647e94b408be5129bed97a50, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef0ee9bf647e94b408be5129bed97a50, type: 3}
@@ -6137,9 +6141,6 @@ PrefabInstance:
     - {fileID: 4699436557797234797, guid: 241a76db4a5a9bd42bae14071857e52a, type: 3}
     - {fileID: 5224377982285101842, guid: 241a76db4a5a9bd42bae14071857e52a, type: 3}
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 2367992360825028009, guid: 241a76db4a5a9bd42bae14071857e52a, type: 3}
-      insertIndex: 0
-      addedObject: {fileID: 951035619}
     - targetCorrespondingSourceObject: {fileID: 2367992360825028009, guid: 241a76db4a5a9bd42bae14071857e52a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 620671815}

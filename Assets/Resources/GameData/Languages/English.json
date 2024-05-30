@@ -303,6 +303,14 @@
     {
       "Id": 75,
       "Value": "ADDS DMG THIS TURN BASED ON ARMOR"
+    },
+    {
+      "Id": 76,
+      "Value": "GEM BLOSSOM"
+    },
+    {
+      "Id": 77,
+      "Value": "DEAL 1 DMG FOR EVERY GEM COLLECTED"
     }
   ]
 }

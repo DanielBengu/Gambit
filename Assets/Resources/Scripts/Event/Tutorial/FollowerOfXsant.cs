@@ -65,9 +65,9 @@ public class FollowerOfXsant : EventParent
             case 0:
                 LoadChoiceManager(new()
                 {
-                    new(choices.transform.GetChild(0).gameObject, dialogueManager.languageManager.GetText(20), "Icon_Star", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new(){ SwitchToFight, ResetAllChoices,  }),
-                    new(choices.transform.GetChild(2).gameObject, dialogueManager.languageManager.GetText(22), "Icon_Skull", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new() { SwitchToFight, ResetAllChoices, }),
-                    new(choices.transform.GetChild(1).gameObject, dialogueManager.languageManager.GetText(21), "Icon_Crown", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new() { LoadNextStep, ResetAllChoices,  }),
+                    new(dialogueManager.languageManager.GetText(20), "Icon_Star", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new(){ SwitchToFight, ResetAllChoices,  }),
+                    new(dialogueManager.languageManager.GetText(22), "Icon_Skull", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new() { SwitchToFight, ResetAllChoices, }),
+                    new(dialogueManager.languageManager.GetText(21), "Icon_Crown", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new() { LoadNextStep, ResetAllChoices,  }),
                 });
                 break;
             default:

@@ -77,4 +77,8 @@ public class Trickster : IClass
 
         return GetAnimationName(SpriteAnimation.UnitDealDamage);
     }
+
+    public override void HandleActionCardPlayed(ActionCard card)
+    {
+    }
 }

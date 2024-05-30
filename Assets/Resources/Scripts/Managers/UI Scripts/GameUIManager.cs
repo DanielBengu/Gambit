@@ -518,9 +518,10 @@ public class GameUIManager : MonoBehaviour
             goldAmountText.rectTransform.localPosition = originalPosition + new Vector3(offsetX, offsetY, 0);
 
             elapsedTime += Time.deltaTime;
-            isGoldShaking = false;
             yield return null;
         }
+
+        isGoldShaking = false;
 
         // Revert the text to its original properties
         goldAmountText.color = originalColor;

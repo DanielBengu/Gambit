@@ -470,6 +470,9 @@ public class FightManager
                 obj = enemyObj;
                 break;
         }
+
+        unit.Class.HandleActionCardPlayed(card);
+
         ActionCardArchive.ApplyEffect(card.Id, unit, enemy, this);
         string animation = ActionCardArchive.GetAnimation(card.Id);
 

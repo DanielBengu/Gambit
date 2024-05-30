@@ -136,4 +136,8 @@ public class Wizard : IClass
     {
         FightManager.DamageCharacter(FightManager.Enemy, FightManager.enemyObj, 3);
     }
+
+    public override void HandleActionCardPlayed(ActionCard card)
+    {
+    }
 }

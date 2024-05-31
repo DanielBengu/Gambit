@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +12,7 @@ public class ChoiceManager
 
     public GameObject standardChoice;
     public GameObject actionCardChoice;
+    public GameObject scoreCardChoice;
 
     public Transform choiceParent;
 
@@ -27,6 +26,7 @@ public class ChoiceManager
         choiceParent = GameObject.Find("Choices").transform;
         standardChoice = Resources.Load<GameObject>("Prefabs/Event/EventChoice");
         actionCardChoice = Resources.Load<GameObject>("Prefabs/Event/ActionCardChoice");
+        scoreCardChoice = Resources.Load<GameObject>("Prefabs/Event/ScoreCardChoice");
 
         for (int i = 0; i < choices.Count; i++)
         {
@@ -49,8 +49,15 @@ public class ChoiceManager
         {
             ChoiceType.Standard => UnityEngine.Object.Instantiate(standardChoice, choiceParent),
             ChoiceType.ActionCard => UnityEngine.Object.Instantiate(actionCardChoice, choiceParent),
-            _ => null
+            ChoiceType.ScoreCard => UnityEngine.Object.Instantiate(scoreCardChoice, choiceParent),
+            _ => GetMissingChoiceType(choice)
         };
+    }
+
+    GameObject GetMissingChoiceType(ChoiceType type)
+    {
+        Debug.LogError($"ERROR DURING CARD CREATION - CHOICE {type} NOT FOUND");
+        return null;
     }
 
     public void LoadChoiceCallback(GameObject obj, List<Action> callbackList)
@@ -67,7 +74,7 @@ public class ChoiceManager
 
     public void SetupChoiceUI(GameObject obj, ChoiceType type, string description, string iconName, object[] parameters)
     {
-        HandleBackground(type, obj);
+        HandleBackground(type, obj, parameters);
         HandleSpecificUI(type, obj, parameters);
 
         obj.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = description;
@@ -87,12 +94,15 @@ public class ChoiceManager
         } 
     }
 
-    void HandleBackground(ChoiceType type, GameObject obj)
+    void HandleBackground(ChoiceType type, GameObject obj, object[] parameters)
     {
         switch (type)
         {
             case ChoiceType.ActionCard:
                 obj.transform.Find("Background").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/Cards/Card Structure/Civilian_card_version2");
+                break;
+            case ChoiceType.ScoreCard:
+                obj.transform.Find("Background").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/Cards/{parameters[1]}");
                 break;
             default:
                 break;
@@ -106,6 +116,7 @@ public class ChoiceManager
             case ChoiceType.Standard:
                 break;
             case ChoiceType.ActionCard:
+            case ChoiceType.ScoreCard:
                 var priceSection = obj.transform.Find("Price section");
                 priceSection.gameObject.SetActive(true);
                 priceSection.transform.Find("Price").GetComponent<TextMeshProUGUI>().text = $"{parameters[0]}g";
@@ -133,7 +144,8 @@ public class ChoiceManager
         public enum ChoiceType
         {
             Standard,
-            ActionCard
+            ActionCard,
+            ScoreCard
         }
     }
 }

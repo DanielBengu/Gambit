@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using static CardsHandler;
 public class Alchemist : EventParent
@@ -52,8 +53,8 @@ public class Alchemist : EventParent
             case 2:
                 LoadChoiceManager(new()
                 {
-                    new(string.Format(dialogueManager.languageManager.GetText(44), 2), "Icon_Star", ChoiceManager.Choice.ChoiceType.ActionCard, new object[1] { HEALTH_POTION_COST }, new()   { BuyHealthPotion }),
-                    new(string.Format(dialogueManager.languageManager.GetText(45), 2), "Icon_Skull", ChoiceManager.Choice.ChoiceType.ActionCard, new object[1] { POISON_POTION_COST }, new()  { BuyPoisonPotion }),
+                    new(string.Format(dialogueManager.languageManager.GetText(44), 2), "Icon_Star", ChoiceManager.Choice.ChoiceType.ScoreCard, new object[2] { HEALTH_POTION_COST, GetPotionScoreCard(PotionType.Health) }, new() { BuyHealthPotion }),
+                    new(string.Format(dialogueManager.languageManager.GetText(45), 2), "Icon_Skull", ChoiceManager.Choice.ChoiceType.ActionCard, new object[1] { POISON_POTION_COST }, new() { BuyPoisonPotion }),
                     new(dialogueManager.languageManager.GetText(43), "Icon_Crown", ChoiceManager.Choice.ChoiceType.Standard, new object[0], new()  { ResetAllChoices, LoadNextStep }),
                 });
                 break;
@@ -153,5 +154,15 @@ public class Alchemist : EventParent
 
         LoadNextStep();
         ResetAllChoices();
+    }
+
+    public string GetPotionScoreCard(PotionType type)
+    {
+        return type switch
+        {
+            PotionType.Damage => "Potion_Damage",
+            PotionType.Health => "Potion_Health",
+            _ => string.Empty
+        };
     }
 }

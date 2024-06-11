@@ -438,8 +438,6 @@ public class FightManager
                 HandleCardDrawn(character, Enemy, EnemyCardAnimationCallback);
                 break;
         }
-
-        gameUIManager.UpdatePlayerInfo(Player.FightCurrentDeck.Count, GetCardsBustAmount(Player.FightCurrentDeck, Player.currentScore, Player.MaxScore));
         gameUIManager.UpdateUI(Enemy);
         gameUIManager.UpdateUI(Player);
     }

@@ -162,7 +162,7 @@
     },
     {
       "Id": 40,
-      "Value": "+2 ARMOR THIS TURN"
+      "Value": "+{0} ARMOR THIS TURN"
     },
     {
       "Id": 41,

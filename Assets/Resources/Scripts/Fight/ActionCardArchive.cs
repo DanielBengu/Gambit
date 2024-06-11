@@ -7,6 +7,10 @@ namespace Assets.Resources.Scripts.Fight
 {
     public static class ActionCardArchive
     {
+        public static int BASIC_ARMOR_MODIFIER = 1;
+        public static int BASIC_DMG_MODIFIER = 2;
+        public static int BASIC_ATTACK_MODIFIER = 1;
+
         public static List<ActionCard> CARD_ARCHIVE = new()
         {
             new()
@@ -340,7 +344,7 @@ namespace Assets.Resources.Scripts.Fight
                 case 16:
                 case 19:
                 case 22:
-                    ApplyModifier(unit, Stats.Armor, 1, 2);
+                    ApplyModifier(unit, Stats.Armor, 1, BASIC_ARMOR_MODIFIER);
                     break;
                 case 23:
                     ApplyModifier(enemy, Stats.Armor, 1, -1);
@@ -447,6 +451,17 @@ namespace Assets.Resources.Scripts.Fight
         static void AddScore(FightUnit unit, int modifier)
         {
             unit.currentScore += modifier;
+        }
+
+        public static object[] GetActionCardText(int cardId, FightUnit unit, FightUnit enemy)
+        {
+            return cardId switch
+            {
+                2 or 7 or 10 or 13 or 16 or 19 or 22 => new object[1] { BASIC_ARMOR_MODIFIER },
+                1 or 6 or 9 or 12 or 15 or 18 or 21 => new object[1] { BASIC_DMG_MODIFIER },
+                0 or 5 or 8 or 14 or 17 or 20 => new object[1] { BASIC_ATTACK_MODIFIER },
+                _ => new object[0],
+            };
         }
     }
 }

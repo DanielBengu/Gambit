@@ -8,12 +8,14 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using static MenuOptions;
 using System.Collections;
+using Assets.Resources.Scripts.Fight;
 
 public class GameUIManager : MonoBehaviour
 {
     #region Player UI
     public Slider playerSlider;
     public Image playerSliderColor;
+    public Image playerSliderBackground;
     public TextMeshProUGUI playerScoreText;
     public TextMeshProUGUI playerMaxScoreText;
     public TextMeshProUGUI playerTitleText;
@@ -45,6 +47,7 @@ public class GameUIManager : MonoBehaviour
     #region Enemy UI
     public Slider enemySlider;
     public Image enemySliderColor;
+    public Image enemySliderBackground;
     public TextMeshProUGUI enemyScoreText;
     public TextMeshProUGUI enemyMaxScoreText;
     public TextMeshProUGUI enemyTitleText;
@@ -61,6 +64,8 @@ public class GameUIManager : MonoBehaviour
     public TextMeshProUGUI deckCount;
     public TextMeshProUGUI bustChance;
     public TextMeshProUGUI previsionText;
+
+    public TextMeshProUGUI gameDeckCount;
 
     public Button standButton;
 
@@ -126,20 +131,15 @@ public class GameUIManager : MonoBehaviour
         cardSection.SetActive(true);
 
         SetUnitTitle(enemyTitleText, enemy.Name, enemy.Class.Class.ToString());
-        //SetUnitTitle(playerTitleText, player.Name, player.Class.Class.ToString());
-
-        ChangeDeckCount(playerDeckCount);
-        UpdateBustChance(bustAmount, playerDeckCount);
 
         UpdateMaxScore(Character.Player, player.CurrentMaxScore);
         SetMaxSliderValue(Character.Player, player.CurrentMaxScore);
-        UpdateUnitHP(Character.Player, player.FightHP, player.FightMaxHP);
-        UpdateArmor(Character.Player, player.FightArmor);
 
-        UpdateUnitHP(Character.Enemy, enemy.FightHP, enemy.FightMaxHP);
-        UpdateArmor(Character.Enemy, enemy.FightArmor);
         SetMaxSliderValue(Character.Enemy, enemy.CurrentMaxScore);
         UpdateMaxScore(Character.Enemy, enemy.CurrentMaxScore);
+
+        UpdateUI(player);
+        UpdateUI(enemy);
     }
 
     public void UpdateHand(List<ActionCard> currentHand, FightManager manager)
@@ -160,13 +160,13 @@ public class GameUIManager : MonoBehaviour
         Vector3 cardPosition = GetCardPosition(positionInHand, cardsInHand, cardSection.transform.position, 1f);
         Quaternion newRotation = GetCardRotation(positionInHand, cardsInHand, cardSection.transform.rotation.x, cardSection.transform.rotation.y);
 
-        InstantiateActionCard(card, cardPosition, newRotation, cardSection.transform, manager, true);
+        InstantiateActionCard(card, cardPosition, newRotation, cardSection.transform, manager, true, manager.Player, manager.Enemy);
     }
 
-    public GameObject InstantiateActionCard(ActionCard card, Vector3 cardPosition, Quaternion newRotation, Transform parent, FightManager manager, bool isFunctional)
+    public GameObject InstantiateActionCard(ActionCard card, Vector3 cardPosition, Quaternion newRotation, Transform parent, FightManager manager, bool isFunctional, FightUnit unit, FightUnit enemy)
     {
         var newCard = Instantiate(actionCardPrefab, cardPosition, newRotation, parent);
-        UpdateActionCardUI(newCard, card);
+        UpdateActionCardUI(newCard, card, unit, enemy);
 
         var script = newCard.GetComponent<ActionCardInstance>();
 
@@ -199,9 +199,11 @@ public class GameUIManager : MonoBehaviour
         return Quaternion.Euler(rotationX, rotationY, c);
     }
 
-    void UpdateActionCardUI(GameObject cardObj, ActionCard card)
+    void UpdateActionCardUI(GameObject cardObj, ActionCard card, FightUnit unit, FightUnit enemy)
     {
         cardObj.transform.Find("Icon").GetComponent<Image>().sprite = Resources.Load<Sprite>($"Sprites/Icons/ActionCard/{card.Id}");
+
+        var descriptionParameters = ActionCardArchive.GetActionCardText(card.Id, unit, enemy);
 
         languageManager.SetLanguageValues(new()
         {
@@ -210,7 +212,7 @@ public class GameUIManager : MonoBehaviour
 
         languageManager.SetLanguageValues(new()
         {
-            new(card.DescriptionIdValue, cardObj.transform.Find("Effect").GetComponent<TextMeshProUGUI>(), new object[0]{ }),
+            new(card.DescriptionIdValue, cardObj.transform.Find("Effect").GetComponent<TextMeshProUGUI>(), descriptionParameters),
         });
 
         //cardObj.GetComponent<Image>().color = IClass.GetCardBackgroundColor(card.ClassId);
@@ -328,7 +330,7 @@ public class GameUIManager : MonoBehaviour
         UpdateArmor(character, data.FightArmor);
 
         if (character == Character.Player)
-            UpdatePlayerInfo(data.FightCurrentDeck.Count, GetCardsBustAmount(data.FightCurrentDeck, data.currentScore, data.CurrentMaxScore));
+            UpdatePlayerInfo(data.FightCurrentDeck.Count, GetCardsBustAmount(data.FightCurrentDeck, data.currentScore, data.CurrentMaxScore), data.FightActionCurrentDeck.Count);
     }
 
     public void UpdateStandUI(Character slide, CharacterStatus status, int newScore, int maxScore, int attacks)
@@ -354,10 +356,17 @@ public class GameUIManager : MonoBehaviour
         previsionText.text = damageAmount;
     }
 
-    public void UpdatePlayerInfo(int deckCount, int bustAmount)
+    public void UpdatePlayerInfo(int deckCount, int bustAmount, int gameDeckCount)
     {
         ChangeDeckCount(deckCount);
         UpdateBustChance(bustAmount, deckCount);
+
+        UpdateGameDeckCount(gameDeckCount);
+    }
+
+    public void UpdateGameDeckCount(int deckCount)
+    {
+        gameDeckCount.text = deckCount.ToString();
     }
 
     public void UpdateMaxScore(Character unit, int newValue)
@@ -413,18 +422,20 @@ public class GameUIManager : MonoBehaviour
     {
         switch (slide) {
             case Character.Player:
-
+                Color color = newValue == maxScore ? Color.yellow : Color.cyan;
                 playerSlider.value = newValue;
                 playerScoreText.text = GetScoreText(status, newValue, attacks);
-                playerScoreText.color = newValue == maxScore ? Color.yellow : Color.white;
-                playerSliderColor.color = newValue == maxScore ? Color.yellow : Color.white;
+                playerScoreText.color = color;
+                playerSliderColor.color = color;
+                playerSliderBackground.color = color;
                 break;
             case Character.Enemy:
-
+                Color enemyColor = newValue == maxScore ? Color.yellow : Color.red;
                 enemySlider.value = newValue;
                 enemyScoreText.text = GetScoreText(status, newValue, attacks);
-                enemyScoreText.color = newValue == maxScore ? Color.yellow : Color.white;
-                enemySliderColor.color = newValue == maxScore ? Color.yellow : Color.white;
+                enemyScoreText.color = enemyColor;
+                enemySliderColor.color = enemyColor;
+                enemySliderBackground.color = enemyColor;
                 break;
         }
     }
@@ -538,7 +549,7 @@ public class GameUIManager : MonoBehaviour
         foreach (var card in actionCards)
         {
             Vector3 newPositions = GameManager.GetItemPositionOnInfoPanelList(basePosition, actionCards.IndexOf(card));
-            var cardInstance = InstantiateActionCard(card, newPositions, objParent.transform.rotation, objParent.transform, manager, false);
+            var cardInstance = InstantiateActionCard(card, newPositions, objParent.transform.rotation, objParent.transform, manager, false, manager.Player, manager.Enemy);
             float scale = 1.75f;
             cardInstance.transform.localScale = new Vector3(cardInstance.transform.localScale.x * scale, cardInstance.transform.localScale.y * scale, cardInstance.transform.localScale.z * scale);
         }

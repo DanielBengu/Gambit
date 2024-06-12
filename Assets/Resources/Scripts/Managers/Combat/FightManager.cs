@@ -432,7 +432,10 @@ public class FightManager
                     return;
                 HandleCardDrawn(character, Player, PlayerCardAnimationCallback);
                 if (Player.status != CharacterStatus.Playing)
+                {
                     gameUIManager.SetStandButtonInteractable(false);
+                    gameUIManager.ChangeScoreDeckVFX(false);
+                }
                 break;
             case Character.Enemy:
                 HandleCardDrawn(character, Enemy, EnemyCardAnimationCallback);
@@ -582,6 +585,8 @@ public class FightManager
 
         Player.status = CharacterStatus.Standing;
         gameUIManager.SetStandButtonInteractable(false);
+
+        gameUIManager.ChangeScoreDeckVFX(false);
 
         PlayEnemyTurn();
     }

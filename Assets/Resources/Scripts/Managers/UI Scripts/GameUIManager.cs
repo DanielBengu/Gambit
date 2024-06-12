@@ -78,6 +78,8 @@ public class GameUIManager : MonoBehaviour
 
     public GameObject actionCardPrefab;
     public GameObject cardSection;
+
+    public Animator scoreDeckGlowVFX;
     #endregion
 
     #endregion
@@ -538,6 +540,14 @@ public class GameUIManager : MonoBehaviour
         goldAmountText.color = originalColor;
         goldAmountText.fontSize = originalFontSize;
         goldAmountText.rectTransform.localPosition = originalPosition;
+    }
+
+    public void ChangeScoreDeckVFX(bool glow)
+    {
+        if (glow)
+            scoreDeckGlowVFX.Play("Enabled");
+        else
+            scoreDeckGlowVFX.Play("Disabled");
     }
 
     #region Info Panel

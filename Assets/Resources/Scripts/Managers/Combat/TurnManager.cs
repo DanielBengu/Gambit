@@ -50,6 +50,8 @@ public class TurnManager
         gameUIManager.UpdatePrevision(prev, damagePrevision);
 
         gameUIManager.SetStandButtonInteractable(true);
+
+        gameUIManager.ChangeScoreDeckVFX(true);
     }
 
     void ResetUnitTurn(FightUnit unit)

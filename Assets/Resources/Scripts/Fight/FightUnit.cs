@@ -10,7 +10,7 @@ public class FightUnit : UnitData
 {
     #region Static data
 
-    static readonly int BASE_CARD_DRAW_TURN = 3;
+    static readonly int BASE_CARD_DRAW_TURN = 2;
 
     #endregion
 

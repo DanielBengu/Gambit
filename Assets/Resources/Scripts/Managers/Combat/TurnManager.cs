@@ -51,7 +51,8 @@ public class TurnManager
 
         gameUIManager.SetStandButtonInteractable(true);
 
-        gameUIManager.ChangeScoreDeckVFX(true);
+        gameUIManager.ChangeGlowVFX(gameUIManager.scoreDeckBouncer, gameUIManager.scoreDeckGlowVFX, true);
+        gameUIManager.ChangeGlowVFX(gameUIManager.standBouncer, gameUIManager.standGlowVFX, true);
     }
 
     void ResetUnitTurn(FightUnit unit)

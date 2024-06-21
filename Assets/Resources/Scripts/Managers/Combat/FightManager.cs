@@ -79,8 +79,8 @@ public class FightManager
 
     public void SetupFightUIAndStartGame()
     {
-        int bustAmount = GetCardsBustAmount(Player.FightCurrentDeck, Player.currentScore, Player.MaxScore);
-        gameUIManager.SetupFightUI(Enemy, Player, Player.FightCurrentDeck.Count, bustAmount);
+        //int bustAmount = GetCardsBustAmount(Player.FightCurrentDeck, Player.currentScore, Player.MaxScore);
+        gameUIManager.SetupFightUI(Enemy, Player);
 
         string damagePrevision = GetDamagePrevision(Player, Enemy, out PrevisionEnum prev);
         gameUIManager.UpdatePrevision(prev, damagePrevision);
@@ -434,7 +434,8 @@ public class FightManager
                 if (Player.status != CharacterStatus.Playing)
                 {
                     gameUIManager.SetStandButtonInteractable(false);
-                    gameUIManager.ChangeScoreDeckVFX(false);
+                    gameUIManager.ChangeGlowVFX(gameUIManager.scoreDeckBouncer, gameUIManager.scoreDeckGlowVFX, false);
+                    gameUIManager.ChangeGlowVFX(gameUIManager.standBouncer, gameUIManager.standGlowVFX, false);
                 }
                 break;
             case Character.Enemy:
@@ -586,7 +587,8 @@ public class FightManager
         Player.status = CharacterStatus.Standing;
         gameUIManager.SetStandButtonInteractable(false);
 
-        gameUIManager.ChangeScoreDeckVFX(false);
+        gameUIManager.ChangeGlowVFX(gameUIManager.scoreDeckBouncer, gameUIManager.scoreDeckGlowVFX, false);
+        gameUIManager.ChangeGlowVFX(gameUIManager.standBouncer, gameUIManager.standGlowVFX, false);
 
         PlayEnemyTurn();
     }

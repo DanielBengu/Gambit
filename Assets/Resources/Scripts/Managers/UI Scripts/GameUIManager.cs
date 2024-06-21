@@ -80,6 +80,10 @@ public class GameUIManager : MonoBehaviour
     public GameObject cardSection;
 
     public Animator scoreDeckGlowVFX;
+    public Animator scoreDeckBouncer;
+    public Animator standGlowVFX;
+    public Animator standBouncer;
+
     #endregion
 
     #endregion
@@ -124,7 +128,7 @@ public class GameUIManager : MonoBehaviour
             });
     }
 
-    public void SetupFightUI(FightUnit enemy, FightUnit player, int playerDeckCount, int bustAmount)
+    public void SetupFightUI(FightUnit enemy, FightUnit player)
     {
         fightUI.SetActive(true);
         enemyInfoUI.SetActive(true);
@@ -542,12 +546,18 @@ public class GameUIManager : MonoBehaviour
         goldAmountText.rectTransform.localPosition = originalPosition;
     }
 
-    public void ChangeScoreDeckVFX(bool glow)
+    public void ChangeGlowVFX(Animator bouncer, Animator glowVFX, bool glow)
     {
         if (glow)
-            scoreDeckGlowVFX.Play("Enabled");
+        {
+            glowVFX.Play("Enabled");
+            bouncer.Play("Idle_float");
+        }
         else
-            scoreDeckGlowVFX.Play("Disabled");
+        {
+            glowVFX.Play("Disabled");
+            bouncer.Play("Idle_disabled");
+        }
     }
 
     #region Info Panel

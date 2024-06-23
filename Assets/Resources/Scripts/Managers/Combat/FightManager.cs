@@ -374,6 +374,8 @@ public class FightManager
                     Enemy.currentScore = 0;
                 break;
         }
+
+        HandleBustArmorNullifier(character);
     }
 
     public static int GetCardsBustAmount(List<GameCard> deck, int currentScore, int maxScore)
@@ -490,6 +492,13 @@ public class FightManager
         gameUIManager.UpdatePrevision(prev, damagePrevision);
 
         PlayCustomAnimation(obj, animation, () => { });
+    }
+
+    public void HandleBustArmorNullifier(Character character)
+    {
+        FightUnit unit = character == Character.Enemy ? Enemy : Player;
+
+        unit.CurrentModifiers.Add(new(FightUnit.Stats.Armor, 1, -unit.FightArmor));
     }
 
     public bool IsGameOnStandby()

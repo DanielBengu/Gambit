@@ -86,6 +86,9 @@ public class GameUIManager : MonoBehaviour
 
     public Transform discardPosition;
 
+    public Animator playerArmorAnimator;
+    public Animator enemyArmorAnimator;
+
     #endregion
 
     #endregion
@@ -146,8 +149,8 @@ public class GameUIManager : MonoBehaviour
         SetMaxSliderValue(Character.Enemy, enemy.CurrentMaxScore);
         UpdateMaxScore(Character.Enemy, enemy.CurrentMaxScore);
 
-        UpdateUI(player);
-        UpdateUI(enemy);
+        UpdateUI(player, true);
+        UpdateUI(enemy, true);
     }
 
     public void UpdateHand(List<ActionCard> currentHand, FightManager manager)
@@ -234,7 +237,7 @@ public class GameUIManager : MonoBehaviour
     public void SetPlayerSection(int maxHp, int currentHp, int armor)
     {
         //SetUnitTitle(playerTitleText, name, className);
-        UpdateArmor(Character.Player, armor);
+        UpdateArmor(Character.Player, armor, false);
         UpdateUnitHP(Character.Player, currentHp, maxHp);
     }
 
@@ -266,17 +269,29 @@ public class GameUIManager : MonoBehaviour
         eventUI.SetActive(true);
     }
 
-    public void UpdateArmor(Character character, int newValue)
+    public void UpdateArmor(Character character, int newValue, bool startAnimation)
     {
+        Animator animatorToPlay = playerArmorAnimator;
+        int difference = 0;
+
         switch (character)
         {
             case Character.Enemy:
+                animatorToPlay = enemyArmorAnimator;
+                difference = int.Parse(enemyArmorText.text) - newValue;
+
                 enemyArmorText.text = newValue.ToString();
                 break;
             case Character.Player:
+                animatorToPlay = playerArmorAnimator;
+                difference = int.Parse(playerArmorText.text) - newValue;
+
                 playerArmorText.text = newValue.ToString();
                 break;
         }
+
+        if(startAnimation && difference != 0)
+            StartArmorChangeAnimation(animatorToPlay, difference);
     }
 
     public void SetMaxSliderValue(Character character, int value)
@@ -333,14 +348,14 @@ public class GameUIManager : MonoBehaviour
         }
     }
 
-    public void UpdateUI(FightUnit data)
+    public void UpdateUI(FightUnit data, bool isFightStart = false)
     {
         Character character = data.Character;
 
         UpdateStandUI(character, data.status, data.currentScore, data.CurrentMaxScore, data.Attacks);
 
         UpdateUnitHP(character, data.FightHP, data.FightMaxHP);
-        UpdateArmor(character, data.FightArmor);
+        UpdateArmor(character, data.FightArmor, !isFightStart);
 
         if (character == Character.Player)
             UpdatePlayerInfo(data.FightCurrentDeck.Count, GetCardsBustAmount(data.FightCurrentDeck, data.currentScore, data.CurrentMaxScore), data.FightActionCurrentDeck.Count);
@@ -453,6 +468,11 @@ public class GameUIManager : MonoBehaviour
         }
     }
 
+    public void StartArmorChangeAnimation(Animator animator, int valueModifier) {
+        animator.Play("Armor_Change_Start");
+    }
+
+
     public string GetScoreText(CharacterStatus status, int newValue, int attacks)
     {
         if(status == CharacterStatus.Bust)
@@ -500,7 +520,7 @@ public class GameUIManager : MonoBehaviour
 
     public void SendActionCardToGraveyardAndUpdateHand(VisualEffectsManager manager, Transform transform, List<ActionCard> cardList, FightManager fightManager)
     {
-        HandleCardAnimation(manager, transform, discardPosition, TypeOfObject.ActionCardDiscarded, () => UpdateHand(cardList, fightManager), 8);
+        HandleCardAnimation(manager, transform, discardPosition, TypeOfObject.ActionCardDiscarded, () => UpdateHand(cardList, fightManager), 20);
     }
 
     void HandleCardAnimation(VisualEffectsManager manager, Transform cardSource, Transform cardDestination, TypeOfObject type, Action callback, int speed)

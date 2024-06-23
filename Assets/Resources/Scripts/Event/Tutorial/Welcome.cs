@@ -119,7 +119,7 @@ public class Welcome : EventParent
     public void RaiseArmor()
     {
         gameManager.playerData.UnitData.Armor += RAISE_ARMOR_AMOUNT;
-        gameManager.gameUIManager.UpdateArmor(FightManager.Character.Player, gameManager.playerData.UnitData.Armor);
+        gameManager.gameUIManager.UpdateArmor(FightManager.Character.Player, gameManager.playerData.UnitData.Armor, true);
     }
 
     public void RaiseMaxHP()

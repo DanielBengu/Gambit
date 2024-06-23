@@ -26,8 +26,8 @@ public class VisualEffectsManager : MonoBehaviour
     int startingGoldAmount = 0;
     #endregion
 
-    float scaleDownFactor = 0.97f; 
-    float minScale = 0.1f;
+    readonly float scaleDownFactor = 0.985f;
+    readonly float minScale = 0.1f;
 
     public List<MovingObject> movingObjects = new();
     readonly float movementThreshold = 1f;
@@ -50,26 +50,33 @@ public class VisualEffectsManager : MonoBehaviour
     {
         for (int i = 0; i < movingObjects.Count; i++)
         {
-            MovingObject movingObject = movingObjects[i];
-
-            Vector3 direction = (movingObject.destination.position - movingObject.objectMoving.position).normalized;
-            movingObject.objectMoving.Translate(movingObject.speed * Time.deltaTime * direction);
-
-            // Calculate the remaining distance to the destination
-            float remainingDistance = Vector3.Distance(movingObject.objectMoving.position, movingObject.destination.position);
-
-            HandleMovingObjectsEffects(movingObject);
-
-            // If the remaining distance is less than the arrival threshold, consider the object has reached its destination
-            if (remainingDistance < movementThreshold)
+            try
             {
-                movingObject.objectMoving.gameObject.SetActive(false);
-                movingObject.objectMoving.position = movingObject.startingPosition;
+                MovingObject movingObject = movingObjects[i];
 
-                movingObject.callback();
+                Vector3 direction = (movingObject.destination.position - movingObject.objectMoving.position).normalized;
+                movingObject.objectMoving.Translate(movingObject.speed * Time.deltaTime * direction);
 
-                movingObjects.RemoveAt(i);
-                i--;
+                // Calculate the remaining distance to the destination
+                float remainingDistance = Vector3.Distance(movingObject.objectMoving.position, movingObject.destination.position);
+
+                HandleMovingObjectsEffects(movingObject);
+
+                // If the remaining distance is less than the arrival threshold, consider the object has reached its destination
+                if (remainingDistance < movementThreshold)
+                {
+                    movingObject.objectMoving.gameObject.SetActive(false);
+                    movingObject.objectMoving.position = movingObject.startingPosition;
+
+                    movingObject.callback();
+
+                    movingObjects.RemoveAt(i);
+                    i--;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex.Message);
             }
         }
     }

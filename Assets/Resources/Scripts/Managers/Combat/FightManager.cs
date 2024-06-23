@@ -454,7 +454,7 @@ public class FightManager
         gameUIManager.UpdateStandUI(character, unit.status, unit.currentScore, unit.CurrentMaxScore, unit.Attacks);
     }
 
-    public void PlayActionCard(ActionCard card, Character character)
+    public void PlayActionCard(ActionCard card, Character character, Transform transform)
     {
         FightUnit unit = null;
         FightUnit enemy = null;
@@ -479,7 +479,7 @@ public class FightManager
         string animation = ActionCardArchive.GetAnimation(card.Id);
 
         unit.FightCurrentHand.Remove(card);
-        gameUIManager.UpdateHand(unit.FightCurrentHand, this);
+        gameUIManager.SendActionCardToGraveyardAndUpdateHand(effectsManager, transform, unit.FightCurrentHand, this);
 
         HandlePoints(ref unit.status, unit.Character, ref unit.currentScore, unit.CurrentMaxScore, 0);
 

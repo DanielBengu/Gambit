@@ -26,8 +26,12 @@ public class VisualEffectsManager : MonoBehaviour
     int startingGoldAmount = 0;
     #endregion
 
+    float scaleDownFactor = 0.97f; 
+    float minScale = 0.1f;
+
     public List<MovingObject> movingObjects = new();
     readonly float movementThreshold = 1f;
+
 
     public List<AnimatingSpriteStruct> animatingSprites = new();
 
@@ -54,6 +58,8 @@ public class VisualEffectsManager : MonoBehaviour
             // Calculate the remaining distance to the destination
             float remainingDistance = Vector3.Distance(movingObject.objectMoving.position, movingObject.destination.position);
 
+            HandleMovingObjectsEffects(movingObject);
+
             // If the remaining distance is less than the arrival threshold, consider the object has reached its destination
             if (remainingDistance < movementThreshold)
             {
@@ -65,6 +71,30 @@ public class VisualEffectsManager : MonoBehaviour
                 movingObjects.RemoveAt(i);
                 i--;
             }
+        }
+    }
+
+    void HandleMovingObjectsEffects(MovingObject obj)
+    {
+        switch (obj.type)
+        {
+            case TypeOfObject.CardDrawnPlayer:
+                break;
+            case TypeOfObject.CardDrawnEnemy:
+                break;
+            case TypeOfObject.ActionCardDiscarded:
+                Vector3 newScale = obj.objectMoving.transform.localScale * scaleDownFactor;
+                
+                newScale = new Vector3(
+                    Mathf.Max(newScale.x, minScale),
+                    Mathf.Max(newScale.y, minScale),
+                    Mathf.Max(newScale.z, minScale)
+                );
+
+                obj.objectMoving.transform.localScale = newScale;
+                break;
+            default:
+                break;
         }
     }
 
@@ -269,7 +299,8 @@ public class VisualEffectsManager : MonoBehaviour
         public enum TypeOfObject
         {
             CardDrawnPlayer,
-            CardDrawnEnemy
+            CardDrawnEnemy,
+            ActionCardDiscarded
         }
     }
 

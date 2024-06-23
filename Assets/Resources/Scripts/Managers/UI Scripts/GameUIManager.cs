@@ -84,6 +84,8 @@ public class GameUIManager : MonoBehaviour
     public Animator standGlowVFX;
     public Animator standBouncer;
 
+    public Transform discardPosition;
+
     #endregion
 
     #endregion
@@ -150,14 +152,19 @@ public class GameUIManager : MonoBehaviour
 
     public void UpdateHand(List<ActionCard> currentHand, FightManager manager)
     {
-        for (int i = cardSection.transform.childCount - 1; i >= 0; i--)
-        {
-            Destroy(cardSection.transform.GetChild(i).gameObject);
-        }
+        ClearHand();
 
         foreach (var card in currentHand)
         {
             AddCardToHand(card, currentHand.IndexOf(card), currentHand.Count, manager);
+        }
+    }
+
+    public void ClearHand()
+    {
+        for (int i = cardSection.transform.childCount - 1; i >= 0; i--)
+        {
+            Destroy(cardSection.transform.GetChild(i).gameObject);
         }
     }
 
@@ -380,10 +387,10 @@ public class GameUIManager : MonoBehaviour
         switch (unit)
         {
             case Character.Player:
-                playerMaxScoreText.text = newValue.ToString();
+                playerMaxScoreText.text = $"/{newValue}";
                 break;
             case Character.Enemy:
-                enemyMaxScoreText.text = newValue.ToString();
+                enemyMaxScoreText.text = $"/{newValue}";
                 break;
         }
     }
@@ -480,21 +487,27 @@ public class GameUIManager : MonoBehaviour
         switch (character)
         {
             case Character.Player:
-                HandleCardAnimation(animationManager, playerCardImage.transform, playerCardDestination, TypeOfObject.CardDrawnPlayer, unitClass, card, callback);
+                HandleCardAnimation(animationManager, playerCardImage.transform, playerCardDestination, TypeOfObject.CardDrawnPlayer, callback, 5);
+                SetCardImage(playerCardImage.gameObject, card, unitClass);
                 break;
             case Character.Enemy:
-                HandleCardAnimation(animationManager, enemyCardImage.transform, enemyCardDestination, TypeOfObject.CardDrawnEnemy, unitClass, card, callback);
+                HandleCardAnimation(animationManager, enemyCardImage.transform, enemyCardDestination, TypeOfObject.CardDrawnEnemy, callback, 5);
+                SetCardImage(enemyCardImage.gameObject, card, unitClass);
                 break;
         }
+
     }
 
-    void HandleCardAnimation(VisualEffectsManager manager, Transform cardSource, Transform cardDestination, TypeOfObject type, IClass unitClass, GameCard card,  Action callback)
+    public void SendActionCardToGraveyardAndUpdateHand(VisualEffectsManager manager, Transform transform, List<ActionCard> cardList, FightManager fightManager)
+    {
+        HandleCardAnimation(manager, transform, discardPosition, TypeOfObject.ActionCardDiscarded, () => UpdateHand(cardList, fightManager), 8);
+    }
+
+    void HandleCardAnimation(VisualEffectsManager manager, Transform cardSource, Transform cardDestination, TypeOfObject type, Action callback, int speed)
     {
         cardSource.gameObject.SetActive(true);
 
-        SetCardImage(cardSource.gameObject, card, unitClass);
-
-        manager.StartMovement(cardSource, cardDestination, 5, type, callback);
+        manager.StartMovement(cardSource, cardDestination, speed, type, callback);
     }
 
     public void SetStandButtonInteractable(bool interactable)

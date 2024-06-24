@@ -404,7 +404,7 @@ public class GameManager : MonoBehaviour
     //Called by deck click in game
     public void PlayCard()
     {
-        if (FightManager.IsGameOnStandby())
+        if (FightManager != null && FightManager.IsGameOnStandby())
             return;
 
         FightManager.PlayUnitCard(Character.Player);
